@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Network</title>
+  <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+  <style type="text/css">
+    #mynetwork {
+      width: 95vw;
+      height: 90vh;
+      margin: auto;
+      border: 1px solid lightgray;
+    }
+  </style>
+</head>
+
+<body>
+  <p>Network supports the DOT language.</p>
+  <div id="mynetwork"></div>
+  <script>
+
+
+
+    var container = document.getElementById("mynetwork");
+
+
+    var LastGraph;
+
+    // these are all options in full.
+    var options = {
+  nodes: {
+    shape: 'circle',
+    size: 20,
+    font: {
+      size: 16,
+      color: '#000000'
+    },
+    color: {
+      background: '#FFFFFF',
+      border: '#2B7CE9'
+    }
+  },
+  edges: {
+    width: 2,
+    color: '#808080'
+  },
+  layout: {
+    hierarchical: {
+      direction: 'LR',
+      nodeSpacing: 200
+    }
+  },
+  physics: {
+    enabled: false,
+  },
+
+};
+
+
+
+
+
+    const fetchData = () => {
+
+      fetch('Grafo.dot')
+        .then(response => response.text())
+        .then(text => { //console.log(text)
+
+          if (LastGraph != text) {
+            LastGraph = text;
+            var data = vis.parseDOTNetwork(LastGraph);
+            /* var network = new vis.Network(container, null);
+            console.log(network.layoutEngine.defaultOptions.improvedLayout);
+            network.layoutEngine.defaultOptions.improvedLayout = false; 
+            console.log(network.layoutEngine.defaultOptions.improvedLayout); */
+            var network = new vis.Network(container, data, options);
+            console.log(network);
+          }
+        }
+
+        )
+
+    }
+
+
+    fetchData();
+
+
+
+
+
+
+  // outputs the content of the text file
+
+
+
+
+
+  </script>
+</body>
+
+</html>

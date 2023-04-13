@@ -1,0 +1,23 @@
+digraph{
+V0 -> V4[label=4]; 
+ V2 -> V16[label=16]; 
+ V2 -> V12[label=12]; 
+ V3 -> V8[label=8]; 
+ V5 -> V15[label=15]; 
+ V5 -> V11[label=11]; 
+ V6 -> V15[label=15]; 
+ V7 -> V10[label=10]; 
+ V8 -> V17[label=17]; 
+ V9 -> V19[label=19]; 
+ V9 -> V12[label=12]; 
+ V10 -> V15[label=15]; 
+ V10 -> V16[label=16]; 
+ V12 -> V10[label=10]; 
+ V12 -> V5[label=5]; 
+ V12 -> V14[label=14]; 
+ V16 -> V7[label=7]; 
+ V18 -> V3[label=3]; 
+ V19 -> V4[label=4]; 
+ V19 -> V18[label=18]; 
+  
+}
