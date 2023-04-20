@@ -84,8 +84,6 @@ GRAFO ENUCIADO EP ex - 1
 """
 g = Graph(8)
 
-
-""""""
 g.set_labels(['a','b','c','d','e','f','g','h'])
 g.add_edge('a', 'b')
 g.add_edge('b', 'e')
