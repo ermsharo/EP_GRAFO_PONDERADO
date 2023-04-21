@@ -121,15 +121,10 @@ class StronglyConnectedComponents:
         for current in range(g.get_number_of_vertices()):
             temp = array_vertices[current].get_head()
 
-            #if temp != None and current == temp.data:
-            #    stronglyConnectedComponents.append([current])
             while temp is not None:
                 if current != temp.data:
                     graphReversed.add_edge_by_index(temp.data, current)
                 temp = temp.next_element
-    
-        #for component in stronglyConnectedComponents:
-        #    graphReversed.add_vertex()
 
         graphReversed.print_graph()
         return graphReversed, stronglyConnectedComponents
