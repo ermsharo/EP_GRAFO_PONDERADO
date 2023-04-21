@@ -212,10 +212,31 @@ def exemplo2():
 
     return g
 
+def testD():
+
+    g = Graph(11)
+
+    g.add_edge(0, 1) 
+    g.add_edge(1, 2) 
+    g.add_edge(2, 0) 
+    g.add_edge(1, 3) 
+    g.add_edge(3, 4) 
+    g.add_edge(4, 5) 
+    g.add_edge(5, 3) 
+    g.add_edge(6, 5) 
+    g.add_edge(6, 7) 
+    g.add_edge(7, 8) 
+    g.add_edge(8, 9) 
+    g.add_edge(9, 10) 
+    g.add_edge(9, 6) 
+    return g
+
+
 #g = exemplo1()
 #g = exemplo2()
 #g = testA()
 #g = testB()
 #g = testC()
+g = testD()
 g.print_graph()
 getStronglyConnectedComponentsKosarujoAproach(g,0)

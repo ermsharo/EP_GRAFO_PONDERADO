@@ -17,6 +17,20 @@ def testA():
 
     return g
 
+def testA_letras():
+    g = Graph(6)
+    g.set_labels(['a','b','c','d','e','f'])
+    g.add_edge('a', 'b')
+    g.add_edge('a', 'c')
+    g.add_edge('b', 'c')
+    g.add_edge('b', 'e')
+    g.add_edge('c', 'b')
+    g.add_edge('e', 'f')
+    g.add_edge('e', 'd')
+    g.add_edge('d', 'e')
+
+    return g
+
 def testB():
 
     g = Graph(9)
@@ -80,7 +94,7 @@ def testC_letras():
 
 
 #GRAFO ENUCIADO EP ex - 1
-def testD():
+def testD_exemplo1():
     g = Graph(8)
 
     g.set_labels(['a','b','c','d','e','f','g','h'])
@@ -124,19 +138,19 @@ def testE():
     return g
 
 #GRAFO ENUCIADO EP exemplo - 2
-def testF():
+def textF_exemplo2():
     g = Graph(9)
 
     g.set_labels(['undershorts','socks','pants','shoes','belt','shirt','tie','jacket','watch'])
 
     g.add_edge('undershorts', 'pants')
     g.add_edge('undershorts', 'shoes')
-    g.add_edge('pants', 'shoes')
     g.add_edge('pants', 'belt')
+    g.add_edge('pants', 'shoes')
+    g.add_edge('belt', 'jacket')
     g.add_edge('shirt', 'belt')
     g.add_edge('shirt', 'tie')
     g.add_edge('tie', 'jacket')
-    g.add_edge('belt', 'jacket')
     g.add_edge('socks', 'shoes')
 
     return g
@@ -160,29 +174,65 @@ def textG():
 
     return g
 
-def testA_letras():
-    g = Graph(6)
-    g.set_labels(['a','b','c','d','e','f'])
+def textH_exemplo4():
+    g = Graph(4)
+
+    g.set_labels(['a','b','c','e'])
+
     g.add_edge('a', 'b')
     g.add_edge('a', 'c')
-    g.add_edge('b', 'c')
     g.add_edge('b', 'e')
-    g.add_edge('c', 'b')
-    g.add_edge('e', 'f')
-    g.add_edge('e', 'd')
-    g.add_edge('d', 'e')
+    g.add_edge('c', 'e')
+    g.add_edge('e', 'a')
 
     return g
 
+def textJ():
+    g = Graph(4)
+
+    g.set_labels(['a','b','c','e'])
+
+    g.add_edge('a', 'b')
+    g.add_edge('a', 'a')
+    g.add_edge('b', 'e')
+    g.add_edge('c', 'e')
+    g.add_edge('e', 'a')
+
+    return g
+
+def testC_selfloop():
+
+    g = Graph(11)
+    g.set_labels(['a','b','c','d','e','f','g','h','i','j','k'])
+    g.add_edge('a', 'b') 
+    g.add_edge('b', 'c') 
+    g.add_edge('c', 'a') 
+    g.add_edge('b', 'd') 
+    g.add_edge('d', 'e') 
+    g.add_edge('e', 'f') 
+    g.add_edge('f', 'd') 
+    g.add_edge('g', 'f') 
+    g.add_edge('g', 'h') 
+    g.add_edge('h', 'i') 
+    g.add_edge('i', 'j')
+    g.add_edge('j', 'g')  
+    g.add_edge('j', 'j') 
+    
+
+    return g
 
 #g = testA()
-#g = testB()
-g = testC() 
-#g = testC_letras()
 #g = testA_letras()
+#g = testB()
+#g = testC() 
+#g = testC_letras()
+#g = testD_exemplo1()
 #g = testE()
-#g = testD()
+#g = textF_exemplo2()
 #g = textG()
+#g = textH_exemplo4()
+g = testC_selfloop()
+
 
 g.print_graph()
 scc = StronglyConnectedComponents()

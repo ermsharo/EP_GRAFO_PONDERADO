@@ -14,16 +14,15 @@ class StronglyConnectedComponents:
         stronglyConnectedComponents = stronglyConnectedComponentsByLoop + stronglyConnectedComponentsExtra
         scc_list_conv = self.convert_list_numbers_to_chars( g, stronglyConnectedComponents )
         print()
-        # TODO : Arrumar função de verificação se grafo e SCC
-        #self.isGraphScc(scc_list_conv, g) 
-        #self.getNumberOfComponents(scc_list_conv)
+        self.isGraphScc(scc_list_conv, g) 
+        self.getNumberOfComponents(scc_list_conv)
         self.create_scc_graphs(g,stronglyConnectedComponents)
 
     def isGraphScc(self, scc_list_conv, g):
-        if len(scc_list_conv) != g.get_number_of_vertices() :
-            print("Não")
-        else:
+        if len(scc_list_conv) == 1 :
             print("Sim")
+        else:
+            print("Não")
     
     def getNumberOfComponents(self, scc_list_conv):
         print(len(scc_list_conv))
@@ -122,15 +121,15 @@ class StronglyConnectedComponents:
         for current in range(g.get_number_of_vertices()):
             temp = array_vertices[current].get_head()
 
-            if temp != None and current == temp.data:
-                stronglyConnectedComponents.append([current])
+            #if temp != None and current == temp.data:
+            #    stronglyConnectedComponents.append([current])
             while temp is not None:
                 if current != temp.data:
                     graphReversed.add_edge_by_index(temp.data, current)
                 temp = temp.next_element
-
-        for component in stronglyConnectedComponents:
-            graphReversed.add_vertex()
+    
+        #for component in stronglyConnectedComponents:
+        #    graphReversed.add_vertex()
 
         graphReversed.print_graph()
         return graphReversed, stronglyConnectedComponents
