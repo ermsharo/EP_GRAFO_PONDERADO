@@ -192,11 +192,16 @@ class StronglyConnectedComponents:
                             indexes_of_nodes_to_labels_of_scc_T[temp_label] = component_orig_char
                 temp = temp.next_element
 
+        #print(indexes_of_nodes_to_labels_of_scc)
+        #print(indexes_of_nodes_to_labels_of_scc_T)
+
         return indexes_of_nodes_to_labels_of_scc_T
 
     
     # Uses the original grapho to make all the connection that the SCC have
     def add_vertices_on_scc_graph(self, g, scc_graph, scc_list_label, scc_list_index,indexes_of_nodes_to_labels_of_scc):
+
+        print(indexes_of_nodes_to_labels_of_scc)
 
         for i in range(len(scc_list_index)):   
             component_orig = scc_list_index[i]
