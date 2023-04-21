@@ -5,6 +5,7 @@ from StronglyConnectedComponents import StronglyConnectedComponents
 
 def testA():
     g =Graph(6)
+    g.set_labels(['0','1','2','3','4','5'])
     g.add_edge('0', '1')
     g.add_edge('0', '2')
     g.add_edge('1', '2')
@@ -14,35 +15,31 @@ def testA():
     g.add_edge('3', '4')
     g.add_edge('4', '3')
 
-    g.print_graph()
-    scc = StronglyConnectedComponents()
-    scc.getStronglyConnectedComponentsKosarujoAproach(g,0)
+    return g
 
 def testB():
 
-    g =Graph(8)
-    g.add_edge('0', '6')
-    g.add_edge('0', '5')
+    g = Graph(9)
+    g.set_labels(['0','1','2','3','4','5','6','7','8'])
+    g.add_edge('0', '1')
     g.add_edge('1', '2')
-    g.add_edge('1', '0')
+    g.add_edge('2', '3')
+    g.add_edge('3', '0')
     g.add_edge('2', '4')
-    g.add_edge('2', '6')
-    g.add_edge('3', '7')
-    g.add_edge('3', '2')
-    g.add_edge('3', '4')
+    g.add_edge('2', '3')
+    g.add_edge('4', '5')
+    g.add_edge('5', '6')
+    g.add_edge('6', '4')
     g.add_edge('7', '6')
-    g.add_edge('6', '5')
-    g.add_edge('5', '1')
-    g.add_edge('4', '6')
+    g.add_edge('7', '8')
 
-    g.print_graph()
-    scc = StronglyConnectedComponents()
-    scc.getStronglyConnectedComponentsKosarujoAproach(g,0)
+    return g
+
 
 def testC():
 
     g = Graph(11)
-
+    g.set_labels(['0','1','2','3','4','5','6','7','8','9','10'])
     g.add_edge('0', '1') 
     g.add_edge('1', '2') 
     g.add_edge('2', '0') 
@@ -53,14 +50,33 @@ def testC():
     g.add_edge('6', '5') 
     g.add_edge('6', '7') 
     g.add_edge('7', '8') 
-    g.add_edge('8', '9') 
+    g.add_edge('8', '9')
+    g.add_edge('9', '6')  
     g.add_edge('9', '10') 
-    g.add_edge('9', '6') 
+    
 
-    g.print_graph()
-    scc = StronglyConnectedComponents()
-    scc.getStronglyConnectedComponentsKosarujoAproach(g,0)
+    return g
 
+def testC_letras():
+
+    g = Graph(11)
+    g.set_labels(['a','b','c','d','e','f','g','h','i','j','k'])
+    g.add_edge('a', 'b') 
+    g.add_edge('b', 'c') 
+    g.add_edge('c', 'a') 
+    g.add_edge('b', 'd') 
+    g.add_edge('d', 'e') 
+    g.add_edge('e', 'f') 
+    g.add_edge('f', 'd') 
+    g.add_edge('g', 'f') 
+    g.add_edge('g', 'h') 
+    g.add_edge('h', 'i') 
+    g.add_edge('i', 'j')
+    g.add_edge('j', 'g')  
+    g.add_edge('j', 'k') 
+    
+
+    return g
 
 
 #GRAFO ENUCIADO EP ex - 1
@@ -82,9 +98,7 @@ def testD():
     g.add_edge('g', 'f')
     g.add_edge('g', 'h')
 
-    g.print_graph()
-    scc = StronglyConnectedComponents()
-    scc.getStronglyConnectedComponentsKosarujoAproach(g,0)
+    return g
 
 
 
@@ -107,9 +121,7 @@ def testE():
     g.add_edge('guan', 'finla')
     g.add_edge('guan', 'hondur')
 
-    g.print_graph()
-    scc = StronglyConnectedComponents()
-    scc.getStronglyConnectedComponentsKosarujoAproach(g,0)
+    return g
 
 #GRAFO ENUCIADO EP exemplo - 2
 def testF():
@@ -127,9 +139,7 @@ def testF():
     g.add_edge('belt', 'jacket')
     g.add_edge('socks', 'shoes')
 
-    scc = StronglyConnectedComponents()
-
-    scc.getStronglyConnectedComponentsKosarujoAproach(g,0)
+    return g
 
 
 #GRAFO ENUCIADO EP exemplo - 2 - com nomes substituidos por letras 
@@ -148,12 +158,32 @@ def textG():
     g.add_edge('e', 'f')
     g.add_edge('g', 'h')
 
-    g.print_graph()
+    return g
 
-    scc = StronglyConnectedComponents()
-    scc.getStronglyConnectedComponentsKosarujoAproach(g,0)
+def testA_letras():
+    g = Graph(6)
+    g.set_labels(['a','b','c','d','e','f'])
+    g.add_edge('a', 'b')
+    g.add_edge('a', 'c')
+    g.add_edge('b', 'c')
+    g.add_edge('b', 'e')
+    g.add_edge('c', 'b')
+    g.add_edge('e', 'f')
+    g.add_edge('e', 'd')
+    g.add_edge('d', 'e')
 
-#testE()
-testD()
-#textG()
+    return g
 
+
+#g = testA()
+#g = testB()
+g = testC() 
+#g = testC_letras()
+#g = testA_letras()
+#g = testE()
+#g = testD()
+#g = textG()
+
+g.print_graph()
+scc = StronglyConnectedComponents()
+scc.getStronglyConnectedComponentsKosarujoAproach(g,0)

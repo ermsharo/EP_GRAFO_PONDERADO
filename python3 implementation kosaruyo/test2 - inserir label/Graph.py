@@ -73,4 +73,13 @@ class Graph:
     def get_label_by_index(self, index):
         return self.index_to_label[index]
     
+    def get_both_maps(self):
+        print()
+        print("labels_to_index")
+        print(self.labels_to_index)
+        print()
+        print("index_to_label")
+        print(self.index_to_label)
+        print()
+    
 
