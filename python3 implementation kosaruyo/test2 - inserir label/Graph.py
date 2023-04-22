@@ -82,4 +82,3 @@ class Graph:
         print(self.index_to_label)
         print()
     
-
