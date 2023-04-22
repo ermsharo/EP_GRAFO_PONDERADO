@@ -9,6 +9,8 @@ typedef struct graph *Graph;
 
 typedef struct node *link;
 
+
+
 struct adjacence
 {
 
@@ -21,6 +23,8 @@ struct node
    vertex w;
    link next;
 };
+
+vertex randV(Graph G);
 
 struct graph
 {

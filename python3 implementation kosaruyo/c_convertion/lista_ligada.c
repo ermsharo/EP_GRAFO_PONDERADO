@@ -209,6 +209,18 @@ bool getNode(LISTA *l, TIPOCHAVE ch){
         return false;
     }
 }
+int main(){
+
+    LISTA lista;
+    inicializarLista(&lista);
+
+    inserirFinal2(&lista, 1);
+    inserirFinal2(&lista, 3);
+    inserirFinal2(&lista, 2);
+    exibirLista(&lista);
+
+    return 0;
+}
 /*
 int main(){
     LISTA lista;
