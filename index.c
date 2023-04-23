@@ -225,9 +225,11 @@ void printBothArraysLabelsToIndexAndIndexToLabel(Graph G)
     printf("\n");
 }
 
+
+/*
+
 int main()
 {
-   /*
    // Numero de vertices que o nosso grafo vai ter
    int n_vertex = 20;
    // Numero de arestas que o nosso grafo vai ter
@@ -238,7 +240,7 @@ int main()
 
    printf(" \n EP 1 \n \n ");
    imprimeGrafo(rg);
-   */
+ 
    int n_vertex = 6;
    Graph g = GRAPHinit(n_vertex);
 
@@ -256,7 +258,7 @@ int main()
  
    imprimeGrafo(g);
 
-   /*
+   
    // Verify the number of vertices in the graph
    int numberVertices = getNumberOfVertices(g);
    printf("%i \n",numberVertices);
@@ -299,7 +301,8 @@ int main()
    printf("Label of vertex 5: %s\n", label_5); // should print "f"
    printf("Label of vertex 6: %s\n", label_6); // should print an error message and NULL
 
-   */
+   
    
    return 0;
 }
+*/
