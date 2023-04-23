@@ -253,7 +253,7 @@ int main()
    GRAPHinsertArcByLabel(g, "e", "f");
    GRAPHinsertArcByLabel(g, "e", "d");
    GRAPHinsertArcByLabel(g, "d", "e");
-
+ 
    imprimeGrafo(g);
 
    /*
