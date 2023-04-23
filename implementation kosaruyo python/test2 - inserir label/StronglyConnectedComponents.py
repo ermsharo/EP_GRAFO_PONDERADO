@@ -57,6 +57,7 @@ class StronglyConnectedComponents:
         return scc_list_conv_stringfied
         
     def dfs_traversal_helper( self, g, source, visited, stack):
+        print(source)
         resultList = []
         if ( source is not None ):
             visited[source] = True 
@@ -72,7 +73,7 @@ class StronglyConnectedComponents:
         return resultList, visited, stack
 
     def dfs_traversal( self, g, source ):
-        result = ""
+        result = []
         stack = []
         num_of_vertices = g.vertices
         if( num_of_vertices == 0):
@@ -86,7 +87,7 @@ class StronglyConnectedComponents:
         for i in range(num_of_vertices):
             if (visited[i] == False):
                 result_new, visited, stack = self.dfs_traversal_helper(g, i, visited, stack)
-                result += result_new
+                result = result + result_new
 
         return result, stack
 

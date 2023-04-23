@@ -236,4 +236,8 @@ g = testA_letras()
 
 g.print_graph()
 scc = StronglyConnectedComponents()
-scc.getStronglyConnectedComponentsKosarujoAproach(g,0)
+
+result, stack = scc.dfs_traversal(g,0);
+
+print(result)
+#scc.getStronglyConnectedComponentsKosarujoAproach(g,0)
