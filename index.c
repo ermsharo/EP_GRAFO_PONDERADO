@@ -27,10 +27,13 @@ struct node
 vertex randV(Graph G);
 
 struct graph
-{
+{ 
+
    int V;
    int A;
    link *adj;
+   char **index_to_label;
+   int *labels_to_index;
 };
 
 void limpaArquivo(char nomeArquivo[])
@@ -72,6 +75,16 @@ void GRAPHinsertArc(Graph G, vertex v, vertex w)
    G->A++;
 }
 
+void setLabels(Graph g, char **labels, int num_labels) {
+    int i;
+    g->index_to_label = malloc(num_labels * sizeof(char *));
+    g->labels_to_index = malloc(num_labels * sizeof(int));
+    for (i = 0; i < num_labels; i++) {
+        g->index_to_label[i] = labels[i];
+        g->labels_to_index[i] = i;
+    }
+}
+
 /* Esta função constrói um grafo aleatório com vértices 0..V-1 e exatamente A arcos. A função supõe que A <= V*(V-1). Se A for próximo de V*(V-1), a função pode consumir muito tempo. (Código inspirado no Programa 17.7 de Sedgewick.) */
 Graph GRAPHrand(int V, int A)
 {
@@ -109,13 +122,13 @@ void imprimeGrafo(Graph g)
    for (i = 0; i < g->V; i++)
    {
       // Gerando os vertices
-      printf("v( %d )", i);
+      printf("v( %s )", g->index_to_label[i]);
       link LINK = g->adj[i];
       while (LINK)
       {
-         sprintf(resultado, "V%i -> V%i[label=%i]; \n ", i, LINK->w, LINK->w);
+         sprintf(resultado, "V%i -> V%i[label=%s]; \n ", i, LINK->w,g->index_to_label[LINK->w]);
          gerarTexto("Grafo.dot", resultado, fp);
-         printf("->(%d)", LINK->w);
+         printf("->(%s)", g->index_to_label[LINK->w]);
          LINK = LINK->next;
       }
       printf("\n");
@@ -124,8 +137,12 @@ void imprimeGrafo(Graph g)
    fclose(fp);
 }
 
+// --- Remover funcoes daqui de baixo
+
+
 int main()
 {
+   /*
    // Numero de vertices que o nosso grafo vai ter
    int n_vertex = 20;
    // Numero de arestas que o nosso grafo vai ter
@@ -136,6 +153,15 @@ int main()
 
    printf(" \n EP 1 \n \n ");
    imprimeGrafo(rg);
+   */
+   int n_vertex = 6;
+   Graph g = GRAPHinit(n_vertex);
 
+   char *labels[] = { "a", "b", "c", "d", "e", "f" };
+   setLabels(g, labels, 6);
+
+   GRAPHinsertArc(g,0,1);
+   print_graph(g);
+   imprimeGrafo(g);
    return 0;
 }

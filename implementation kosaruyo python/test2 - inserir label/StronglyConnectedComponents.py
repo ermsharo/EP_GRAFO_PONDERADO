@@ -13,7 +13,7 @@ class StronglyConnectedComponents:
         
         stronglyConnectedComponents = stronglyConnectedComponentsByLoop + stronglyConnectedComponentsExtra
         scc_list_conv = self.convert_list_numbers_to_chars( g, stronglyConnectedComponents )
-        print()
+   
         self.isGraphScc(scc_list_conv, g) 
         self.getNumberOfComponents(scc_list_conv)
         self.create_scc_graphs(g,stronglyConnectedComponents)
@@ -35,11 +35,13 @@ class StronglyConnectedComponents:
 
         scc_graph = Graph(len(scc_list_conv))
         scc_list_conv_stringfied = self.stringfy_components(scc_list_conv)
-
+        print(scc_list)
+        print(scc_list_conv_stringfied)
         scc_graph.set_labels(scc_list_conv_stringfied)
-        
+
         indexes_of_nodes_to_labels_of_scc = self.set_components_label_to_original_graph_nodes(g, scc_graph, scc_list_conv, scc_list, scc_list_conv_stringfied)
-        
+        print("indexes_of_nodes_to_labels_of_scc")
+        print(indexes_of_nodes_to_labels_of_scc)
         scc_graph = self.add_vertices_on_scc_graph(g, scc_graph, scc_list_conv, scc_list ,indexes_of_nodes_to_labels_of_scc)
         """"""
         scc_graph.print_graph()
@@ -165,35 +167,16 @@ class StronglyConnectedComponents:
 
     # Set components labels on nodes 
     def set_components_label_to_original_graph_nodes( self, g, scc_graph, scc_list_conv, scc_list_orig, scc_list_conv_stringfied):
-
-        indexes_of_nodes_to_labels_of_scc = {}
-        """
-        for label, idx in g.labels_to_index.items():
-            temp = g.get_array_of_vertices()[int(idx)].get_head()
-            while temp is not None:
-                temp_label = g.get_label_by_index(temp.data)
-                for i in range(len(scc_list_conv)):
-                    component_orig = scc_list_conv_stringfied[i]
-
-                    for j in range(len(component_orig)):
-                        node_orig = scc_list_conv[i][j]
-                        if str(temp_label) == str(node_orig):
-                            indexes_of_nodes_to_labels_of_scc[temp_label] = component_orig
-                temp = temp.next_element
-        """
+     
         indexes_of_nodes_to_labels_of_scc_T ={}
         
-      
+        print(g.labels_to_index)
         # percorre por todos labels existentes
         for label, idx in g.labels_to_index.items():
 
-            # pega o primeiro e acha a lista ligada dele pelo array
             orig_label = g.get_label_by_index(idx)
 
-
-
-            # para cada no percorre todos os nos detre  
-            # a listas dos componentes fortemente conexos
+    
             for i in range(len(scc_list_orig)):
               
                 component_orig = scc_list_orig[i]
@@ -208,7 +191,7 @@ class StronglyConnectedComponents:
                     if str(idx) == str(node_orig):
                         indexes_of_nodes_to_labels_of_scc_T[orig_label] = component_orig_char
     
-            
+        print(indexes_of_nodes_to_labels_of_scc_T)
 
         
 
@@ -232,18 +215,4 @@ class StronglyConnectedComponents:
                         scc_graph.add_edge(label_orig, label_dest)
                     node_dest = node_dest.next_element
 
-        """
-        for component_orig in scc_list_label:   
-            for node_orig in component_orig:
-                node_orig_index = g.get_index_by_label(node_orig)
-                node_dest = g.get_array_of_vertices()[node_orig_index].get_head()
-                while node_dest is not None:
-                    print("node_orig")
-                    print(node_orig)
-                    label_orig = indexes_of_nodes_to_labels_of_scc[node_orig]
-                    label_dest = indexes_of_nodes_to_labels_of_scc[g.get_label_by_index(int(node_dest.data))]
-                    if label_orig != label_dest:
-                        scc_graph.add_edge(label_orig, label_dest)
-                    node_dest = node_dest.next_element
-        """
         return scc_graph

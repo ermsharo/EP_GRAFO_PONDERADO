@@ -222,7 +222,7 @@ def testC_selfloop():
     return g
 
 #g = testA()
-#g = testA_letras()
+g = testA_letras()
 #g = testB()
 #g = testC() 
 #g = testC_letras()
@@ -231,7 +231,7 @@ def testC_selfloop():
 #g = textF_exemplo2()
 #g = textG()
 #g = textH_exemplo4()
-g = testC_selfloop()
+#g = testC_selfloop()
 
 
 g.print_graph()
