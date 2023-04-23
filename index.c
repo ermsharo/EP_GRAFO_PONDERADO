@@ -36,6 +36,15 @@ struct graph
    int *labels_to_index;
 };
 
+int getNumberOfVertices(Graph G){
+   return G->V;
+}
+
+
+link * getArrayOfVertices(Graph G){
+   return G->adj;
+}
+
 void limpaArquivo(char nomeArquivo[])
 {
 
@@ -203,6 +212,18 @@ void imprimeGrafo(Graph g)
 
 // --- Remover funcoes daqui de baixo
 
+void printBothArraysLabelsToIndexAndIndexToLabel(Graph G)
+{
+    printf("\nlabels_to_index:\n");
+    for (int i = 0; i < G->V; i++) {
+        printf("%s: %d\n", G->index_to_label[i], G->labels_to_index[i]);
+    }
+    printf("\nindex_to_label:\n");
+    for (int i = 0; i < G->V; i++) {
+        printf("%d: %s\n", i, G->index_to_label[i]);
+    }
+    printf("\n");
+}
 
 int main()
 {
@@ -236,6 +257,23 @@ int main()
    imprimeGrafo(g);
 
    /*
+   // Verify the number of vertices in the graph
+   int numberVertices = getNumberOfVertices(g);
+   printf("%i \n",numberVertices);
+
+
+   // Verify the adjacency list of the graph
+   link *adj = getArrayOfVertices(g);
+   for (int i = 0; i < numberVertices; i++) {
+        printf("Adjacency list of vertex %d: ", i);
+        link node = adj[i];
+        while (node != NULL) {
+            printf("%d ", node->w);
+            node = node->next;
+        }
+        printf("\n");
+    }
+
    // Test node_contains()
    printf("Test GRAPHnodeContains()\n");
 

@@ -9,7 +9,7 @@ class Graph:
         for i in range( self.vertices ):
             temp = LinkedList()
             self.array.append( temp )
-            
+
     #COVERTED
     def add_edge( self, source, destination ):
         #destination_index = self.get_index_by_label(destination)
@@ -22,11 +22,12 @@ class Graph:
             destination_index = self.get_index_by_label(destination)
             self.array[ source_index ].insert_at_head( destination_index )
 
-    #COVERTED
+    # COVERTED
     def add_edge_by_index( self, source, destination ):
         if ( source < self.vertices and destination < self.vertices  ) and not self.node_contains(source, destination):
             self.array[ source ].insert_at_head( destination )
-
+    
+    # CONVERTED
     def node_contains(self, source, destination):
     
         source_index = self.get_index_by_label(source)
@@ -51,12 +52,15 @@ class Graph:
                 temp = temp.next_element
             print()
 
+    # CONVERTED
     def get_number_of_vertices( self ):
         return self.vertices
     
+    # CONVERTED
     def get_array_of_vertices( self ):
         return self.array
     
+    # NOT USED
     def set_index_to_label( self, label, index):
         self.labels_to_index[label] = index
         self.labels_to_index[index] = label
@@ -76,6 +80,7 @@ class Graph:
     def get_label_by_index(self, index):
         return self.index_to_label[index]
     
+    # CONVERTED
     def get_both_maps(self):
         print()
         print("labels_to_index")
