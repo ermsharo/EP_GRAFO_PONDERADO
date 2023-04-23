@@ -66,7 +66,7 @@ Graph GRAPHinit(int V)
    return G;
 }
 
-void GRAPHinsertArc(Graph G, vertex v, vertex w)
+void GRAPHinsertArcByIndex(Graph G, vertex v, vertex w)
 {
    for (link a = G->adj[v]; a != NULL; a = a->next)
       if (a->w == w)
@@ -74,6 +74,52 @@ void GRAPHinsertArc(Graph G, vertex v, vertex w)
    G->adj[v] = NEWnode(w, G->adj[v]);
    G->A++;
 }
+
+int GRAPHgetIndexByLabel(Graph G, char *label)
+{
+
+   if (G == NULL || label == NULL)
+      return -1;
+
+   int index = -1;
+
+   for (int i = 0; i < G->V; i++) {
+      if (strcmp(G->index_to_label[i], label) == 0) {
+         index = i;
+      }
+   }
+
+   if (index == -1)
+      fprintf(stderr, "Error: label %s not found in graph\n", label);
+   return index;
+}
+
+char* GRAPHgetLabelByIndex(Graph G, int index)
+{
+
+    if (G == NULL || index < 0 || index >= G->V)
+        return NULL;
+    char *label = G->index_to_label[index];
+    if (label == NULL)
+        fprintf(stderr, "Error: index %d not found in graph\n", index);
+    return label;
+}
+
+void GRAPHinsertArcByLabel(Graph G, char *v_label, char *w_label)
+{
+
+   // Find vertex indices for labels
+   int v = GRAPHgetIndexByLabel(G,v_label); 
+   int w = GRAPHgetIndexByLabel(G,w_label); 
+
+   for (link a = G->adj[v]; a != NULL; a = a->next)
+      if (a->w == w)
+         return;
+   G->adj[v] = NEWnode(w, G->adj[v]);
+   G->A++;
+}
+
+
 
 void setLabels(Graph g, char **labels, int num_labels) {
     int i;
@@ -85,6 +131,24 @@ void setLabels(Graph g, char **labels, int num_labels) {
     }
 }
 
+bool GRAPHnodeContains(Graph G, char *source, char *destination)
+{
+   int source_index = GRAPHgetIndexByLabel(G, source);
+   int dest_index = GRAPHgetIndexByLabel(G, destination);
+
+   link temp = G->adj[source_index];
+   while (temp != NULL)
+   {
+      if (temp->w == dest_index)
+      {
+         return true;
+      }
+      temp = temp->next;
+   }
+
+   return false;
+}
+
 /* Esta função constrói um grafo aleatório com vértices 0..V-1 e exatamente A arcos. A função supõe que A <= V*(V-1). Se A for próximo de V*(V-1), a função pode consumir muito tempo. (Código inspirado no Programa 17.7 de Sedgewick.) */
 Graph GRAPHrand(int V, int A)
 {
@@ -94,7 +158,7 @@ Graph GRAPHrand(int V, int A)
       vertex v = randV(G);
       vertex w = randV(G);
       if (v != w)
-         GRAPHinsertArc(G, v, w);
+         GRAPHinsertArcByIndex(G, v, w);
    }
    return G;
 }
@@ -160,8 +224,44 @@ int main()
    char *labels[] = { "a", "b", "c", "d", "e", "f" };
    setLabels(g, labels, 6);
 
-   GRAPHinsertArc(g,0,1);
-   print_graph(g);
+   GRAPHinsertArcByLabel(g, "a", "b");
+   GRAPHinsertArcByLabel(g, "a", "c");
+   GRAPHinsertArcByLabel(g, "b", "c");
+   GRAPHinsertArcByLabel(g, "b", "e");
+   GRAPHinsertArcByLabel(g, "c", "b");
+   GRAPHinsertArcByLabel(g, "e", "f");
+   GRAPHinsertArcByLabel(g, "e", "d");
+   GRAPHinsertArcByLabel(g, "d", "e");
+
    imprimeGrafo(g);
+
+   /*
+   // Test node_contains()
+   printf("Test GRAPHnodeContains()\n");
+
+   if (GRAPHnodeContains(g, "a", "d")) {
+      printf("%s is connected to %s\n", "a", "d");
+   } else {
+      printf("%s is not connected to %s\n", "a", "d");
+   }
+
+   // Test the GRAPHgetIndexByLabel function
+   int index_a = GRAPHgetIndexByLabel(G, "a");
+   int index_f = GRAPHgetIndexByLabel(G, "f");
+   int index_z = GRAPHgetIndexByLabel(G, "z");
+   printf("Index of vertex 'a': %d\n", index_a); // should print 0
+   printf("Index of vertex 'f': %d\n", index_f); // should print 5
+   printf("Index of vertex 'z': %d\n", index_z); // should print an error message and -1
+
+   // Test the GRAPHgetLabelByIndex function
+   char *label_0 = GRAPHgetLabelByIndex(G, 0);
+   char *label_5 = GRAPHgetLabelByIndex(G, 5);
+   char *label_6 = GRAPHgetLabelByIndex(G, 6);
+   printf("Label of vertex 0: %s\n", label_0); // should print "a"
+   printf("Label of vertex 5: %s\n", label_5); // should print "f"
+   printf("Label of vertex 6: %s\n", label_6); // should print an error message and NULL
+
+   */
+   
    return 0;
 }
