@@ -210,6 +210,27 @@ void imprimeGrafo(Graph g)
    fclose(fp);
 }
 
+void imprimeGrafoIndexes(Graph g)
+{
+   int i;
+   char resultado[256];
+   printf("Vertices: %d, Arestas: %d \n", g->V, g->A);
+   for (i = 0; i < g->V; i++)
+   {
+      // Gerando os vertices
+      printf("v( %d )", i);
+      link LINK = g->adj[i];
+      while (LINK)
+      {
+         sprintf(resultado, "V%i -> V%i[label=%d]; \n ", i, LINK->w, LINK->w);
+         printf("->(%d)", LINK->w);
+         LINK = LINK->next;
+      }
+      printf("\n");
+   }
+}
+
+
 // --- Remover funcoes daqui de baixo
 
 void printBothArraysLabelsToIndexAndIndexToLabel(Graph G)
@@ -240,7 +261,8 @@ int main()
 
    printf(" \n EP 1 \n \n ");
    imprimeGrafo(rg);
- 
+   */
+   /*
    int n_vertex = 6;
    Graph g = GRAPHinit(n_vertex);
 

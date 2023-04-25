@@ -35,13 +35,13 @@ class StronglyConnectedComponents:
 
         scc_graph = Graph(len(scc_list_conv))
         scc_list_conv_stringfied = self.stringfy_components(scc_list_conv)
-        print(scc_list)
-        print(scc_list_conv_stringfied)
+        # print(scc_list)
+        # print(scc_list_conv_stringfied)
         scc_graph.set_labels(scc_list_conv_stringfied)
 
         indexes_of_nodes_to_labels_of_scc = self.set_components_label_to_original_graph_nodes(g, scc_graph, scc_list_conv, scc_list, scc_list_conv_stringfied)
-        print("indexes_of_nodes_to_labels_of_scc")
-        print(indexes_of_nodes_to_labels_of_scc)
+        # print("indexes_of_nodes_to_labels_of_scc")
+        # print(indexes_of_nodes_to_labels_of_scc)
         scc_graph = self.add_vertices_on_scc_graph(g, scc_graph, scc_list_conv, scc_list ,indexes_of_nodes_to_labels_of_scc)
         """"""
         scc_graph.print_graph()
@@ -55,23 +55,30 @@ class StronglyConnectedComponents:
             scc_list_conv_stringfied.append(component_stringfied)
             component_stringfied = ""
         return scc_list_conv_stringfied
-        
+    
+    # CONVERTED
     def dfs_traversal_helper( self, g, source, visited, stack):
-        print(source)
+        #print(source)
         resultList = []
         if ( source is not None ):
             visited[source] = True 
-            resultList.append(str(source))
+            # print("inserting : ",source)
+            # print("result list before: ",resultList)
+            resultList.append(str(source)) # insertion of node
+            # print("result list after: ",resultList)
             neighbour = g.array[source].get_head()
             while ( neighbour is not None ):
                 if ( visited[neighbour.data] == False ):
                     result_new, visited, stack = self.dfs_traversal_helper(g, neighbour.data, visited, stack)
-                    resultList = resultList + result_new 
+                    resultList = result_new + resultList # invert order
+                    # print("result_new : ",result_new)
+                    # print("resultList : ",resultList)
                 neighbour = neighbour.next_element
             stack.append(source)
             return resultList, visited , stack
         return resultList, visited, stack
 
+    # CONVERTED
     def dfs_traversal( self, g, source ):
         result = []
         stack = []
@@ -91,6 +98,7 @@ class StronglyConnectedComponents:
 
         return result, stack
 
+    # CONVERTED
     def dfs_traversal_cluster( self, g, source, visited):
         result = []
         stack = []
@@ -171,7 +179,7 @@ class StronglyConnectedComponents:
      
         indexes_of_nodes_to_labels_of_scc_T ={}
         
-        print(g.labels_to_index)
+        #print(g.labels_to_index)
         # percorre por todos labels existentes
         for label, idx in g.labels_to_index.items():
 

@@ -235,9 +235,17 @@ g = testA_letras()
 
 
 g.print_graph()
+g.print_graph_indexes()
 scc = StronglyConnectedComponents()
 
-result, stack = scc.dfs_traversal(g,0);
+scc.getStronglyConnectedComponentsKosarujoAproach(g,0)
 
-print(result)
-#scc.getStronglyConnectedComponentsKosarujoAproach(g,0)
+# visited = []
+# for i in range(g.get_number_of_vertices()):
+#     visited.append(False)
+
+# result, stackReturned, visited = scc.dfs_traversal_cluster(g, 1, visited);
+
+# print(result)
+
+# print(result)

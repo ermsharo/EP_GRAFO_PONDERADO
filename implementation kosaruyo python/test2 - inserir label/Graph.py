@@ -52,6 +52,15 @@ class Graph:
                 temp = temp.next_element
             print()
 
+    def print_graph_indexes(self):
+        for idx in range(len(self.array)):
+            print(idx, ": ", end="")
+            temp = self.array[idx].get_head()
+            while temp is not None:
+                print(temp.data, "; ", end="")
+                temp = temp.next_element
+            print()
+
     # CONVERTED
     def get_number_of_vertices( self ):
         return self.vertices
