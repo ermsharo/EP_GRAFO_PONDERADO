@@ -7,6 +7,7 @@ class StronglyConnectedComponents:
         stack = []
         result = ""
         result, stack = self.dfs_traversal(g, source )
+        print("THIS IS THE STACK : ",stack)
         stronglyConnectedComponentsByLoop = []
         graphReversed,  stronglyConnectedComponentsByLoop = self.invertEdges(g, source)
         stronglyConnectedComponentsExtra = self.clusterizeStronglyConnectedComponents(graphReversed, stack)
