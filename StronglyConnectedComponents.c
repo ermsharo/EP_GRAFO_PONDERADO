@@ -13,6 +13,12 @@ struct ClusterResult {
     char ***labels;
 };
 
+typedef struct {
+    char **keys;
+    char **values;
+    int size;
+} LabelToComponentMap;
+
 Graph invertEdgesOfGraph(Graph g, vertex source);
 
 void printIntArray(int* arr, int size) {
@@ -184,6 +190,9 @@ struct ClusterResult convert_list_numbers_to_labels(Graph G, struct ClusterResul
 void printLabelClusterResult(struct ClusterResult cluster_result);
 char **stringify_components(struct ClusterResult cluster_result);
 void print_stringified_components(char **stringified_components, int count);
+LabelToComponentMap set_components_label_to_original_graph_nodes(Graph g, char **stringified_components, struct ClusterResult cluster_result);
+void print_label_to_component_map(LabelToComponentMap map);
+char *get_value_by_key(LabelToComponentMap map, const char *key);
 
 void getStronglyConnectedComponentsKosarujoAproach(Graph g) {
     // First step: get finish times
@@ -215,6 +224,16 @@ void getStronglyConnectedComponentsKosarujoAproach(Graph g) {
 
     char **stringified_components = stringify_components(clusterResultConv);
     print_stringified_components(stringified_components, clusterResultConv.count);
+
+    LabelToComponentMap label_to_component_map = set_components_label_to_original_graph_nodes(g, stringified_components, clusterResult);
+    print_label_to_component_map(label_to_component_map);
+
+    // TODO : Fix the graph cration 
+    //Graph p = GRAPHinit(6);
+    //Graph scc_graph = GRAPHinit(num_of_vertices);
+
+    //Graph updated_scc_graph = add_vertices_on_scc_graph(g, scc_graph, clusterResultConv.labels, clusterResult.stronglyConnectedComponents, cluster_result);
+
 }
 
 struct ClusterResult convert_list_numbers_to_labels(Graph G, struct ClusterResult cluster_result) {
@@ -275,3 +294,79 @@ void print_stringified_components(char **stringified_components, int count) {
     }
     printf("]\n");
 }
+
+LabelToComponentMap set_components_label_to_original_graph_nodes(Graph g, char **stringified_components, struct ClusterResult cluster_result) {
+    LabelToComponentMap map;
+    map.keys = (char **)malloc(g->V * sizeof(char *));
+    map.values = (char **)malloc(g->V * sizeof(char *));
+    map.size = g->V;
+
+    for (int i = 0; i < g->V; i++) {
+        char *label = GRAPHgetLabelByIndex(g, i);
+        map.keys[i] = label;
+        bool found = false;
+        for (int j = 0; j < cluster_result.count && !found; j++) {
+            for (int k = 0; k < cluster_result.component_sizes[j]; k++) {
+                if (cluster_result.stronglyConnectedComponents[j][k] == i) {
+                    map.values[i] = stringified_components[j];
+                    found = true;
+                    break;
+                }
+            }
+        }
+    }
+    return map;
+}
+
+void print_label_to_component_map(LabelToComponentMap map) {
+    printf("{");
+    for (int i = 0; i < map.size; i++) {
+        printf("'%s': '%s'", map.keys[i], map.values[i]);
+        if (i < map.size - 1) {
+            printf(", ");
+        }
+    }
+    printf("}\n");
+}
+
+char *get_value_by_key(LabelToComponentMap map, const char *key) {
+    for (int i = 0; i < map.size; i++) {
+        if (strcmp(map.keys[i], key) == 0) {
+            return map.values[i];
+        }
+    }
+    return NULL;
+}
+
+Graph add_vertices_on_scc_graph(Graph g, Graph scc_graph, char ***scc_list_label, int **scc_list_index, struct ClusterResult cluster_result) {
+    for (int i = 0; i < cluster_result.count; i++) {
+        int *component_orig = scc_list_index[i];
+        for (int j = 0; j < cluster_result.component_sizes[i]; j++) {
+            int node_orig = component_orig[j];
+            char *node_orig_label = GRAPHgetLabelByIndex(g, node_orig);
+            int node_orig_index = GRAPHgetIndexByLabel(g, node_orig_label);
+            link node_dest = g->adj[node_orig_index];
+
+            while (node_dest != NULL) {
+                int dest_index = node_dest->w;
+                char *label_orig = GRAPHgetLabelByIndex(g, node_orig);
+                char *label_dest = GRAPHgetLabelByIndex(g, dest_index);
+
+                if (strcmp(label_orig, label_dest) != 0) {
+                    int label_orig_index = GRAPHgetIndexByLabel(scc_graph, label_orig);
+                    int label_dest_index = GRAPHgetIndexByLabel(scc_graph, label_dest);
+                    GRAPHinsertArcByIndex(scc_graph, label_orig_index, label_dest_index);
+                }
+                node_dest = node_dest->next;
+            }
+        }
+    }
+    return scc_graph;
+}
+
+
+
+
+
+
+

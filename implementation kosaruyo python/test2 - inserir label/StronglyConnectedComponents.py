@@ -185,12 +185,12 @@ class StronglyConnectedComponents:
         indexes_of_nodes_to_labels_of_scc_T ={}
         
         #print(g.labels_to_index)
-        # percorre por todos labels existentes
+        # traverse to the exdisting labels 
         for label, idx in g.labels_to_index.items():
 
             orig_label = g.get_label_by_index(idx)
 
-    
+            # traverse throught the stronlgy connected components list 
             for i in range(len(scc_list_orig)):
               
                 component_orig = scc_list_orig[i]
@@ -199,12 +199,11 @@ class StronglyConnectedComponents:
                 for j in range(len(component_orig)):
                     node_orig = scc_list_orig[i][j]
                     
-                    # quando o no atual da lista ligada for igual a um no do 
-                    # componente, setamos o componente de origem daquele no   
-                    # label
+                    # when the linked list node is equal to the component 
+                    # set the respective component to the vector 
                     if str(idx) == str(node_orig):
                         indexes_of_nodes_to_labels_of_scc_T[orig_label] = component_orig_char
-    
+        print("indexes_of_nodes_to_labels_of_scc_T")
         print(indexes_of_nodes_to_labels_of_scc_T)
 
         
@@ -212,7 +211,7 @@ class StronglyConnectedComponents:
         return indexes_of_nodes_to_labels_of_scc_T
 
     
-    # Uses the original grapho to make all the connection that the SCC have
+    # Uses the original graph to make all the connection that the SCC have
     def add_vertices_on_scc_graph(self, g, scc_graph, scc_list_label, scc_list_index,indexes_of_nodes_to_labels_of_scc):
 
         for i in range(len(scc_list_index)):   
