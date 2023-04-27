@@ -290,7 +290,7 @@ int main() {
     // Graph g = textH_exemplo4();
     Graph g = testC_selfloop();
 
-    processGraph(g);
+    getStronglyConnectedComponentsKosarujoAproach(g);
 
     return 0;
 }

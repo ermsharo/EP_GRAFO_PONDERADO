@@ -57,6 +57,8 @@ class StronglyConnectedComponents:
                 component_stringfied += str(scc_list_conv[i][j])
             scc_list_conv_stringfied.append(component_stringfied)
             component_stringfied = ""
+
+        print("Stringfied components : ",scc_list_conv_stringfied);
         return scc_list_conv_stringfied
     
     # CONVERTED

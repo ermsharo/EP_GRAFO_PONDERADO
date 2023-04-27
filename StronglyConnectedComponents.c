@@ -10,6 +10,7 @@ struct ClusterResult {
     int **stronglyConnectedComponents;
     int *component_sizes;
     int count;
+    char ***labels;
 };
 
 Graph invertEdgesOfGraph(Graph g, vertex source);
@@ -101,10 +102,25 @@ Graph invertEdgesOfGraph(Graph g, vertex source)
 }
 
 void printClusterResult(struct ClusterResult cluster_result) {
+    printf("printing the strongly connected components : \n");
     for (int i = 0; i < cluster_result.count; i++) {
         printf("Component %d: [", i);
         for (int j = 0; j < cluster_result.component_sizes[i]; j++) {
             printf("%d", cluster_result.stronglyConnectedComponents[i][j]);
+            if (j < cluster_result.component_sizes[i] - 1) {
+                printf(", ");
+            }
+        }
+        printf("]\n");
+    }
+}
+
+void printLabelsClusterResult(struct ClusterResult cluster_result) {
+    printf("Printing the strongly connected components:\n");
+    for (int i = 0; i < cluster_result.count; i++) {
+        printf("Component %d: [", i);
+        for (int j = 0; j < cluster_result.component_sizes[i]; j++) {
+            printf("%s", cluster_result.labels[i][j]);
             if (j < cluster_result.component_sizes[i] - 1) {
                 printf(", ");
             }
@@ -130,7 +146,6 @@ struct ClusterResult findStronglyConnectedComponents(Graph g, int num_of_vertice
         int source = stack[top];
         top--;
 
-        printf("source : %i\n", source);
 
         if (!visited[source]) {
             memset(result, -1, sizeof(result));
@@ -143,8 +158,6 @@ struct ClusterResult findStronglyConnectedComponents(Graph g, int num_of_vertice
                 }
             }
 
-            printf("The valid elements to count are : %d\n", valid_elements_count);
-
             stronglyConnectedComponents[sc_components_count] = (int *)malloc(valid_elements_count * sizeof(int));
             component_sizes[sc_components_count] = valid_elements_count;
             int index = 0;
@@ -154,21 +167,9 @@ struct ClusterResult findStronglyConnectedComponents(Graph g, int num_of_vertice
                 }
             }
 
-            printf("Stored Clusterized DFS : ");
-            for (int i = 0; i < num_of_vertices; i++) {
-                if (result[i] != -1)
-                    printf("%d ", stronglyConnectedComponents[sc_components_count][i]);
-            }
-            printf("\n");
 
             sc_components_count++;
 
-            printf("Clusterized DFS : ");
-            for (int i = 0; i < num_of_vertices; i++) {
-                if (result[i] != -1)
-                    printf("%d ", result[i]);
-            }
-            printf("\n");
         }
     }
 
@@ -179,8 +180,12 @@ struct ClusterResult findStronglyConnectedComponents(Graph g, int num_of_vertice
 
     return cluster_result;
 }
+struct ClusterResult convert_list_numbers_to_labels(Graph G, struct ClusterResult cluster_result);
+void printLabelClusterResult(struct ClusterResult cluster_result);
+char **stringify_components(struct ClusterResult cluster_result);
+void print_stringified_components(char **stringified_components, int count);
 
-void processGraph(Graph g) {
+void getStronglyConnectedComponentsKosarujoAproach(Graph g) {
     // First step: get finish times
     int result[g->V];
     memset(result, -1, sizeof(result));
@@ -191,14 +196,6 @@ void processGraph(Graph g) {
 
     dfs_traversal(g, 0, result, stack);
 
-    printf("Stack: ");
-    for (int i = 0; i < g->V; i++) {
-        if (result[i] == -1)
-            break;
-        printf("%d ", stack[i]);
-    }
-    printf("\n");
-
     // Second step: get finish times
 
     Graph graphReversed = invertEdgesOfGraph(g, 0);
@@ -208,4 +205,73 @@ void processGraph(Graph g) {
     struct ClusterResult clusterResult = findStronglyConnectedComponents(graphReversed, g->V, stack);
 
     printClusterResult(clusterResult);
+
+    
+    // Graph Generation
+
+    struct ClusterResult clusterResultConv = convert_list_numbers_to_labels(g,clusterResult);
+
+    printLabelClusterResult(clusterResultConv);
+
+    char **stringified_components = stringify_components(clusterResultConv);
+    print_stringified_components(stringified_components, clusterResultConv.count);
+}
+
+struct ClusterResult convert_list_numbers_to_labels(Graph G, struct ClusterResult cluster_result) {
+    struct ClusterResult new_cluster_result;
+    new_cluster_result.count = cluster_result.count;
+    new_cluster_result.component_sizes = cluster_result.component_sizes;
+    new_cluster_result.stronglyConnectedComponents = cluster_result.stronglyConnectedComponents;
+
+    new_cluster_result.labels = (char ***)malloc(cluster_result.count * sizeof(char **));
+    for (int i = 0; i < cluster_result.count; i++) {
+        new_cluster_result.labels[i] = (char **)malloc(cluster_result.component_sizes[i] * sizeof(char *));
+        for (int j = 0; j < cluster_result.component_sizes[i]; j++) {
+            int index = cluster_result.stronglyConnectedComponents[i][j];
+            new_cluster_result.labels[i][j] = GRAPHgetLabelByIndex(G, index);
+        }
+    }
+
+    return new_cluster_result;
+}
+
+void printLabelClusterResult(struct ClusterResult cluster_result) {
+    printf("Printing the strongly connected components:\n");
+    for (int i = 0; i < cluster_result.count; i++) {
+        printf("Component %d: [", i);
+        for (int j = 0; j < cluster_result.component_sizes[i]; j++) {
+            printf("%s", cluster_result.labels[i][j]);
+            if (j < cluster_result.component_sizes[i] - 1) {
+                printf(", ");
+            }
+        }
+        printf("]\n");
+    }
+}
+
+char **stringify_components(struct ClusterResult cluster_result) {
+    char **stringified_components = (char **)malloc(cluster_result.count * sizeof(char *));
+    for (int i = 0; i < cluster_result.count; i++) {
+        int component_size = 0;
+        for (int j = 0; j < cluster_result.component_sizes[i]; j++) {
+            component_size += strlen(cluster_result.labels[i][j]);
+        }
+        stringified_components[i] = (char *)malloc((component_size + 1) * sizeof(char));
+        stringified_components[i][0] = '\0';
+        for (int j = 0; j < cluster_result.component_sizes[i]; j++) {
+            strcat(stringified_components[i], cluster_result.labels[i][j]);
+        }
+    }
+    return stringified_components;
+}
+
+void print_stringified_components(char **stringified_components, int count) {
+    printf("Stringified components: [");
+    for (int i = 0; i < count; i++) {
+        printf("'%s'", stringified_components[i]);
+        if (i < count - 1) {
+            printf(", ");
+        }
+    }
+    printf("]\n");
 }
