@@ -1,11 +1,16 @@
 digraph{
-V0 -> V2[label=c]; 
- V0 -> V1[label=b]; 
- V1 -> V4[label=e]; 
+V0 -> V1[label=b]; 
+ V1 -> V3[label=d]; 
  V1 -> V2[label=c]; 
- V2 -> V1[label=b]; 
+ V2 -> V0[label=a]; 
  V3 -> V4[label=e]; 
- V4 -> V3[label=d]; 
  V4 -> V5[label=f]; 
+ V5 -> V3[label=d]; 
+ V6 -> V7[label=h]; 
+ V6 -> V5[label=f]; 
+ V7 -> V8[label=i]; 
+ V8 -> V9[label=j]; 
+ V9 -> V9[label=j]; 
+ V9 -> V6[label=g]; 
   
 }

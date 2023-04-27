@@ -13,8 +13,10 @@ class StronglyConnectedComponents:
         stronglyConnectedComponentsExtra = self.clusterizeStronglyConnectedComponents(graphReversed, stack)
         
         stronglyConnectedComponents = stronglyConnectedComponentsByLoop + stronglyConnectedComponentsExtra
+        print("stronglyConnectedComponents")
+        print(stronglyConnectedComponents);
         scc_list_conv = self.convert_list_numbers_to_chars( g, stronglyConnectedComponents )
-   
+        print(scc_list_conv);
         self.isGraphScc(scc_list_conv, g) 
         self.getNumberOfComponents(scc_list_conv)
         self.create_scc_graphs(g,stronglyConnectedComponents)
