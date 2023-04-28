@@ -11,22 +11,27 @@ typedef struct node *link;
 
 struct adjacence
 {
-   char label[60]; 
+   char label[60];
    struct adjacencia *next;
 } adj;
 
 struct node
 {
-   char label[60]; 
+   char label[60];
    vertex w;
    link next;
 };
 
+vertex randV(Graph G);
+
 struct graph
 {
+
    int V;
    int A;
    link *adj;
+   char **index_to_label;
+   int *labels_to_index;
 };
 
 int read_file_lines(const char *filename, char lines[][MAX_LENGTH])
@@ -39,8 +44,6 @@ int read_file_lines(const char *filename, char lines[][MAX_LENGTH])
 
    int line_count = 0;
    char buffer[MAX_LENGTH];
-
-
 
    while (fgets(buffer, MAX_LENGTH, file))
    {
@@ -61,6 +64,15 @@ int read_file_lines(const char *filename, char lines[][MAX_LENGTH])
    fclose(file);
 
    return line_count;
+}
+int getNumberOfVertices(Graph G)
+{
+   return G->V;
+}
+
+link *getArrayOfVertices(Graph G)
+{
+   return G->adj;
 }
 
 void limpaArquivo(char nomeArquivo[])
@@ -93,13 +105,89 @@ Graph GRAPHinit(int V)
    return G;
 }
 
-void GRAPHinsertArc(Graph G, vertex v, vertex w)
+void GRAPHinsertArcByIndex(Graph G, vertex v, vertex w)
 {
    for (link a = G->adj[v]; a != NULL; a = a->next)
       if (a->w == w)
          return;
    G->adj[v] = NEWnode(w, G->adj[v]);
    G->A++;
+}
+
+int GRAPHgetIndexByLabel(Graph G, char *label)
+{
+
+   if (G == NULL || label == NULL)
+      return -1;
+
+   int index = -1;
+
+   for (int i = 0; i < G->V; i++)
+   {
+      if (strcmp(G->index_to_label[i], label) == 0)
+      {
+         index = i;
+      }
+   }
+
+   if (index == -1)
+      fprintf(stderr, "Error: label %s not found in graph\n", label);
+   return index;
+}
+
+char *GRAPHgetLabelByIndex(Graph G, int index)
+{
+
+   if (G == NULL || index < 0 || index >= G->V)
+      return NULL;
+   char *label = G->index_to_label[index];
+   if (label == NULL)
+      fprintf(stderr, "Error: index %d not found in graph\n", index);
+   return label;
+}
+
+void GRAPHinsertArcByLabel(Graph G, char *v_label, char *w_label)
+{
+
+   // Find vertex indices for labels
+   int v = GRAPHgetIndexByLabel(G, v_label);
+   int w = GRAPHgetIndexByLabel(G, w_label);
+
+   for (link a = G->adj[v]; a != NULL; a = a->next)
+      if (a->w == w)
+         return;
+   G->adj[v] = NEWnode(w, G->adj[v]);
+   G->A++;
+}
+
+void setLabels(Graph g, char **labels, int num_labels)
+{
+   int i;
+   g->index_to_label = malloc(num_labels * sizeof(char *));
+   g->labels_to_index = malloc(num_labels * sizeof(int));
+   for (i = 0; i < num_labels; i++)
+   {
+      g->index_to_label[i] = labels[i];
+      g->labels_to_index[i] = i;
+   }
+}
+
+bool GRAPHnodeContains(Graph G, char *source, char *destination)
+{
+   int source_index = GRAPHgetIndexByLabel(G, source);
+   int dest_index = GRAPHgetIndexByLabel(G, destination);
+
+   link temp = G->adj[source_index];
+   while (temp != NULL)
+   {
+      if (temp->w == dest_index)
+      {
+         return true;
+      }
+      temp = temp->next;
+   }
+
+   return false;
 }
 
 /* Esta função constrói um grafo aleatório com vértices 0..V-1 e exatamente A arcos. A função supõe que A <= V*(V-1). Se A for próximo de V*(V-1), a função pode consumir muito tempo. (Código inspirado no Programa 17.7 de Sedgewick.) */
@@ -111,7 +199,7 @@ Graph GRAPHrand(int V, int A)
       vertex v = randV(G);
       vertex w = randV(G);
       if (v != w)
-         GRAPHinsertArc(G, v, w);
+         GRAPHinsertArcByIndex(G, v, w);
    }
    return G;
 }
@@ -139,13 +227,13 @@ void imprimeGrafo(Graph g)
    for (i = 0; i < g->V; i++)
    {
       // Gerando os vertices
-      printf("v( %d )", i);
+      printf("v( %s )", g->index_to_label[i]);
       link LINK = g->adj[i];
       while (LINK)
       {
-         sprintf(resultado, "V%i -> V%i[label=%s]; \n ", i, LINK->w, LINK->w);
+         sprintf(resultado, "V%i -> V%i[label=%s]; \n ", i, LINK->w, g->index_to_label[LINK->w]);
          gerarTexto("Grafo.dot", resultado, fp);
-         printf("->(%d)", LINK->w);
+         printf("->(%s)", g->index_to_label[LINK->w]);
          LINK = LINK->next;
       }
       printf("\n");
@@ -154,48 +242,41 @@ void imprimeGrafo(Graph g)
    fclose(fp);
 }
 
-void readInputFile(const char *filename)
+void imprimeGrafoIndexes(Graph g)
 {
-
-   char lines[1000][MAX_LENGTH];
-   int line_count = read_file_lines(filename, lines);
-
-   if (line_count == -1)
+   int i;
+   char resultado[256];
+   printf("Vertices: %d, Arestas: %d \n", g->V, g->A);
+   for (i = 0; i < g->V; i++)
    {
-      printf("Unable to open file.\n");
-      return 1;
+      // Gerando os vertices
+      printf("v( %d )", i);
+      link LINK = g->adj[i];
+      while (LINK)
+      {
+         sprintf(resultado, "V%i -> V%i[label=%d]; \n ", i, LINK->w, LINK->w);
+         printf("->(%d)", LINK->w);
+         LINK = LINK->next;
+      }
+      printf("\n");
    }
+}
 
-   // // Iniciando o novo grafo
-   // Graph g = GRAPHinit(line_count-2);
+// --- Remover funcoes daqui de baixo
 
-   // print out each line in the lines array
-   int size = atoi(lines[0]);
-   int option = atoi(lines[line_count]);
-
-   printf("size %i \n ", size);
-   printf("option %i \n ", option);
-   for (int i = 1; i < line_count -1; i++)
+void printBothArraysLabelsToIndexAndIndexToLabel(Graph G)
+{
+   printf("\nlabels_to_index:\n");
+   for (int i = 0; i < G->V; i++)
    {
-
-      if (i == 0)
-      {
-         printf("[ primeiro ] %s\n ", lines[i]);
-         // Pega o primeiro item
-      }
-
-      else if (i == line_count - 1)
-      {
-         // Pega o utlimo item
-         printf(" [ultimo] %s\n", lines[i]);
-      }
-      else
-      {
-         printf("%s\n", lines[i]);
-      }
+      printf("%s: %d\n", G->index_to_label[i], G->labels_to_index[i]);
    }
-
-   // imprimeGrafo(g);
+   printf("\nindex_to_label:\n");
+   for (int i = 0; i < G->V; i++)
+   {
+      printf("%d: %s\n", i, G->index_to_label[i]);
+   }
+   printf("\n");
 }
 
 int main()
@@ -208,8 +289,5 @@ int main()
    // Graph g = GRAPHinit(n_vertex);
    Graph rg = GRAPHrand(n_vertex, n_links);
 
-   printf(" \n EP 1 \n \n ");
-   imprimeGrafo(rg);
-   // readInputFile("input.txt");
    return 0;
 }
