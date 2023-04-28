@@ -278,7 +278,7 @@ Graph testC_selfloop() {
 
 int main() {
 
-    // Graph g = testA();
+    Graph g = testA();
     // Graph g = testB_letras();
     // Graph g = testB();
     // Graph g = testC();
@@ -288,7 +288,7 @@ int main() {
     // Graph g = textF_exemplo2();
     // Graph g = textG();
     // Graph g = textH_exemplo4();
-    Graph g = testC_selfloop();
+    //Graph g = testC_selfloop();
 
     getStronglyConnectedComponentsKosarujoAproach(g);
 
