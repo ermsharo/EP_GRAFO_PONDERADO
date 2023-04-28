@@ -278,11 +278,11 @@ Graph testC_selfloop() {
 
 int main() {
 
-    Graph g = testA();
+    // Graph g = testA();
     // Graph g = testB_letras();
     // Graph g = testB();
     // Graph g = testC();
-    // Graph g = testC_letras();
+     Graph g = testC_letras();
     // Graph g = testD_exemplo1();
     // Graph g = testE();
     // Graph g = textF_exemplo2();

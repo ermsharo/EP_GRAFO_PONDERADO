@@ -236,6 +236,8 @@ void getStronglyConnectedComponentsKosarujoAproach(Graph g) {
     // Graph k = test(clusterResultConv.count);
     Graph scc_graph = GRAPHinit(clusterResultConv.count);
 
+    setLabels(scc_graph, stringified_components, clusterResultConv.count);
+
     Graph updated_scc_graph = add_vertices_on_scc_graph(g, scc_graph, clusterResultConv.labels, clusterResult.stronglyConnectedComponents, clusterResult, label_to_component_map);
 
 }
@@ -368,7 +370,7 @@ Graph add_vertices_on_scc_graph(Graph g, Graph scc_graph, char ***scc_list_label
 
                 if (strcmp(label_orig_comp, label_dest_comp) != 0) {
                     printf("Bingoooo !");
-                    GRAPHinsertArcByLabel(scc_graph, label_orig_index, label_dest_index);
+                    GRAPHinsertArcByLabel(scc_graph, label_orig_comp, label_dest_comp);
                 }
                 node_dest = node_dest->next;
             }
