@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
-
+#define MAX_LENGTH 1000
 #define vertex int
 
 typedef struct graph *Graph;
@@ -11,13 +11,13 @@ typedef struct node *link;
 
 struct adjacence
 {
-
+   char label[60]; 
    struct adjacencia *next;
 } adj;
 
 struct node
 {
-
+   char label[60]; 
    vertex w;
    link next;
 };
@@ -28,6 +28,40 @@ struct graph
    int A;
    link *adj;
 };
+
+int read_file_lines(const char *filename, char lines[][MAX_LENGTH])
+{
+   FILE *file = fopen(filename, "r");
+   if (!file)
+   {
+      return -1;
+   }
+
+   int line_count = 0;
+   char buffer[MAX_LENGTH];
+
+
+
+   while (fgets(buffer, MAX_LENGTH, file))
+   {
+      // remove newline character from buffer
+      buffer[strcspn(buffer, "\n")] = '\0';
+
+      // copy buffer to current line in lines array
+      strcpy(lines[line_count], buffer);
+      line_count++;
+
+      // break out of loop if blank line is encountered
+      if (buffer[0] == '\0')
+      {
+         break;
+      }
+   }
+
+   fclose(file);
+
+   return line_count;
+}
 
 void limpaArquivo(char nomeArquivo[])
 {
@@ -109,7 +143,7 @@ void imprimeGrafo(Graph g)
       link LINK = g->adj[i];
       while (LINK)
       {
-         sprintf(resultado, "V%i -> V%i[label=%i]; \n ", i, LINK->w, LINK->w);
+         sprintf(resultado, "V%i -> V%i[label=%s]; \n ", i, LINK->w, LINK->w);
          gerarTexto("Grafo.dot", resultado, fp);
          printf("->(%d)", LINK->w);
          LINK = LINK->next;
@@ -120,6 +154,50 @@ void imprimeGrafo(Graph g)
    fclose(fp);
 }
 
+void readInputFile(const char *filename)
+{
+
+   char lines[1000][MAX_LENGTH];
+   int line_count = read_file_lines(filename, lines);
+
+   if (line_count == -1)
+   {
+      printf("Unable to open file.\n");
+      return 1;
+   }
+
+   // // Iniciando o novo grafo
+   // Graph g = GRAPHinit(line_count-2);
+
+   // print out each line in the lines array
+   int size = atoi(lines[0]);
+   int option = atoi(lines[line_count]);
+
+   printf("size %i \n ", size);
+   printf("option %i \n ", option);
+   for (int i = 1; i < line_count -1; i++)
+   {
+
+      if (i == 0)
+      {
+         printf("[ primeiro ] %s\n ", lines[i]);
+         // Pega o primeiro item
+      }
+
+      else if (i == line_count - 1)
+      {
+         // Pega o utlimo item
+         printf(" [ultimo] %s\n", lines[i]);
+      }
+      else
+      {
+         printf("%s\n", lines[i]);
+      }
+   }
+
+   // imprimeGrafo(g);
+}
+
 int main()
 {
    // Numero de vertices que o nosso grafo vai ter
@@ -127,11 +205,11 @@ int main()
    // Numero de arestas que o nosso grafo vai ter
    int n_links = 20;
 
-   Graph g = GRAPHinit(n_vertex);
+   // Graph g = GRAPHinit(n_vertex);
    Graph rg = GRAPHrand(n_vertex, n_links);
 
    printf(" \n EP 1 \n \n ");
    imprimeGrafo(rg);
-
+   // readInputFile("input.txt");
    return 0;
 }
