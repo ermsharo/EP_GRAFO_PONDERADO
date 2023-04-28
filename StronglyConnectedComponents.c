@@ -216,24 +216,20 @@ void getStronglyConnectedComponentsKosarujoAproach(Graph g) {
 
     struct ClusterResult clusterResult = findStronglyConnectedComponents(graphReversed, g->V, stack);
 
-    printClusterResult(clusterResult);
+    //printClusterResult(clusterResult);
 
     
     // Graph Generation
 
     struct ClusterResult clusterResultConv = convert_list_numbers_to_labels(g,clusterResult);
 
-    printLabelClusterResult(clusterResultConv);
+    //printLabelClusterResult(clusterResultConv);
 
     char **stringified_components = stringify_components(clusterResultConv);
-    print_stringified_components(stringified_components, clusterResultConv.count);
+    
 
     LabelToComponentMap label_to_component_map = set_components_label_to_original_graph_nodes(g, stringified_components, clusterResult);
-    print_label_to_component_map(label_to_component_map);
 
-    // TODO : Fix the graph cration 
-    // Graph p = GRAPHinit(6);
-    // Graph k = test(clusterResultConv.count);
     Graph scc_graph = GRAPHinit(clusterResultConv.count);
 
     setLabels(scc_graph, stringified_components, clusterResultConv.count);
@@ -353,23 +349,14 @@ Graph add_vertices_on_scc_graph(Graph g, Graph scc_graph, char ***scc_list_label
             int node_orig_index = GRAPHgetIndexByLabel(g, node_orig_label);
             link node_dest = g->adj[node_orig_index];
 
-            printf("node_orig = %d\n", node_orig);
-            printf("node_orig_label = %s\n", node_orig_label);
-            printf("node_orig_index = %d\n", node_orig_index);
-            printf("\n");
-
             while (node_dest != NULL) {
                 int dest_index = node_dest->w;
 
                 char *label_orig_comp = get_value_by_key(map, node_orig_label);
                 char *label_dest_comp = get_value_by_key(map, GRAPHgetLabelByIndex(g, dest_index));
 
-                printf("dest_index = %d\n", dest_index);
-                printf("label_orig_comp = %s\n", label_orig_comp);
-                printf("label_dest_comp = %s\n", label_dest_comp);
 
                 if (strcmp(label_orig_comp, label_dest_comp) != 0) {
-                    printf("Bingoooo !");
                     GRAPHinsertArcByLabel(scc_graph, label_orig_comp, label_dest_comp);
                 }
                 node_dest = node_dest->next;
@@ -379,14 +366,6 @@ Graph add_vertices_on_scc_graph(Graph g, Graph scc_graph, char ***scc_list_label
     imprimeGrafo(scc_graph);
     return scc_graph;
 }
-// int main(){
-    
-//     Graph g = test(7);
-//     printf("%i", g->V);
-    
-//     return 0;
-// }
-
 
 
 
