@@ -8,6 +8,7 @@
 
 Graph test(int size);
 
+// Guarda resultado dos nos que coompoem um grafo fortemente conexo
 struct ClusterResult {
     int **stronglyConnectedComponents;
     int *component_sizes;
@@ -15,6 +16,7 @@ struct ClusterResult {
     char ***labels;
 };
 
+// Cria uma especie de mapa dos nos exitentes no grafo 
 typedef struct {
     char **keys;
     char **values;
@@ -212,30 +214,39 @@ void getStronglyConnectedComponentsKosarujoAproach(Graph g) {
 
     Graph graphReversed = invertEdgesOfGraph(g, 0);
 
-    // Fourth step: Clusterize elements
+    //imprimeGrafoIndexes(graphReversed);
 
+    // Fourth step: Clusterize elements
+    
     struct ClusterResult clusterResult = findStronglyConnectedComponents(graphReversed, g->V, stack);
 
     //printClusterResult(clusterResult);
 
     
     // Graph Generation
-
+    
+    // TODO : VERIFICAR SE FUNCIONA SOMENTE COM INDEXES
     struct ClusterResult clusterResultConv = convert_list_numbers_to_labels(g,clusterResult);
-
+    
     //printLabelClusterResult(clusterResultConv);
-
+    
+    // TODO : VERIFICAR SE FUNCIONA SOMENTE COM INDEXES
     char **stringified_components = stringify_components(clusterResultConv);
     
-
+   
+    // TODO : VERIFICAR SE FUNCIONA SOMENTE COM INDEXES
     LabelToComponentMap label_to_component_map = set_components_label_to_original_graph_nodes(g, stringified_components, clusterResult);
-
+    
+    
+    // TODO : VERIFICAR SE FUNCIONA SOMENTE COM INDEXES
     Graph scc_graph = GRAPHinit(clusterResultConv.count);
-
+    
+    // TODO : VERIFICAR SE FUNCIONA SOMENTE COM INDEXES
     setLabels(scc_graph, stringified_components, clusterResultConv.count);
-
+    
+    // TODO : VERIFICAR SE FUNCIONA SOMENTE COM INDEXES
     Graph updated_scc_graph = add_vertices_on_scc_graph(g, scc_graph, clusterResultConv.labels, clusterResult.stronglyConnectedComponents, clusterResult, label_to_component_map);
-
+    /**/
 }
 
 struct ClusterResult convert_list_numbers_to_labels(Graph G, struct ClusterResult cluster_result) {

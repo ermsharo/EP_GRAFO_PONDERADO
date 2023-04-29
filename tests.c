@@ -274,11 +274,59 @@ Graph testC_selfloop() {
     return g;
 }
 
+Graph testI() {
+    Graph g = GRAPHinit(5);
 
+    char *labels[] = { "0", "1", "2", "3", "4" };
+    setLabels(g, labels, 5);
+
+    GRAPHinsertArcByLabel(g, "0", "3");
+    GRAPHinsertArcByLabel(g, "1", "2");
+    GRAPHinsertArcByLabel(g, "2", "1");
+    GRAPHinsertArcByLabel(g, "3", "4");
+    GRAPHinsertArcByLabel(g, "3", "2");
+
+    imprimeGrafo(g);
+
+    return g;
+}
+
+Graph testJ() {
+    Graph g = GRAPHinit(10);
+
+    char *labels[] = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+    setLabels(g, labels, 10);
+
+    GRAPHinsertArcByLabel(g, "0", "5");
+    GRAPHinsertArcByLabel(g, "0", "6");
+    GRAPHinsertArcByLabel(g, "0", "1");
+    GRAPHinsertArcByLabel(g, "2", "9");
+    GRAPHinsertArcByLabel(g, "2", "0");
+    GRAPHinsertArcByLabel(g, "3", "0");
+    GRAPHinsertArcByLabel(g, "3", "5");
+    GRAPHinsertArcByLabel(g, "4", "7");
+    GRAPHinsertArcByLabel(g, "4", "6");
+    GRAPHinsertArcByLabel(g, "5", "9");
+    GRAPHinsertArcByLabel(g, "5", "2");
+    GRAPHinsertArcByLabel(g, "6", "7");
+    GRAPHinsertArcByLabel(g, "6", "0");
+    GRAPHinsertArcByLabel(g, "6", "9");
+    GRAPHinsertArcByLabel(g, "7", "3");
+    GRAPHinsertArcByLabel(g, "7", "4");
+    GRAPHinsertArcByLabel(g, "8", "5");
+    GRAPHinsertArcByLabel(g, "8", "0");
+    GRAPHinsertArcByLabel(g, "9", "3");
+    GRAPHinsertArcByLabel(g, "9", "7");
+
+    imprimeGrafo(g);
+
+    return g;
+}
 
 int main() {
 
-     Graph g = testA();
+    // Graph g = testA();
+
     // Graph g = testB_letras();
     // Graph g = testB();
     // Graph g = testC();
@@ -289,8 +337,24 @@ int main() {
     // Graph g = textG();
     // Graph g = textH_exemplo4();
     // Graph g = testC_selfloop();
+    // Graph g = testI();
+    //Graph rg = testJ();
 
-    getStronglyConnectedComponentsKosarujoAproach(g);
+
+   //Teste para criação de grafo aleatorio 
+
+    //Numero de vertices que o nosso grafo vai ter
+   int n_vertex = 10;
+   // Numero de arestas que o nosso grafo vai ter
+   int n_links = 20;
+
+   Graph rg = GRAPHrand(n_vertex, n_links);
+
+   printf(" \n EP 1 \n \n ");
+
+   imprimeGrafo(rg);
+
+   getStronglyConnectedComponentsKosarujoAproach(rg);
 
     return 0;
 }

@@ -15,10 +15,13 @@ class StronglyConnectedComponents:
         stronglyConnectedComponents = stronglyConnectedComponentsByLoop + stronglyConnectedComponentsExtra
         print("stronglyConnectedComponents")
         print(stronglyConnectedComponents);
+        
         scc_list_conv = self.convert_list_numbers_to_chars( g, stronglyConnectedComponents )
+        
         print(scc_list_conv);
         self.isGraphScc(scc_list_conv, g) 
         self.getNumberOfComponents(scc_list_conv)
+
         self.create_scc_graphs(g,stronglyConnectedComponents)
 
     def isGraphScc(self, scc_list_conv, g):
@@ -203,6 +206,7 @@ class StronglyConnectedComponents:
                     # set the respective component to the vector 
                     if str(idx) == str(node_orig):
                         indexes_of_nodes_to_labels_of_scc_T[orig_label] = component_orig_char
+
         print("indexes_of_nodes_to_labels_of_scc_T")
         print(indexes_of_nodes_to_labels_of_scc_T)
 
@@ -224,6 +228,9 @@ class StronglyConnectedComponents:
                     
                     label_orig = indexes_of_nodes_to_labels_of_scc[node_orig_label]
                     label_dest = indexes_of_nodes_to_labels_of_scc[g.get_label_by_index(int(node_dest.data))]
+                    
+
+                    
                     if label_orig != label_dest:
                         scc_graph.add_edge(label_orig, label_dest)
                     node_dest = node_dest.next_element

@@ -9,6 +9,8 @@ typedef struct graph *Graph;
 
 typedef struct node *link;
 
+char** generate_numbers_array(int N);
+
 struct adjacence
 {
    char label[60];
@@ -146,6 +148,7 @@ char *GRAPHgetLabelByIndex(Graph G, int index)
    return label;
 }
 
+
 void GRAPHinsertArcByLabel(Graph G, char *v_label, char *w_label)
 {
 
@@ -194,6 +197,11 @@ bool GRAPHnodeContains(Graph G, char *source, char *destination)
 Graph GRAPHrand(int V, int A)
 {
    Graph G = GRAPHinit(V);
+
+   char** labels = generate_numbers_array(V);
+
+   setLabels(G, labels, V);
+
    while (G->A < A)
    {
       vertex v = randV(G);
@@ -279,15 +287,33 @@ void printBothArraysLabelsToIndexAndIndexToLabel(Graph G)
    printf("\n");
 }
 
-int main()
-{
-   // Numero de vertices que o nosso grafo vai ter
-   int n_vertex = 20;
-   // Numero de arestas que o nosso grafo vai ter
-   int n_links = 20;
+char** generate_numbers_array(int N) {
+    int max_digits = snprintf(NULL, 0, "%d", N) + 1; // Get the maximum number of digits for N
 
-   // Graph g = GRAPHinit(n_vertex);
-   Graph rg = GRAPHrand(n_vertex, n_links);
+    char** numbers_array = (char**)malloc((N + 1) * sizeof(char*));
+    for (int i = 0; i <= N; i++) {
+        numbers_array[i] = (char*)malloc(max_digits * sizeof(char));
+        snprintf(numbers_array[i], max_digits, "%d", i);
+    }
 
-   return 0;
+    return numbers_array;
 }
+
+void free_numbers_array(char** numbers_array, int N) {
+    for (int i = 0; i <= N; i++) {
+        free(numbers_array[i]);
+    }
+    free(numbers_array);
+}
+// int main()
+// {
+//    // Numero de vertices que o nosso grafo vai ter
+//    int n_vertex = 20;
+//    // Numero de arestas que o nosso grafo vai ter
+//    int n_links = 20;
+
+//    // Graph g = GRAPHinit(n_vertex);
+//    Graph rg = GRAPHrand(n_vertex, n_links);
+
+//    return 0;
+// }

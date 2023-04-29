@@ -221,6 +221,55 @@ def testC_selfloop():
 
     return g
 
+def testK():
+    g = Graph(10)
+    g.set_labels(['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'])
+    g.add_edge('0', '5')
+    g.add_edge('0', '6')
+    g.add_edge('0', '1')
+    g.add_edge('2', '9')
+    g.add_edge('2', '0')
+    g.add_edge('3', '0')
+    g.add_edge('3', '5')
+    g.add_edge('4', '7')
+    g.add_edge('4', '6')
+    g.add_edge('5', '9')
+    g.add_edge('5', '2')
+    g.add_edge('6', '7')
+    g.add_edge('6', '0')
+    g.add_edge('6', '9')
+    g.add_edge('7', '3')
+    g.add_edge('7', '4')
+    g.add_edge('8', '5')
+    g.add_edge('8', '0')
+    g.add_edge('9', '3')
+    g.add_edge('9', '7')
+
+    return g
+
+def testI():
+    g = Graph(11)
+    g.set_labels(['a','b','c','d','e','f','g','h','i','j','k'])
+    g.add_edge('a', 'j')
+    g.add_edge('a', 'b')
+    g.add_edge('a', 'c')
+    g.add_edge('b', 'c')
+    g.add_edge('b', 'k')
+    g.add_edge('c', 'e')   
+    g.add_edge('d', 'j')  
+    g.add_edge('d', 'g')
+    g.add_edge('e', 'a') 
+    g.add_edge('f', 'i') 
+    g.add_edge('f', 'd') 
+    g.add_edge('g', 'k')
+    g.add_edge('k', 'j')
+    g.add_edge('j', 'g')
+    g.add_edge('h', 'f')
+    g.add_edge('i', 'a')
+    g.add_edge('i', 'e')
+    g.add_edge('i', 'h')       
+
+    return g
 #g = testA()
 #g = testA_letras()
 #g = testB()
@@ -231,7 +280,8 @@ def testC_selfloop():
 #g = textF_exemplo2()
 #g = textG()
 #g = textH_exemplo4()
-g = testC_selfloop()
+#g = testC_selfloop()
+g = testK()
 
 
 g.print_graph()
