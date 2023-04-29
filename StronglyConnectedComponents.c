@@ -6,10 +6,9 @@
 
 #include "index.c"
 
-Graph test(int size);
 void topological_search(Graph g);
 
-// Guarda resultado dos nos que coompoem um grafo fortemente conexo
+// Guarda resultado dos nós que coompoem um grafo fortemente conexo
 struct ClusterResult {
     int **stronglyConnectedComponents;
     int *component_sizes;
@@ -17,7 +16,7 @@ struct ClusterResult {
     char ***labels;
 };
 
-// Cria uma especie de mapa dos nos exitentes no grafo 
+// Cria uma especie de mapa usando struct dos nos exitentes no grafo 
 typedef struct {
     char **keys;
     char **values;
@@ -26,6 +25,7 @@ typedef struct {
 
 Graph invertEdgesOfGraph(Graph g, vertex source);
 
+// Usado pra debugar e printar array de int
 void printIntArray(int* arr, int size) {
     printf("[ ");
     for (int i = 0; i < size; i++) {
@@ -34,6 +34,8 @@ void printIntArray(int* arr, int size) {
     printf("]\n");
 }
 
+// Metodo principal da Depth First Search que 
+// percorre o mais profundo nos nós do grafo 
 void dfs_traversal_helper(Graph g, int source, bool* visited, int* stack, int* stack_idx, int* result, int* result_idx) {
     visited[source] = true;
     link LINK = g->adj[source];
@@ -52,6 +54,8 @@ void dfs_traversal_helper(Graph g, int source, bool* visited, int* stack, int* s
     result[(*result_idx)++] = source;
 }
 
+// Metodo para que chama a DFS helper é usado para fazer 
+// uma busca em profundidade somente ate o ultimo nó alcançavel
 void dfs_traversal_cluster(Graph g, int source, bool* visited, int* result){
     int num_of_vertices = g->V;
     int stack[num_of_vertices];
@@ -62,7 +66,10 @@ void dfs_traversal_cluster(Graph g, int source, bool* visited, int* result){
 
 }
 
-
+// Metodo para que chama a DFS helper é usado para fazer 
+// uma busca em profundidade em todo o grafo que foi passado. 
+// O uso da stack é para termos os tempos de visitação que é 
+// usado nos algoritimos 
 void dfs_traversal(Graph g, int source, int* result, int* stack) {
     
     int num_of_vertices = g->V;
@@ -81,7 +88,7 @@ void dfs_traversal(Graph g, int source, int* result, int* stack) {
         }
     }
     
-    // Reverse the order of the result array to get the correct order
+    // Inverte resultado
     for (int i = 0; i < num_of_vertices / 2; i++) {
         int temp = result[i];
         result[i] = result[num_of_vertices - 1 - i];
@@ -89,7 +96,10 @@ void dfs_traversal(Graph g, int source, int* result, int* stack) {
     }
 }
 
-// // Function to invert the edges of a given graph
+// Função que inverte as direções das arestas do grafo.
+// Percorre por todas arestas do grafo representadas pelo array
+// na sequencia visita todas adjacencias, faz um link invertido 
+// adcionando em um novo grafo 
 Graph invertEdgesOfGraph(Graph g, vertex source)
 {
     Graph graphReversed = GRAPHinit(g->V);
@@ -112,6 +122,8 @@ Graph invertEdgesOfGraph(Graph g, vertex source)
     return graphReversed;
 }
 
+// Printa os componentes conexos encontrados no grafo em forma de index.
+// Percorre o Array 2d que fica no objeto Cluster Result 
 void printClusterResult(struct ClusterResult cluster_result) {
     printf("printing the strongly connected components : \n");
     for (int i = 0; i < cluster_result.count; i++) {
@@ -126,6 +138,8 @@ void printClusterResult(struct ClusterResult cluster_result) {
     }
 }
 
+// Printa os componentes conexos encontrados no grafo em forma de label.
+// Percorre o Array 2d que fica no objeto Cluster Result 
 void printLabelsClusterResult(struct ClusterResult cluster_result) {
     printf("Printing the strongly connected components:\n");
     for (int i = 0; i < cluster_result.count; i++) {
@@ -140,6 +154,14 @@ void printLabelsClusterResult(struct ClusterResult cluster_result) {
     }
 }
 
+
+// Metodo de busca pelos componentes fortementes conexos usando 
+// o sevindo o metodo principal do algoritimo de Kosarujo . 
+// Basicamente recebendo um grafo g com as arestas ja invertidas 
+// O algoritimo percorre todo o grafo seguindo a pilhas que tem a 
+// ordem de finalização de visitas , fazendo buscas em profundidade
+// usando o metodo dfs_traversal_cluster.
+// Após isso a partir dos nós alcançaveis ele vai formando os componentes
 struct ClusterResult findStronglyConnectedComponents(Graph g, int num_of_vertices, int *stack) {
     bool visited[num_of_vertices];
     memset(visited, false, sizeof(visited));
@@ -201,62 +223,60 @@ char *get_value_by_key(LabelToComponentMap map, const char *key);
 Graph add_vertices_on_scc_graph(Graph g, Graph scc_graph, char ***scc_list_label, int **scc_list_index, struct ClusterResult cluster_result, LabelToComponentMap map);
 void isGraphScc(Graph scc_graph);
 
+
+// Metodo principal do algoritimo de Kosarujo 
+// Etapa 1 : Pega os tempos de fim de visita, usando uma DFS 
+// Etapa 2 : A partir do grafo original cria um mesmo grafo invertido 
+// Etapa 3 : Agrupa elements fazendo uma DFS nos nós do grafo invertido
+// seguindo a ordem dos tempos de visita
+// Etapa 4 : Cria o grafo dos componentes fortemente conexos 
+//  Na etapa 4 algumas conversoes e mapas são criados para facilitar a 
+//  ligação dos vertices do grafo fortemente conexo
+
 void getStronglyConnectedComponentsKosarujoAproach(Graph g) {
-    // First step: get finish times
+    // Etapa 1 : Pega os tempos de fim de visita, usando uma DFS 
     int result[g->V];
     memset(result, -1, sizeof(result));
-
     int num_of_vertices = g->V;
-
     int stack[num_of_vertices];
-
     dfs_traversal(g, 0, result, stack);
 
-    // Second step: get finish times
-
+    // Etapa 2 : A partir do grafo original cria um mesmo grafo invertido 
     Graph graphReversed = invertEdgesOfGraph(g, 0);
 
-    //imprimeGrafoIndexes(graphReversed);
-
-    // Fourth step: Clusterize elements
-    
+    // Etapa 3 : Agrupa elements fazendo uma DFS nos nós do grafo invertido
+    // seguindo a ordem dos tempos de visita
     struct ClusterResult clusterResult = findStronglyConnectedComponents(graphReversed, g->V, stack);
 
-    //printClusterResult(clusterResult);
-
     
-    // Graph Generation
+    // Etapa 4 : Cria o grafo dos componentes fortemente conexos
     
-    // TODO : VERIFICAR SE FUNCIONA SOMENTE COM INDEXES
+    // Converte lista de componentes gerados baseados nos indexes e cria a mesma lista com chars 
     struct ClusterResult clusterResultConv = convert_list_numbers_to_labels(g,clusterResult);
-    
-    //printLabelClusterResult(clusterResultConv);
-    
-    // TODO : VERIFICAR SE FUNCIONA SOMENTE COM INDEXES
+
+    // Cria uma string para ser usada como label de cada componente  
     char **stringified_components = stringify_components(clusterResultConv);
-    
-   
-    // TODO : VERIFICAR SE FUNCIONA SOMENTE COM INDEXES
+
+    // Seta cada label do grafo original para seu respectivo label do components a qual pertence
     LabelToComponentMap label_to_component_map = set_components_label_to_original_graph_nodes(g, stringified_components, clusterResult);
     
-    
-    // TODO : VERIFICAR SE FUNCIONA SOMENTE COM INDEXES
+    // Cria grafo fortemente conexo
     Graph scc_graph = GRAPHinit(clusterResultConv.count);
 
+    // Checa se grafo é fortemente conexo 
     isGraphScc(scc_graph);
-    
-    // TODO : VERIFICAR SE FUNCIONA SOMENTE COM INDEXES
     setLabels(scc_graph, stringified_components, clusterResultConv.count);
-    
-    // TODO : VERIFICAR SE FUNCIONA SOMENTE COM INDEXES
-    Graph updated_scc_graph = add_vertices_on_scc_graph(g, scc_graph, clusterResultConv.labels, clusterResult.stronglyConnectedComponents, clusterResult, label_to_component_map);
-    
-    
-    
 
-        /**/
+    // Liga os o grafo fortemente conexos usando o grafo original 
+    Graph updated_scc_graph = add_vertices_on_scc_graph(g, scc_graph, clusterResultConv.labels, clusterResult.stronglyConnectedComponents, clusterResult, label_to_component_map);
+
 }
 
+
+// Converte array de componentes gerados baseados nos indexes 
+// e cria a mesma lista com chars.
+// Percorre pelo array 2d dos components encotrados mapeando 
+// usando o metodo GRAPHgetLabelByIndex para fazer isso 
 struct ClusterResult convert_list_numbers_to_labels(Graph G, struct ClusterResult cluster_result) {
     struct ClusterResult new_cluster_result;
     new_cluster_result.count = cluster_result.count;
@@ -275,6 +295,8 @@ struct ClusterResult convert_list_numbers_to_labels(Graph G, struct ClusterResul
     return new_cluster_result;
 }
 
+// Usado para printar os labels do agrupamento dos elementos fortemente conexos 
+// itera sobre o array
 void printLabelClusterResult(struct ClusterResult cluster_result) {
     printf("Printing the strongly connected components:\n");
     for (int i = 0; i < cluster_result.count; i++) {
@@ -289,6 +311,8 @@ void printLabelClusterResult(struct ClusterResult cluster_result) {
     }
 }
 
+// Cria uma String para cada sublista do objeto ClusterResult
+// , para que possamos ter os labels para o grafo final 
 char **stringify_components(struct ClusterResult cluster_result) {
     char **stringified_components = (char **)malloc(cluster_result.count * sizeof(char *));
     for (int i = 0; i < cluster_result.count; i++) {
@@ -305,6 +329,7 @@ char **stringify_components(struct ClusterResult cluster_result) {
     return stringified_components;
 }
 
+// Usado para printar uma lista de char que contem os labels do grafo fortemente conexo
 void print_stringified_components(char **stringified_components, int count) {
     printf("Stringified components: [");
     for (int i = 0; i < count; i++) {
@@ -316,6 +341,12 @@ void print_stringified_components(char **stringified_components, int count) {
     printf("]\n");
 }
 
+// Usado para a partir do nó originais do grafo 
+// identificar a qual componentes este faz parte 
+// Apos percorrer todos os nó quando algum for igual ao no do componente
+// seguindo a condição  if (cluster_result.stronglyConnectedComponents[j][k] == i)
+// podemos mapear o componente 
+// map.values[i] = stringified_components[j];
 LabelToComponentMap set_components_label_to_original_graph_nodes(Graph g, char **stringified_components, struct ClusterResult cluster_result) {
     LabelToComponentMap map;
     map.keys = (char **)malloc(g->V * sizeof(char *));
@@ -339,6 +370,8 @@ LabelToComponentMap set_components_label_to_original_graph_nodes(Graph g, char *
     return map;
 }
 
+// Usado para printar o Objeto LabelToComponentMap 
+// mostrado os itens aos quais estao mapeados 
 void print_label_to_component_map(LabelToComponentMap map) {
     printf("{");
     for (int i = 0; i < map.size; i++) {
@@ -350,6 +383,8 @@ void print_label_to_component_map(LabelToComponentMap map) {
     printf("}\n");
 }
 
+// Getter usado para o valor do index que 
+// representa o componente atravez do indice do nó 
 char *get_value_by_key(LabelToComponentMap map, const char *key) {
     for (int i = 0; i < map.size; i++) {
         if (strcmp(map.keys[i], key) == 0) {
@@ -358,7 +393,9 @@ char *get_value_by_key(LabelToComponentMap map, const char *key) {
     }
     return NULL;
 }
-
+// A partir do mapas que identificam os componentes, do grafo original, 
+// da lista de componentes fortementes conexos faz a ligação dos labels dos componentes conexos 
+// com suas respectivas conexões baseando-se no grafo original 
 Graph add_vertices_on_scc_graph(Graph g, Graph scc_graph, char ***scc_list_label, int **scc_list_index, struct ClusterResult cluster_result, LabelToComponentMap map) {
     for (int i = 0; i < cluster_result.count; i++) {
         int *component_orig = scc_list_index[i];
@@ -387,6 +424,7 @@ Graph add_vertices_on_scc_graph(Graph g, Graph scc_graph, char ***scc_list_label
     return scc_graph;
 }
 
+// Verifica se o grafo é fortemente conexo 
 void isGraphScc(Graph scc_graph){
     
     if (scc_graph->V == 1){
@@ -397,7 +435,7 @@ void isGraphScc(Graph scc_graph){
 
     printf("%i \n", scc_graph->V);
 }
-// Topological search function
+// Faz a ordenação topologica usando a DFS ja exitente 
 void topological_search(Graph g) {
     int num_vertices = g->V;
     int* result = malloc(num_vertices * sizeof(int));
