@@ -7,6 +7,7 @@
 #include "index.c"
 
 Graph test(int size);
+void topological_search(Graph g);
 
 // Guarda resultado dos nos que coompoem um grafo fortemente conexo
 struct ClusterResult {
@@ -198,6 +199,7 @@ LabelToComponentMap set_components_label_to_original_graph_nodes(Graph g, char *
 void print_label_to_component_map(LabelToComponentMap map);
 char *get_value_by_key(LabelToComponentMap map, const char *key);
 Graph add_vertices_on_scc_graph(Graph g, Graph scc_graph, char ***scc_list_label, int **scc_list_index, struct ClusterResult cluster_result, LabelToComponentMap map);
+void isGraphScc(Graph scc_graph);
 
 void getStronglyConnectedComponentsKosarujoAproach(Graph g) {
     // First step: get finish times
@@ -240,13 +242,19 @@ void getStronglyConnectedComponentsKosarujoAproach(Graph g) {
     
     // TODO : VERIFICAR SE FUNCIONA SOMENTE COM INDEXES
     Graph scc_graph = GRAPHinit(clusterResultConv.count);
+
+    isGraphScc(scc_graph);
     
     // TODO : VERIFICAR SE FUNCIONA SOMENTE COM INDEXES
     setLabels(scc_graph, stringified_components, clusterResultConv.count);
     
     // TODO : VERIFICAR SE FUNCIONA SOMENTE COM INDEXES
     Graph updated_scc_graph = add_vertices_on_scc_graph(g, scc_graph, clusterResultConv.labels, clusterResult.stronglyConnectedComponents, clusterResult, label_to_component_map);
-    /**/
+    
+    
+    
+
+        /**/
 }
 
 struct ClusterResult convert_list_numbers_to_labels(Graph G, struct ClusterResult cluster_result) {
@@ -374,8 +382,35 @@ Graph add_vertices_on_scc_graph(Graph g, Graph scc_graph, char ***scc_list_label
             }
         }
     }
+    topological_search(scc_graph);
     imprimeGrafo(scc_graph);
     return scc_graph;
+}
+
+void isGraphScc(Graph scc_graph){
+    
+    if (scc_graph->V == 1){
+        printf("Sim \n");
+    }else{
+        printf("Não \n");
+    }
+
+    printf("%i \n", scc_graph->V);
+}
+// Topological search function
+void topological_search(Graph g) {
+    int num_vertices = g->V;
+    int* result = malloc(num_vertices * sizeof(int));
+    int* stack = malloc(num_vertices * sizeof(int));
+
+    dfs_traversal(g, 0, result, stack);
+
+    for (int i = 0; i < g->V; i++) {
+        printf("%s ", GRAPHgetLabelByIndex(g, result[i]));
+    }
+    printf("\n");
+
+    free(stack);
 }
 
 

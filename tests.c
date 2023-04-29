@@ -327,32 +327,32 @@ int main() {
 
     // Graph g = testA();
 
-    // Graph g = testB_letras();
-    // Graph g = testB();
-    // Graph g = testC();
-    // Graph g = testC_letras();
-    // Graph g = testD_exemplo1();
-    // Graph g = testE();
-    // Graph g = textF_exemplo2();
-    // Graph g = textG();
-    // Graph g = textH_exemplo4();
-    // Graph g = testC_selfloop();
-    // Graph g = testI();
+    // Graph rg = testB_letras();
+    // Graph rg = testB();
+    // Graph rg = testC();
+    // Graph rg = testC_letras();
+     Graph rg = testD_exemplo1();
+    // Graph rg = testE();
+    // Graph rg = textF_exemplo2();
+    // Graph rg = textG();
+    // Graph rg = textH_exemplo4();
+    // Graph rg = testC_selfloop();
+    // Graph rg = testI();
     //Graph rg = testJ();
 
 
    //Teste para criação de grafo aleatorio 
 
     //Numero de vertices que o nosso grafo vai ter
-   int n_vertex = 10;
+   int n_vertex = 100;
    // Numero de arestas que o nosso grafo vai ter
-   int n_links = 20;
+   int n_links = 200;
 
-   Graph rg = GRAPHrand(n_vertex, n_links);
+   //Graph rg = GRAPHrand(n_vertex, n_links);
 
-   printf(" \n EP 1 \n \n ");
+   printf("Strongly connected Graph \n");
 
-   imprimeGrafo(rg);
+   //imprimeGrafo(rg);
 
    getStronglyConnectedComponentsKosarujoAproach(rg);
 

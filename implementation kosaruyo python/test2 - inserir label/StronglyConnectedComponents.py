@@ -7,18 +7,18 @@ class StronglyConnectedComponents:
         stack = []
         result = ""
         result, stack = self.dfs_traversal(g, source )
-        print("THIS IS THE STACK : ",stack)
         stronglyConnectedComponentsByLoop = []
         graphReversed,  stronglyConnectedComponentsByLoop = self.invertEdges(g, source)
         stronglyConnectedComponentsExtra = self.clusterizeStronglyConnectedComponents(graphReversed, stack)
         
         stronglyConnectedComponents = stronglyConnectedComponentsByLoop + stronglyConnectedComponentsExtra
-        print("stronglyConnectedComponents")
-        print(stronglyConnectedComponents);
+        #print("stronglyConnectedComponents")
+        #print(stronglyConnectedComponents);
         
         scc_list_conv = self.convert_list_numbers_to_chars( g, stronglyConnectedComponents )
         
-        print(scc_list_conv);
+        #print(scc_list_conv);
+
         self.isGraphScc(scc_list_conv, g) 
         self.getNumberOfComponents(scc_list_conv)
 
@@ -49,7 +49,8 @@ class StronglyConnectedComponents:
         # print("indexes_of_nodes_to_labels_of_scc")
         # print(indexes_of_nodes_to_labels_of_scc)
         scc_graph = self.add_vertices_on_scc_graph(g, scc_graph, scc_list_conv, scc_list ,indexes_of_nodes_to_labels_of_scc)
-        """"""
+        sorted_nodes = scc_graph.topological_sort()
+        print("Topological sort: ",sorted_nodes);
         scc_graph.print_graph()
         
     def stringfy_components(self, scc_list_conv):
@@ -61,7 +62,7 @@ class StronglyConnectedComponents:
             scc_list_conv_stringfied.append(component_stringfied)
             component_stringfied = ""
 
-        print("Stringfied components : ",scc_list_conv_stringfied);
+        #print("Stringfied components : ",scc_list_conv_stringfied);
         return scc_list_conv_stringfied
     
     # CONVERTED
@@ -145,7 +146,7 @@ class StronglyConnectedComponents:
                     graphReversed.add_edge_by_index(temp.data, current)
                 temp = temp.next_element
 
-        graphReversed.print_graph()
+        #graphReversed.print_graph()
         return graphReversed, stronglyConnectedComponents
 
 
@@ -207,8 +208,8 @@ class StronglyConnectedComponents:
                     if str(idx) == str(node_orig):
                         indexes_of_nodes_to_labels_of_scc_T[orig_label] = component_orig_char
 
-        print("indexes_of_nodes_to_labels_of_scc_T")
-        print(indexes_of_nodes_to_labels_of_scc_T)
+        #print("indexes_of_nodes_to_labels_of_scc_T")
+        #print(indexes_of_nodes_to_labels_of_scc_T)
 
         
 

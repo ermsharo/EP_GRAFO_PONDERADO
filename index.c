@@ -228,7 +228,7 @@ void imprimeGrafo(Graph g)
    FILE *fp;
    fp = fopen("Grafo.dot", "a+");
    gerarTexto("Grafo.dot", "digraph{\n", fp);
-   printf("Vertices: %d, Arestas: %d \n", g->V, g->A);
+   //printf("Vertices: %d, Arestas: %d \n", g->V, g->A);
 
    int i;
    char resultado[256];
@@ -305,6 +305,7 @@ void free_numbers_array(char** numbers_array, int N) {
     }
     free(numbers_array);
 }
+
 // int main()
 // {
 //    // Numero de vertices que o nosso grafo vai ter

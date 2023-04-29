@@ -277,15 +277,16 @@ def testI():
 #g = testC_letras()
 #g = testD_exemplo1()
 #g = testE()
-#g = textF_exemplo2()
+g = textF_exemplo2()
 #g = textG()
 #g = textH_exemplo4()
 #g = testC_selfloop()
-g = testK()
+#g = testK()
 
 
 g.print_graph()
 g.print_graph_indexes()
+
 scc = StronglyConnectedComponents()
 
 scc.getStronglyConnectedComponentsKosarujoAproach(g,0)

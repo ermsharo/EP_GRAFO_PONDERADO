@@ -99,3 +99,23 @@ class Graph:
         print(self.index_to_label)
         print()
     
+    def topological_sort(self):
+        visited = [False] * self.vertices
+        stack = []
+
+        for i in range(self.vertices):
+            if not visited[i]:
+                self.topological_sort_util(i, visited, stack)
+
+        return [self.index_to_label[node] for node in stack[::-1]]
+
+    def topological_sort_util(self, node, visited, stack):
+        visited[node] = True
+        neighbour = self.array[node].get_head()
+
+        while neighbour is not None:
+            if not visited[neighbour.data]:
+                self.topological_sort_util(neighbour.data, visited, stack)
+            neighbour = neighbour.next_element
+
+        stack.append(node)
