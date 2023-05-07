@@ -1,8 +1,12 @@
 digraph{
-V0 -> V2[label=fg]; 
- V0 -> V1[label=dc]; 
- V1 -> V2[label=fg]; 
- V1 -> V3[label=h]; 
- V2 -> V3[label=h]; 
+V1 -> V8[label=shoes]; 
+ V2 -> V6[label=belt]; 
+ V2 -> V3[label=tie]; 
+ V3 -> V7[label=jacket]; 
+ V4 -> V5[label=pants]; 
+ V4 -> V8[label=shoes]; 
+ V5 -> V6[label=belt]; 
+ V5 -> V8[label=shoes]; 
+ V6 -> V7[label=jacket]; 
   
 }

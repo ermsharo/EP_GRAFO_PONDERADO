@@ -4,6 +4,7 @@
 #include <string.h>
 
 #include "StronglyConnectedComponents.c"
+#include "ioFiles.c"
 
 Graph testA() {
     Graph g = GRAPHinit(6);
