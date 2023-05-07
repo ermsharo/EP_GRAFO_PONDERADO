@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
+#include <time.h>
 
 #include "StronglyConnectedComponents.c"
 
@@ -374,43 +375,42 @@ Graph testM() {
 
 void redirect_stdout_to_file(const char *filename);
 void run_tests();
+void random_tests();
 
 int main() {
 
-    //redirect_stdout_to_file("output.txt");
-
-
-    //Graph rg = testA();
-    // Graph rg = testB_letras();
-    // Graph rg = testB();
-    // Graph rg = testC();
-    // Graph rg = testC_letras();
-     Graph rg = testD_exemplo1();
-    // Graph rg = testE();
-    // Graph rg = textF_exemplo2();
-    // Graph rg = textG();
-    // Graph rg = textH_exemplo4();
-    // Graph rg = testC_selfloop();
-    // Graph rg = testI();
-    //Graph rg = testJ();
-
-
-   //Teste para criação de grafo aleatorio 
-
-    //Numero de vertices que o nosso grafo vai ter
-   int n_vertex = 100;
-   // Numero de arestas que o nosso grafo vai ter
-   int n_links = 200;
-
-   //Graph rg = GRAPHrand(n_vertex, n_links);
-
-   //imprimeGrafo(rg);
-   
-   // executeKosarajuApproach(1, rg);
-
-   run_tests();
+    random_tests();
+    run_tests();
 
     return 0;
+}
+
+void random_tests() {
+
+    printf("Random tests \n");
+    srand(time(NULL)); // Seed the random number generator with the current time
+
+    int num_tests = 5;
+    int max_vertices = 200;
+    int max_edges = 200;
+
+    for (int i = 0; i < num_tests; i++) {
+        int n_vertex = rand() % (max_vertices + 1); // Random number of vertices between 0 and max_vertices
+        int n_links = rand() % (max_edges + 1);    // Random number of edges between 0 and max_edges
+
+        printf("Test %d: %d vertices, %d edges\n", i + 1, n_vertex, n_links);
+
+        Graph rg = GRAPHrand(n_vertex, n_links);
+        int approach = 1; 
+        printf("Random running for approach 1 \n");
+        executeKosarajuApproach(approach, rg);
+        printf("\n \n");
+        printf("Random running for approach 2 \n");
+        approach = 2;
+        executeKosarajuApproach(approach, rg);
+        printf("\n \n");
+
+    }
 }
 
 void run_tests() {
