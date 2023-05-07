@@ -236,7 +236,7 @@ void runBasedInput(char* filename)
         // printf("}\n");
     }
 
-    generateGraphFile(g);
+    //generateGraphFile(g);
 
     if(optionValue == 1){
         getStronglyConnectedComponentsKosarujoAproachB(g);
