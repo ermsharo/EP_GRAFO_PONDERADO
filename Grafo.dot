@@ -1,5 +1,12 @@
 digraph{
-V1 V2[label=E]; 
- V2 V3[label=F]; 
+undershorts -> shoes 
+ undershorts -> pants 
+ pants -> shoes 
+ pants -> belt 
+ belt -> jacket 
+ shirt -> tie 
+ shirt -> belt 
+ tie -> jacket 
+ socks -> shoes 
   
 }

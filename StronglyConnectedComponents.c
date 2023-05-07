@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include <string.h>
 
-#include "index.c"
+#include "Grafo.c"
 
 void topological_search(Graph g);
 
@@ -274,7 +274,47 @@ Graph add_vertices_on_scc_graph(Graph g, Graph scc_graph, char ***scc_list_label
 void isGraphScc(Graph scc_graph);
 
 void getStronglyConnectedComponentsKosarajuAproachA(Graph g) {
-    printf("Running approach A");
+    // Etapa 1 : Calcular A^T
+    int result[g->V];
+    int num_of_vertices = g->V;
+    int stack[num_of_vertices];
+    memset(result, -1, sizeof(result));
+    Graph graphReversed = invertEdgesOfGraph(g, 0);
+    
+    // Etapa 2 : Chamar DFS (V, A^T) para calcular f[u]
+    dfs_traversal(graphReversed, 0, result, stack);
+    int invertedOrder[g->V];
+    for (int i = 0; i < g->V; i++) {
+        invertedOrder[i] = stack[g->V - i - 1];
+    }
+    
+    // Etapa 3 : Chamar DFS (V, A) considerando no laço principal
+    struct ClusterResult clusterResult = findStronglyConnectedComponentsB(g, g->V, invertedOrder);
+    
+    
+    // Combine strongly connected components
+    struct ClusterResult clusterResultConv = convert_list_numbers_to_labels(g, clusterResult);
+    
+    //printLabelClusterResult(clusterResultConv);
+
+    // Check if the graph is strongly connected
+    // isGraphScc(clusterResultConv, g);
+
+    // Cria uma string para ser usada como label de cada componente  
+    char **stringified_components = stringify_components(clusterResultConv);
+
+    // Seta cada label do grafo original para seu respectivo label do components a qual pertence
+    LabelToComponentMap label_to_component_map = set_components_label_to_original_graph_nodes(g, stringified_components, clusterResult);
+    
+    // Cria grafo fortemente conexo
+    Graph scc_graph = GRAPHinit(clusterResultConv.count);
+
+    // Checa se grafo é fortemente conexo 
+    isGraphScc(scc_graph);
+    setLabels(scc_graph, stringified_components, clusterResultConv.count);
+
+    // Liga os o grafo fortemente conexos usando o grafo original 
+    Graph updated_scc_graph = add_vertices_on_scc_graph(g, scc_graph, clusterResultConv.labels, clusterResult.stronglyConnectedComponents, clusterResult, label_to_component_map);
 }
 
 
@@ -519,3 +559,15 @@ void executeKosarajuApproach(int approach, Graph rg) {
 }
 
 
+// int main()
+// {
+//    // Numero de vertices que o nosso grafo vai ter
+//    int n_vertex = 20;
+//    // Numero de arestas que o nosso grafo vai ter
+//    int n_links = 20;
+
+//    // Graph g = GRAPHinit(n_vertex);
+//    Graph rg = GRAPHrand(n_vertex, n_links);
+
+//    return 0;
+// }

@@ -7,6 +7,7 @@
 #define MAX_ARRAY_LEN 1000
 
 #include "StronglyConnectedComponents.c"
+//#include "Grafo.c"
 
 
 char **getWordsEndingWith(char **array, char endChar, int size)
@@ -179,8 +180,7 @@ void runBasedInput(char* filename)
     if (originalWords == NULL)
     {
         printf("Failed to read words from file\n");
-        return 1;
-    }
+    } 
 
     // printf("The words in the file are:\n");
     // for (int i = 0; i < originalNumWords; i++)
@@ -189,7 +189,6 @@ void runBasedInput(char* filename)
     // }
 
     int optionValue = atoi(originalWords[originalNumWords-1]);
-    printf(" \n \n  Option %i \n \n", optionValue);
 
     char **words = remove_first_last(originalWords,originalNumWords);
     int numWords = originalNumWords-2;
@@ -237,16 +236,12 @@ void runBasedInput(char* filename)
         // printf("}\n");
     }
 
-
-   
-   
-
-    imprimeGrafo(g);
+    generateGraphFile(g);
 
     if(optionValue == 1){
-    getStronglyConnectedComponentsKosarujoAproach(g);
+        getStronglyConnectedComponentsKosarujoAproachB(g);
     }else if(optionValue == 2){
-   getStronglyConnectedComponentsKosarujoAproach(g);
+        getStronglyConnectedComponentsKosarujoAproachB(g);
     }else{
         printf("Valor de opção invalido");
     }
@@ -254,12 +249,11 @@ void runBasedInput(char* filename)
   
 }
 
-
-
 int main()
 {
-   
-runBasedInput("entrada.txt");
+    redirect_stdout_to_file("output.txt");
+
+    runBasedInput("entrada.txt");
 
     return 0;
 }
