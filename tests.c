@@ -2,9 +2,12 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
+#include <time.h>
 
 #include "StronglyConnectedComponents.c"
 #include "ioFiles.c"
+
+typedef Graph (*test_function)();
 
 Graph testA() {
     Graph g = GRAPHinit(6);
@@ -21,7 +24,7 @@ Graph testA() {
     GRAPHinsertArcByLabel(g, "e", "d");
     GRAPHinsertArcByLabel(g, "d", "e");
 
-    imprimeGrafo(g);
+    //imprimeGrafo(g);
 
     return g;
 }
@@ -45,7 +48,7 @@ Graph testB_letras() {
     GRAPHinsertArcByLabel(g, "h", "g");
     GRAPHinsertArcByLabel(g, "h", "i");
 
-    imprimeGrafo(g);
+    //imprimeGrafo(g);
 
     return g;
 }
@@ -68,7 +71,7 @@ Graph testB() {
     GRAPHinsertArcByLabel(g, "7", "6");
     GRAPHinsertArcByLabel(g, "7", "8");
 
-    imprimeGrafo(g);
+    //imprimeGrafo(g);
 
     return g;
 }
@@ -93,7 +96,7 @@ Graph testC() {
     GRAPHinsertArcByLabel(g, "9", "6");
     GRAPHinsertArcByLabel(g, "9", "10");
 
-    imprimeGrafo(g);
+    //imprimeGrafo(g);
 
     return g;
 }
@@ -118,7 +121,7 @@ Graph testC_letras() {
     GRAPHinsertArcByLabel(g, "j", "g");
     GRAPHinsertArcByLabel(g, "j", "k");
 
-    imprimeGrafo(g);
+    //imprimeGrafo(g);
 
     return g;
 }
@@ -144,7 +147,7 @@ Graph testD_exemplo1() {
     GRAPHinsertArcByLabel(g, "g", "f");
     GRAPHinsertArcByLabel(g, "g", "h");
 
-    imprimeGrafo(g);
+    // imprimeGrafo(g);
 
     return g;
 }
@@ -169,7 +172,7 @@ Graph testE() {
     GRAPHinsertArcByLabel(g, "guan", "finla");
     GRAPHinsertArcByLabel(g, "guan", "hondur");
 
-    imprimeGrafo(g);
+    //imprimeGrafo(g);
 
     return g;
 }
@@ -190,7 +193,7 @@ Graph textF_exemplo2() {
     GRAPHinsertArcByLabel(g, "tie", "jacket");
     GRAPHinsertArcByLabel(g, "socks", "shoes");
 
-    imprimeGrafo(g);
+    //imprimeGrafo(g);
 
     return g;
 }
@@ -211,7 +214,7 @@ Graph textG() {
     GRAPHinsertArcByLabel(g, "e", "f");
     GRAPHinsertArcByLabel(g, "g", "h");
 
-    imprimeGrafo(g);
+    //imprimeGrafo(g);
 
     return g;
 }
@@ -228,7 +231,7 @@ Graph textH_exemplo4() {
     GRAPHinsertArcByLabel(g, "c", "e");
     GRAPHinsertArcByLabel(g, "e", "a");
 
-    imprimeGrafo(g);
+    //imprimeGrafo(g);
 
     return g;
 }
@@ -245,7 +248,7 @@ Graph textJ() {
     GRAPHinsertArcByLabel(g, "c", "e");
     GRAPHinsertArcByLabel(g, "e", "a");
 
-    imprimeGrafo(g);
+    //imprimeGrafo(g);
 
     return g;
 }
@@ -270,7 +273,7 @@ Graph testC_selfloop() {
     GRAPHinsertArcByLabel(g, "j", "g");
     GRAPHinsertArcByLabel(g, "j", "j");
 
-    imprimeGrafo(g);
+    //imprimeGrafo(g);
 
     return g;
 }
@@ -287,7 +290,7 @@ Graph testI() {
     GRAPHinsertArcByLabel(g, "3", "4");
     GRAPHinsertArcByLabel(g, "3", "2");
 
-    imprimeGrafo(g);
+    //imprimeGrafo(g);
 
     return g;
 }
@@ -319,43 +322,151 @@ Graph testJ() {
     GRAPHinsertArcByLabel(g, "9", "3");
     GRAPHinsertArcByLabel(g, "9", "7");
 
-    imprimeGrafo(g);
+    //imprimeGrafo(g);
+
+    return g;
+}
+Graph testK() {
+    Graph g = GRAPHinit(4);
+
+    char *labels[] = { "A", "B", "C", "D" };
+    setLabels(g, labels, 4);
+
+    GRAPHinsertArcByLabel(g, "A", "B");
+    GRAPHinsertArcByLabel(g, "B", "C");
+    GRAPHinsertArcByLabel(g, "C", "D");
+    GRAPHinsertArcByLabel(g, "D", "A");
+
+    return g;
+}
+Graph testL() {
+    Graph g = GRAPHinit(6);
+
+    char *labels[] = { "A", "B", "C", "D", "E", "F" };
+    setLabels(g, labels, 6);
+
+    GRAPHinsertArcByLabel(g, "A", "B");
+    GRAPHinsertArcByLabel(g, "B", "C");
+    GRAPHinsertArcByLabel(g, "C", "A");
+
+    GRAPHinsertArcByLabel(g, "D", "E");
+    GRAPHinsertArcByLabel(g, "E", "F");
+    GRAPHinsertArcByLabel(g, "F", "D");
+
+    return g;
+}
+Graph testM() {
+    Graph g = GRAPHinit(8);
+
+    char *labels[] = { "A", "B", "C", "D", "E", "F", "G", "H" };
+    setLabels(g, labels, 8);
+
+    GRAPHinsertArcByLabel(g, "A", "B");
+    GRAPHinsertArcByLabel(g, "B", "C");
+    GRAPHinsertArcByLabel(g, "C", "A");
+
+    GRAPHinsertArcByLabel(g, "D", "E");
+    GRAPHinsertArcByLabel(g, "E", "F");
+
+    GRAPHinsertArcByLabel(g, "G", "H");
+    GRAPHinsertArcByLabel(g, "H", "G");
 
     return g;
 }
 
+void redirect_stdout_to_file(const char *filename);
+void run_tests();
+void random_tests();
+
 int main() {
 
-    // Graph g = testA();
-
-    // Graph rg = testB_letras();
-    // Graph rg = testB();
-    // Graph rg = testC();
-    // Graph rg = testC_letras();
-     Graph rg = testD_exemplo1();
-    // Graph rg = testE();
-    // Graph rg = textF_exemplo2();
-    // Graph rg = textG();
-    // Graph rg = textH_exemplo4();
-    // Graph rg = testC_selfloop();
-    // Graph rg = testI();
-    //Graph rg = testJ();
-
-
-   //Teste para criação de grafo aleatorio 
-
-    //Numero de vertices que o nosso grafo vai ter
-   int n_vertex = 100;
-   // Numero de arestas que o nosso grafo vai ter
-   int n_links = 200;
-
-   //Graph rg = GRAPHrand(n_vertex, n_links);
-
-   printf("Strongly connected Graph \n");
-
-   //imprimeGrafo(rg);
-
-   getStronglyConnectedComponentsKosarujoAproach(rg);
+    random_tests();
+    run_tests();
 
     return 0;
+}
+
+void random_tests() {
+
+    printf("Random tests \n");
+    srand(time(NULL)); // Seed the random number generator with the current time
+
+    int num_tests = 5;
+    int max_vertices = 200;
+    int max_edges = 200;
+
+    for (int i = 0; i < num_tests; i++) {
+        int n_vertex = rand() % (max_vertices + 1); // Random number of vertices between 0 and max_vertices
+        int n_links = rand() % (max_edges + 1);    // Random number of edges between 0 and max_edges
+
+        printf("Test %d: %d vertices, %d edges\n", i + 1, n_vertex, n_links);
+
+        Graph rg = GRAPHrand(n_vertex, n_links);
+        int approach = 1; 
+        printf("Random running for approach 1 \n");
+        executeKosarajuApproach(approach, rg);
+        printf("\n \n");
+        printf("Random running for approach 2 \n");
+        approach = 2;
+        executeKosarajuApproach(approach, rg);
+        printf("\n \n");
+
+    }
+}
+
+void run_tests() {
+    test_function tests[] = {
+        //testA,
+        //testB_letras,
+        //testB,
+       // testC,
+        //testC_letras,
+        //testD_exemplo1,
+        //testE,
+       // textF_exemplo2,
+        //textG,
+        //textH_exemplo4,
+       // testC_selfloop,
+       // testI,
+       // testJ,
+        testK,
+        testL,
+        testM
+    };
+
+    printf("TESTS FOR APPROACH 1 \n");
+
+    int num_tests = sizeof(tests) / sizeof(test_function);
+    int approach = 1; // Change this value to choose the desired approach: 1 for Approach A, 2 for Approach B
+
+    for (int i = 0; i < num_tests; i++) {
+        printf("Running test %d:\n", i + 1);
+        Graph rg = tests[i](); // Call the test function
+        printf("\n");
+
+        // Call the executeKosarajuApproach function for the current graph
+        executeKosarajuApproach(approach, rg);
+        printf("\n");
+    }
+
+    printf("TESTS FOR APPROACH 2 \n");
+
+    approach = 2;
+
+    for (int i = 0; i < num_tests; i++) {
+        printf("Running test %d:\n", i + 1);
+        Graph rg = tests[i](); // Call the test function
+        printf("\n");
+
+        // Call the executeKosarajuApproach function for the current graph
+        executeKosarajuApproach(approach, rg);
+        printf("\n");
+    }
+}
+
+void redirect_stdout_to_file(const char *filename) {
+    if (freopen(filename, "w", stdout) == NULL) {
+        fprintf(stderr, "Error redirecting stdout to file: %s\n", filename);
+        exit(1);
+    }
 }

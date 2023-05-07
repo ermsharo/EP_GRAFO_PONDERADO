@@ -1,0 +1,310 @@
+from Graph import Graph
+from Node import Node
+from Graph import LinkedList
+from StronglyConnectedComponents import StronglyConnectedComponents
+
+def testA():
+    g =Graph(6)
+    g.set_labels(['0','1','2','3','4','5'])
+    g.add_edge('0', '1')
+    g.add_edge('0', '2')
+    g.add_edge('1', '2')
+    g.add_edge('1', '3')
+    g.add_edge('2', '1')
+    g.add_edge('3', '5')
+    g.add_edge('3', '4')
+    g.add_edge('4', '3')
+
+    return g
+
+def testA_letras():
+    g = Graph(6)
+    g.set_labels(['a','b','c','d','e','f'])
+    g.add_edge('a', 'b')
+    g.add_edge('a', 'c')
+    g.add_edge('b', 'c')
+    g.add_edge('b', 'e')
+    g.add_edge('c', 'b')
+    g.add_edge('e', 'f')
+    g.add_edge('e', 'd')
+    g.add_edge('d', 'e')
+
+    return g
+
+def testB():
+
+    g = Graph(9)
+    g.set_labels(['0','1','2','3','4','5','6','7','8'])
+    g.add_edge('0', '1')
+    g.add_edge('1', '2')
+    g.add_edge('2', '3')
+    g.add_edge('3', '0')
+    g.add_edge('2', '4')
+    g.add_edge('2', '3')
+    g.add_edge('4', '5')
+    g.add_edge('5', '6')
+    g.add_edge('6', '4')
+    g.add_edge('7', '6')
+    g.add_edge('7', '8')
+
+    return g
+
+
+def testC():
+
+    g = Graph(11)
+    g.set_labels(['0','1','2','3','4','5','6','7','8','9','10'])
+    g.add_edge('0', '1') 
+    g.add_edge('1', '2') 
+    g.add_edge('2', '0') 
+    g.add_edge('1', '3') 
+    g.add_edge('3', '4') 
+    g.add_edge('4', '5') 
+    g.add_edge('5', '3') 
+    g.add_edge('6', '5') 
+    g.add_edge('6', '7') 
+    g.add_edge('7', '8') 
+    g.add_edge('8', '9')
+    g.add_edge('9', '6')  
+    g.add_edge('9', '10') 
+    
+
+    return g
+
+def testC_letras():
+
+    g = Graph(11)
+    g.set_labels(['a','b','c','d','e','f','g','h','i','j','k'])
+    g.add_edge('a', 'b') 
+    g.add_edge('b', 'c') 
+    g.add_edge('c', 'a') 
+    g.add_edge('b', 'd') 
+    g.add_edge('d', 'e') 
+    g.add_edge('e', 'f') 
+    g.add_edge('f', 'd') 
+    g.add_edge('g', 'f') 
+    g.add_edge('g', 'h') 
+    g.add_edge('h', 'i') 
+    g.add_edge('i', 'j')
+    g.add_edge('j', 'g')  
+    g.add_edge('j', 'k') 
+    
+
+    return g
+
+
+#GRAFO ENUCIADO EP ex - 1
+def testD_exemplo1():
+    g = Graph(8)
+
+    g.set_labels(['a','b','c','d','e','f','g','h'])
+    g.add_edge('a', 'b')
+    g.add_edge('b', 'e')
+    g.add_edge('b', 'f')
+    g.add_edge('b', 'c')
+    g.add_edge('c', 'g')
+    g.add_edge('c', 'd')
+    g.add_edge('d', 'h')
+    g.add_edge('d', 'c')
+    g.add_edge('e', 'a')
+    g.add_edge('e', 'f')
+    g.add_edge('f', 'g')
+    g.add_edge('g', 'f')
+    g.add_edge('g', 'h')
+
+    return g
+
+
+
+#GRAFO ENUCIADO EP ex - 1 - Com labels maiores
+def testE():
+    g = Graph(8)
+
+    g.set_labels(['apoli','brexit','cuba','dina','eritr','finla','guan','hondur'])
+    g.add_edge('apoli', 'brexit')
+    g.add_edge('brexit', 'eritr')
+    g.add_edge('brexit', 'finla')
+    g.add_edge('brexit', 'cuba')
+    g.add_edge('cuba', 'guan')
+    g.add_edge('cuba', 'dina')
+    g.add_edge('dina', 'hondur')
+    g.add_edge('dina', 'cuba')
+    g.add_edge('eritr', 'apoli')
+    g.add_edge('eritr', 'finla')
+    g.add_edge('finla', 'guan')
+    g.add_edge('guan', 'finla')
+    g.add_edge('guan', 'hondur')
+
+    return g
+
+#GRAFO ENUCIADO EP exemplo - 2
+def textF_exemplo2():
+    g = Graph(9)
+
+    g.set_labels(['undershorts','socks','pants','shoes','belt','shirt','tie','jacket','watch'])
+
+    g.add_edge('undershorts', 'pants')
+    g.add_edge('undershorts', 'shoes')
+    g.add_edge('pants', 'belt')
+    g.add_edge('pants', 'shoes')
+    g.add_edge('belt', 'jacket')
+    g.add_edge('shirt', 'belt')
+    g.add_edge('shirt', 'tie')
+    g.add_edge('tie', 'jacket')
+    g.add_edge('socks', 'shoes')
+
+    return g
+
+
+#GRAFO ENUCIADO EP exemplo - 2 - com nomes substituidos por letras 
+def textG():
+    g = Graph(9)
+
+    g.set_labels(['a','b','c','d','e','f','g','h','i'])
+
+    g.add_edge('a', 'b')
+    g.add_edge('a', 'h')
+    g.add_edge('b', 'h')
+    g.add_edge('b', 'c')
+    g.add_edge('c', 'f')
+    g.add_edge('d', 'e')
+    g.add_edge('d', 'c')
+    g.add_edge('e', 'f')
+    g.add_edge('g', 'h')
+
+    return g
+
+def textH_exemplo4():
+    g = Graph(4)
+
+    g.set_labels(['a','b','c','e'])
+
+    g.add_edge('a', 'b')
+    g.add_edge('a', 'c')
+    g.add_edge('b', 'e')
+    g.add_edge('c', 'e')
+    g.add_edge('e', 'a')
+
+    return g
+
+def textJ():
+    g = Graph(4)
+
+    g.set_labels(['a','b','c','e'])
+
+    g.add_edge('a', 'b')
+    g.add_edge('a', 'a')
+    g.add_edge('b', 'e')
+    g.add_edge('c', 'e')
+    g.add_edge('e', 'a')
+
+    return g
+
+def testC_selfloop():
+
+    g = Graph(11)
+    g.set_labels(['a','b','c','d','e','f','g','h','i','j','k'])
+    g.add_edge('a', 'b') 
+    g.add_edge('b', 'c') 
+    g.add_edge('c', 'a') 
+    g.add_edge('b', 'd') 
+    g.add_edge('d', 'e') 
+    g.add_edge('e', 'f') 
+    g.add_edge('f', 'd') 
+    g.add_edge('g', 'f') 
+    g.add_edge('g', 'h') 
+    g.add_edge('h', 'i') 
+    g.add_edge('i', 'j')
+    g.add_edge('j', 'g')  
+    g.add_edge('j', 'j') 
+    
+
+    return g
+
+def testK():
+    g = Graph(10)
+    g.set_labels(['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'])
+    g.add_edge('0', '5')
+    g.add_edge('0', '6')
+    g.add_edge('0', '1')
+    g.add_edge('2', '9')
+    g.add_edge('2', '0')
+    g.add_edge('3', '0')
+    g.add_edge('3', '5')
+    g.add_edge('4', '7')
+    g.add_edge('4', '6')
+    g.add_edge('5', '9')
+    g.add_edge('5', '2')
+    g.add_edge('6', '7')
+    g.add_edge('6', '0')
+    g.add_edge('6', '9')
+    g.add_edge('7', '3')
+    g.add_edge('7', '4')
+    g.add_edge('8', '5')
+    g.add_edge('8', '0')
+    g.add_edge('9', '3')
+    g.add_edge('9', '7')
+
+    return g
+
+def testI():
+    g = Graph(11)
+    g.set_labels(['a','b','c','d','e','f','g','h','i','j','k'])
+    g.add_edge('a', 'j')
+    g.add_edge('a', 'b')
+    g.add_edge('a', 'c')
+    g.add_edge('b', 'c')
+    g.add_edge('b', 'k')
+    g.add_edge('c', 'e')   
+    g.add_edge('d', 'j')  
+    g.add_edge('d', 'g')
+    g.add_edge('e', 'a') 
+    g.add_edge('f', 'i') 
+    g.add_edge('f', 'd') 
+    g.add_edge('g', 'k')
+    g.add_edge('k', 'j')
+    g.add_edge('j', 'g')
+    g.add_edge('h', 'f')
+    g.add_edge('i', 'a')
+    g.add_edge('i', 'e')
+    g.add_edge('i', 'h')       
+
+    return g
+#g = testA()
+g = testA_letras()
+#g = testB()
+#g = testC() 
+#g = testC_letras()
+#g = testD_exemplo1()
+#g = testE()
+#g = textF_exemplo2()
+#g = textG()
+#g = textH_exemplo4()
+#g = testC_selfloop()
+#g = testK()
+
+test_functions = [testA, testA_letras, testB, testC, testC_letras, testD_exemplo1, testE, textF_exemplo2, textG,textH_exemplo4,testC_selfloop,testK]
+
+for i, test_func in enumerate(test_functions):
+    print(f"Running test {i+1}")
+
+    g = test_func()
+
+    g.print_graph()
+    g.print_graph_indexes()
+
+    scc = StronglyConnectedComponents(g,1)
+    scc = StronglyConnectedComponents(g,2)
+
+#scc.getStronglyConnectedComponentsKosarujoAproachA(g,0)
+#scc.getStronglyConnectedComponentsKosarujoAproachB(g,0)
+
+# visited = []
+# for i in range(g.get_number_of_vertices()):
+#     visited.append(False)
+
+# result, stackReturned, visited = scc.dfs_traversal_cluster(g, 1, visited);
+
+# print(result)
+
+# print(result)

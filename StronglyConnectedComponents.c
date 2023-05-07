@@ -213,6 +213,56 @@ struct ClusterResult findStronglyConnectedComponents(Graph g, int num_of_vertice
 
     return cluster_result;
 }
+
+struct ClusterResult findStronglyConnectedComponentsB(Graph g, int num_of_vertices, int *invertedOrder) {
+    bool visited[num_of_vertices];
+    memset(visited, false, sizeof(visited));
+
+    int **stronglyConnectedComponents = (int **)malloc(num_of_vertices * sizeof(int *));
+    int *component_sizes = (int *)malloc(num_of_vertices * sizeof(int));
+    int sc_components_count = 0;
+
+    int top = num_of_vertices - 1;
+
+    int result[num_of_vertices];
+    memset(result, -1, sizeof(result));
+
+    for (int i = 0; i < num_of_vertices; i++) {
+        int source = invertedOrder[i];
+
+        if (!visited[source]) {
+            memset(result, -1, sizeof(result));
+            dfs_traversal_cluster(g, source, visited, result);
+
+            int valid_elements_count = 0;
+            for (int i = 0; i < num_of_vertices; i++) {
+                if (result[i] != -1) {
+                    valid_elements_count++;
+                }
+            }
+
+            stronglyConnectedComponents[sc_components_count] = (int *)malloc(valid_elements_count * sizeof(int));
+            component_sizes[sc_components_count] = valid_elements_count;
+            int index = 0;
+            for (int i = 0; i < num_of_vertices; i++) {
+                if (result[i] != -1) {
+                    stronglyConnectedComponents[sc_components_count][index++] = result[i];
+                }
+            }
+
+
+            sc_components_count++;
+
+        }
+    }
+
+    struct ClusterResult cluster_result;
+    cluster_result.stronglyConnectedComponents = stronglyConnectedComponents;
+    cluster_result.component_sizes = component_sizes;
+    cluster_result.count = sc_components_count;
+
+    return cluster_result;
+}
 struct ClusterResult convert_list_numbers_to_labels(Graph G, struct ClusterResult cluster_result);
 void printLabelClusterResult(struct ClusterResult cluster_result);
 char **stringify_components(struct ClusterResult cluster_result);
@@ -223,8 +273,12 @@ char *get_value_by_key(LabelToComponentMap map, const char *key);
 Graph add_vertices_on_scc_graph(Graph g, Graph scc_graph, char ***scc_list_label, int **scc_list_index, struct ClusterResult cluster_result, LabelToComponentMap map);
 void isGraphScc(Graph scc_graph);
 
+void getStronglyConnectedComponentsKosarajuAproachA(Graph g) {
+    printf("Running approach A");
+}
 
-// Metodo principal do algoritimo de Kosarujo 
+
+// Metodo principal do algoritimo de Kosarujo Implementação B
 // Etapa 1 : Pega os tempos de fim de visita, usando uma DFS 
 // Etapa 2 : A partir do grafo original cria um mesmo grafo invertido 
 // Etapa 3 : Agrupa elements fazendo uma DFS nos nós do grafo invertido
@@ -233,7 +287,7 @@ void isGraphScc(Graph scc_graph);
 //  Na etapa 4 algumas conversoes e mapas são criados para facilitar a 
 //  ligação dos vertices do grafo fortemente conexo
 
-void getStronglyConnectedComponentsKosarujoAproach(Graph g) {
+void getStronglyConnectedComponentsKosarujoAproachB(Graph g) {
     // Etapa 1 : Pega os tempos de fim de visita, usando uma DFS 
     int result[g->V];
     memset(result, -1, sizeof(result));
@@ -298,7 +352,6 @@ struct ClusterResult convert_list_numbers_to_labels(Graph G, struct ClusterResul
 // Usado para printar os labels do agrupamento dos elementos fortemente conexos 
 // itera sobre o array
 void printLabelClusterResult(struct ClusterResult cluster_result) {
-    printf("Printing the strongly connected components:\n");
     for (int i = 0; i < cluster_result.count; i++) {
         printf("Component %d: [", i);
         for (int j = 0; j < cluster_result.component_sizes[i]; j++) {
@@ -331,7 +384,6 @@ char **stringify_components(struct ClusterResult cluster_result) {
 
 // Usado para printar uma lista de char que contem os labels do grafo fortemente conexo
 void print_stringified_components(char **stringified_components, int count) {
-    printf("Stringified components: [");
     for (int i = 0; i < count; i++) {
         printf("'%s'", stringified_components[i]);
         if (i < count - 1) {
@@ -424,6 +476,7 @@ Graph add_vertices_on_scc_graph(Graph g, Graph scc_graph, char ***scc_list_label
     return scc_graph;
 }
 
+// 
 // Verifica se o grafo é fortemente conexo 
 void isGraphScc(Graph scc_graph){
     
@@ -451,6 +504,18 @@ void topological_search(Graph g) {
     free(stack);
 }
 
-
+void executeKosarajuApproach(int approach, Graph rg) {
+    switch (approach) {
+        case 1:
+            getStronglyConnectedComponentsKosarajuAproachA(rg);
+            break;
+        case 2:
+            getStronglyConnectedComponentsKosarujoAproachB(rg);
+            break;
+        default:
+            printf("Invalid version of Kosaraju passed\n");
+            break;
+    }
+}
 
 
