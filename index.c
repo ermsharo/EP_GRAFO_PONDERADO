@@ -107,15 +107,7 @@ Graph GRAPHinit(int V)
    return G;
 }
 
-void GRAPHinsertArcByIndex(Graph G, vertex v, vertex w)
-{
-   for (link a = G->adj[v]; a != NULL; a = a->next)
-      if (a->w == w)
-         return;
-   G->adj[v] = NEWnode(w, G->adj[v]);
-   G->A++;
-}
-
+// Getter usado para pegar um determinado label a partir de um index
 int GRAPHgetIndexByLabel(Graph G, char *label)
 {
 
@@ -137,6 +129,7 @@ int GRAPHgetIndexByLabel(Graph G, char *label)
    return index;
 }
 
+// Pega uma conexão no grafo basada no index 
 char *GRAPHgetLabelByIndex(Graph G, int index)
 {
 
@@ -148,7 +141,17 @@ char *GRAPHgetLabelByIndex(Graph G, int index)
    return label;
 }
 
+// Pega uma conexão no grafo basada no index 
+void GRAPHinsertArcByIndex(Graph G, vertex v, vertex w)
+{
+   for (link a = G->adj[v]; a != NULL; a = a->next)
+      if (a->w == w)
+         return;
+   G->adj[v] = NEWnode(w, G->adj[v]);
+   G->A++;
+}
 
+// Insere uma conexão no grafo basada no label 
 void GRAPHinsertArcByLabel(Graph G, char *v_label, char *w_label)
 {
 
@@ -163,6 +166,9 @@ void GRAPHinsertArcByLabel(Graph G, char *v_label, char *w_label)
    G->A++;
 }
 
+// Apartir do array de labels passado, seta na mesma ordem 
+// estes aos arrays pertencentes ao grafo g, aos quais são 
+// usados para mapear os labels ao indexes e vice e versa
 void setLabels(Graph g, char **labels, int num_labels)
 {
    int i;
@@ -175,6 +181,8 @@ void setLabels(Graph g, char **labels, int num_labels)
    }
 }
 
+// Checa se uma adjacendia já não contem algum determinado label
+// Fazendo a verifição nó a nó da source passada 
 bool GRAPHnodeContains(Graph G, char *source, char *destination)
 {
    int source_index = GRAPHgetIndexByLabel(G, source);
@@ -220,6 +228,7 @@ vertex randV(Graph G)
    return r * G->V;
 }
 
+// Faz a impressão somente do labels de algum grafo g passado 
 void imprimeGrafo(Graph g)
 {
 
@@ -228,20 +237,19 @@ void imprimeGrafo(Graph g)
    FILE *fp;
    fp = fopen("Grafo.dot", "a+");
    gerarTexto("Grafo.dot", "digraph{\n", fp);
-   //printf("Vertices: %d, Arestas: %d \n", g->V, g->A);
 
    int i;
    char resultado[256];
    for (i = 0; i < g->V; i++)
    {
       // Gerando os vertices
-      printf("v( %s )", g->index_to_label[i]);
+      printf("%s:", g->index_to_label[i]); // Removed the space before the colon
       link LINK = g->adj[i];
       while (LINK)
       {
-         sprintf(resultado, "V%i -> V%i[label=%s]; \n ", i, LINK->w, g->index_to_label[LINK->w]);
+         sprintf(resultado, "V%i V%i[label=%s]; \n ", i, LINK->w, g->index_to_label[LINK->w]);
          gerarTexto("Grafo.dot", resultado, fp);
-         printf("->(%s)", g->index_to_label[LINK->w]);
+         printf(" %s;", g->index_to_label[LINK->w]); // Added a space before the label and removed the space before the semicolon
          LINK = LINK->next;
       }
       printf("\n");
@@ -250,6 +258,7 @@ void imprimeGrafo(Graph g)
    fclose(fp);
 }
 
+// Faz a impressão somente do indexes de algum grafo g passado 
 void imprimeGrafoIndexes(Graph g)
 {
    int i;
@@ -270,8 +279,6 @@ void imprimeGrafoIndexes(Graph g)
    }
 }
 
-// --- Remover funcoes daqui de baixo
-
 void printBothArraysLabelsToIndexAndIndexToLabel(Graph G)
 {
    printf("\nlabels_to_index:\n");
@@ -287,6 +294,7 @@ void printBothArraysLabelsToIndexAndIndexToLabel(Graph G)
    printf("\n");
 }
 
+// Gera um array de chars até o numero N passado no paramentro
 char** generate_numbers_array(int N) {
     int max_digits = snprintf(NULL, 0, "%d", N) + 1; // Get the maximum number of digits for N
 
@@ -299,6 +307,7 @@ char** generate_numbers_array(int N) {
     return numbers_array;
 }
 
+// Da um free em todos os indices do array passado
 void free_numbers_array(char** numbers_array, int N) {
     for (int i = 0; i <= N; i++) {
         free(numbers_array[i]);

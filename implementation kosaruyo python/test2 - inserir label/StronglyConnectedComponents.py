@@ -1,9 +1,63 @@
 from Graph import Graph
 
 class StronglyConnectedComponents:
+    def __init__(self,g,mode):
+        self.mode = mode
+
+        if mode == 1 :
+            self.getStronglyConnectedComponentsKosarujoAproachA(g,0)
+        elif mode == 2 :
+            self.getStronglyConnectedComponentsKosarujoAproachB(g,0)
+        else:
+            print("mode not found")
+        
+        print(self.mode)
+
+    def getStronglyConnectedComponentsKosarujoAproachA( self, g, source ):
+        stack = []
+        result = ""
+        # 1. Calcular A^T
+        graphReversed,  stronglyConnectedComponentsByLoop = self.invertEdges(g, source)
+        # 2. Chamar DFS (V, A^T) para calcular f[u]
+        result, stack = self.dfs_traversal(graphReversed, source )
+        invertedOrder = stack[::-1]
+        # 3. Chamar DFS (V, A) considerando no laço principal
+        stronglyConnectedComponentsExtra = self.clusterizeStronglyConnectedComponentsA(g, invertedOrder)
+
+        stronglyConnectedComponents = stronglyConnectedComponentsByLoop + stronglyConnectedComponentsExtra
+
+        scc_list_conv = self.convert_list_numbers_to_chars( g, stronglyConnectedComponents )
+        
+        #print(scc_list_conv);
+
+        self.isGraphScc(scc_list_conv, g) 
+        self.getNumberOfComponents(scc_list_conv)
+
+        self.create_scc_graphs(g,stronglyConnectedComponents)
+        
+
+    
+    def clusterizeStronglyConnectedComponentsA(self, g, invertedOrder):
+
+        stronglyConnectedComponents = []
+
+        visited = []
+        for i in range(g.get_number_of_vertices()):
+            visited.append(False)
+
+        for source in invertedOrder:
+            if ( visited[source] == False ):
+                # 4. Devolva os vértices de cada árvore resultante da linha 3 como uma componente fortemente conectada separada
+                result, stackReturned, visited = self.dfs_traversal_cluster(g, source, visited )
+    
+                stronglyConnectedComponents.append(result)
+
+        return stronglyConnectedComponents
+
+
 
     # Implementation of Kosarujo Algorithm
-    def getStronglyConnectedComponentsKosarujoAproach( self, g, source ):
+    def getStronglyConnectedComponentsKosarujoAproachB( self, g, source ):
         stack = []
         result = ""
         result, stack = self.dfs_traversal(g, source )
@@ -50,7 +104,7 @@ class StronglyConnectedComponents:
         # print(indexes_of_nodes_to_labels_of_scc)
         scc_graph = self.add_vertices_on_scc_graph(g, scc_graph, scc_list_conv, scc_list ,indexes_of_nodes_to_labels_of_scc)
         sorted_nodes = scc_graph.topological_sort()
-        print("Topological sort: ",sorted_nodes);
+        print(sorted_nodes)
         scc_graph.print_graph()
         
     def stringfy_components(self, scc_list_conv):

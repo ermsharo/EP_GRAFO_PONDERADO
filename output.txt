@@ -1,0 +1,23 @@
+This is from main.c
+v( a )->(c)->(b)
+v( b )->(e)->(c)
+v( c )->(b)
+v( d )->(e)
+v( e )->(d)->(f)
+v( f )
+Strongly connected Graph 
+Vertices: 6, Arestas: 8 
+v( 0 )
+v( 1 )->(2)->(0)
+v( 2 )->(1)->(0)
+v( 3 )->(4)
+v( 4 )->(3)->(1)
+v( 5 )->(4)
+[ 5 3 4 1 2 0 ]
+Não 
+4 
+a cb ed f 
+v( f )
+v( ed )->(f)
+v( cb )->(ed)
+v( a )->(cb)

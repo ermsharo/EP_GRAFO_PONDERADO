@@ -1,8 +1,5 @@
 digraph{
-V0 -> V2[label=fg]; 
- V0 -> V1[label=dc]; 
- V1 -> V2[label=fg]; 
- V1 -> V3[label=h]; 
- V2 -> V3[label=h]; 
+V1 V2[label=E]; 
+ V2 V3[label=F]; 
   
 }

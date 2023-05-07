@@ -271,25 +271,33 @@ def testI():
 
     return g
 #g = testA()
-#g = testA_letras()
+g = testA_letras()
 #g = testB()
 #g = testC() 
 #g = testC_letras()
 #g = testD_exemplo1()
 #g = testE()
-g = textF_exemplo2()
+#g = textF_exemplo2()
 #g = textG()
 #g = textH_exemplo4()
 #g = testC_selfloop()
 #g = testK()
 
+test_functions = [testA, testA_letras, testB, testC, testC_letras, testD_exemplo1, testE, textF_exemplo2, textG,textH_exemplo4,testC_selfloop,testK]
 
-g.print_graph()
-g.print_graph_indexes()
+for i, test_func in enumerate(test_functions):
+    print(f"Running test {i+1}")
 
-scc = StronglyConnectedComponents()
+    g = test_func()
 
-scc.getStronglyConnectedComponentsKosarujoAproach(g,0)
+    g.print_graph()
+    g.print_graph_indexes()
+
+    scc = StronglyConnectedComponents(g,1)
+    scc = StronglyConnectedComponents(g,2)
+
+#scc.getStronglyConnectedComponentsKosarujoAproachA(g,0)
+#scc.getStronglyConnectedComponentsKosarujoAproachB(g,0)
 
 # visited = []
 # for i in range(g.get_number_of_vertices()):
