@@ -1,11 +1,6 @@
-9
-undershorts: pants; shoes; 
-pants: belt; shoes;
-belt: jacket;
-shirt: belt; tie;
-tie: jacket;
-jacket:
-socks: shoes;
-shoes:
-watch:
+4
+a: b; c; 
+b: e;
+c: e;
+e: a;
 1

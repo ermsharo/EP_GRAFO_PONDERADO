@@ -1,12 +1,5 @@
-Não 
-9 
-undershorts pants shirt tie belt jacket socks shoes watch 
-watch:
-socks: shoes;
-shirt: belt; tie;
-tie: jacket;
-undershorts: pants; shoes;
-pants: belt; shoes;
-belt: jacket;
-jacket:
-shoes:
+Sim 
+1 
+ecba 
+ecba:
+teste
