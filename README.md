@@ -2,7 +2,9 @@
 
 ## Desenvolvido por: 
 EMILIO HARO - 10816857
+
 MATHEUS BARBOSA - 
+
 RAFAEL CHAN - 
 
 ## Como executar
