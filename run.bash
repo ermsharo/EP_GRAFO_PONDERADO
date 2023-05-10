@@ -1,2 +1,2 @@
-gcc -o index index.c
-./index
+gcc -o ioFiles ioFiles.c
+./ioFiles

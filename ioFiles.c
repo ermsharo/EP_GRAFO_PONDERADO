@@ -7,30 +7,74 @@
 #define MAX_ARRAY_LEN 1000
 
 #include "StronglyConnectedComponents.c"
-//#include "Grafo.c"
+// #include "Grafo.c"
 
+void print_string_array(char **arr, int size) {
+    for (int i = 0; i < size; i++) {
+        printf(" (%s) ->", arr[i]);
+    }
+}
+char *remove_last_element(const char *str) {
+    int len = strlen(str);
 
-char **getWordsEndingWith(char **array, char endChar, int size)
+    if (len == 0) {
+        // empty string, return a copy
+        char *result = malloc(1);
+        result[0] = '\0';
+        return result;
+    }
+
+    // find the index of the last non-space character
+    int last_non_space = len - 1;
+    while (last_non_space >= 0 && str[last_non_space] == ' ') {
+        last_non_space--;
+    }
+
+    // find the index of the second-to-last non-space character
+    int second_last_non_space = last_non_space - 1;
+    while (second_last_non_space >= 0 && str[second_last_non_space] == ' ') {
+        second_last_non_space--;
+    }
+
+    // allocate a new string with the correct length
+    char *result = malloc(second_last_non_space + 2);
+    if (result == NULL) {
+        // malloc failed, return NULL
+        return NULL;
+    }
+
+    // copy the first n-1 characters to the new string
+    strncpy(result, str, second_last_non_space + 1);
+    result[second_last_non_space + 1] = '\0';
+
+    return result;
+}
+
+char **getWordsEndingWith(char **array, char endChar)
 {
+    int size = sizeof(array) / sizeof(char *);
     char **result = (char **)malloc(size * sizeof(char *)); // Allocate memory for the result array
     int count = 0;                                          // Counter for the number of words that end with the specified character
 
     for (int i = 0; i < size; i++)
     {
+        printf(" \n -> %s ", array[i]);
         int len = strlen(array[i]); // Get the length of the current string
 
         if (array[i][len - 1] == endChar)
-        {                                                             // Check if the last character of the string matches the specified character
-            result[count] = (char *)malloc((len + 1) * sizeof(char)); // Allocate memory for the string in the result array
-            strcpy(result[count], array[i]);                          // Copy the string from the input array to the result array
-            count++;                                                  // Increment the counter
+        { // Check if the last character of the string matches the specified character
+
+            // Allocate memory for the string in the result array
+            result[count] = array[i];
+            printf("-> %s ", result[count]); // Copy the string from the input array to the result array
+            count++;                         // Increment the counter
         }
     }
 
-    result = (char **)realloc(result, count * sizeof(char *)); // Shrink the result array to fit the exact number of words that end with the specified character
+
+    // result = (char **)realloc(result, count * sizeof(char *)); // Shrink the result array to fit the exact number of words that end with the specified character
     return result;
 }
-
 
 char **readWordsFromFile(const char *fileName, int *numWords)
 {
@@ -73,29 +117,6 @@ char **readWordsFromFile(const char *fileName, int *numWords)
     return words;
 }
 
-
-
-
-int *find_indexes(char **arr1, int arr1_size, char **arr2, int arr2_size)
-{
-    int *idx = (int *)malloc(arr2_size * sizeof(int));
-    int idx_index = 0;
-
-    for (int i = 0; i < arr1_size; i++)
-    {
-        for (int j = 0; j < arr2_size; j++)
-        {
-            if (strcmp(arr1[i], arr2[j]) == 0)
-            {
-                idx[idx_index++] = i;
-                break;
-            }
-        }
-    }
-
-    return idx;
-}
-
 char ***split_array(char **arr, int arr_size, int *idx, int idx_size)
 {
     char ***result = (char ***)malloc(idx_size * sizeof(char **));
@@ -118,21 +139,25 @@ char ***split_array(char **arr, int arr_size, int *idx, int idx_size)
     return result;
 }
 
-char** remove_first_last(char** arr, int size) {
-    if (size <= 2) {
+char **remove_first_last(char **arr, int size)
+{
+    if (size <= 2)
+    {
         return NULL;
     }
 
     // Allocate memory for the new array
-    char** new_arr = (char**) malloc((size-2) * sizeof(char*));
+    char **new_arr = (char **)malloc((size - 2) * sizeof(char *));
 
     // Copy elements from the original array to the new array
-    for (int i = 1; i < size-1; i++) {
-        new_arr[i-1] = strdup(arr[i]);
+    for (int i = 1; i < size - 1; i++)
+    {
+        new_arr[i - 1] = strdup(arr[i]);
     }
 
     // Free memory of the original array
-    for (int i = 0; i < size; i++) {
+    for (int i = 0; i < size; i++)
+    {
         free(arr[i]);
     }
     free(arr);
@@ -140,118 +165,103 @@ char** remove_first_last(char** arr, int size) {
     return new_arr;
 }
 
-
-char **remove_char(char **arr, int arr_size, char c)
+char **remove_index(char **arr)
 {
-    char **new_arr = (char **)malloc(arr_size * sizeof(char *));
-    for (int i = 0; i < arr_size; i++)
+    int input_length = sizeof(arr) / sizeof(arr[0]);
+
+    for (int i = 0; i < input_length; i++)
     {
-        int len = strlen(arr[i]);
-        new_arr[i] = (char *)malloc((len + 1) * sizeof(char));
-        int j = 0;
-        for (int k = 0; k < len; k++)
-        {
-            if (arr[i][k] != c)
-            {
-                new_arr[i][j] = arr[i][k];
-                j++;
-            }
-        }
-        new_arr[i][j] = '\0';
+        char *current_str = arr[i];
+        printf("current string : %s ", current_str);
+
+        // if (strcmp(current_str, "jump") == 0) {
+
+        // } else {
+        //     // int* current_int = (int*)malloc(sizeof(int));
+        //     // *current_int = atoi(current_str);
+        //     // insert_at_end(&sublist_head, current_str);
+        // }
     }
-    return new_arr;
 }
 
-char* remove_last_char(const char* str) {
+void remove_element_at_index(char **arr, int *len, int index)
+{
+    // Shift all elements after the index one position to the left
+    for (int i = index; i < *len - 1; i++)
+    {
+        arr[i] = arr[i + 1];
+    }
+
+    // Decrement the length of the array
+    (*len)--;
+}
+
+char *remove_last_char(const char *str)
+{
     size_t len = strlen(str);
-    char* new_str = malloc(len);
+    char *new_str = malloc(len);
     strncpy(new_str, str, len - 1);
     new_str[len - 1] = '\0';
     return new_str;
 }
 
-void runBasedInput(char* filename)
+char **get_elements_ending_with_colon(char **arr, int n) {
+    char **result = malloc((n+1) * sizeof(char *));
+    int j = 0;
+
+    for (int i = 0; i < n; i++) {
+        int len = strlen(arr[i]);
+        if (len > 0 && arr[i][len-1] == ':') {
+            result[j] = malloc(len + 1);
+            strcpy(result[j], remove_last_element(arr[i]));
+            j++;
+        }
+    }
+
+    result[j] = NULL;
+    result = realloc(result, (j+1) * sizeof(char *));
+    return result;
+}
+
+void runBasedInput(char *filename)
 {
-      char **originalWords;
+    char **words;
     int originalNumWords;
 
-    originalWords = readWordsFromFile(filename, &originalNumWords);
+    words = readWordsFromFile(filename, &originalNumWords);
 
-    if (originalWords == NULL)
+    if (words == NULL)
     {
         printf("Failed to read words from file\n");
-    } 
-
-    // printf("The words in the file are:\n");
-    // for (int i = 0; i < originalNumWords; i++)
-    // {
-    //     printf("%s , ", originalWords[i]);
-    // }
-
-    int optionValue = atoi(originalWords[originalNumWords-1]);
-
-    char **words = remove_first_last(originalWords,originalNumWords);
-    int numWords = originalNumWords-2;
-
-
-    //  printf(" \n \n The words in the graph:\n");
-    // for (int i = 0; i < numWords; i++)
-    // {
-    //     printf("%s , ", words[i]);
-    // }
-
-    // printf("\n  -> size of main array is %i ", numWords);
-    char **output = getWordsEndingWith(words, ':', numWords);
-    int size = sizeof(output) + 1;
-    // printf("\n  -> size of adj array is %i ", size);
-    // printf("\n\nOutput array:\n");
-    // for (int i = 0; i < size; i++)
-    // {
-    //     printf("%s ", output[i]);
-    // }
-
-
-    int *idx = find_indexes(words, numWords, output, size );
-
-    char ***result = split_array(words, numWords, idx, size );
-
-    char **clean_adj = remove_char(output, size , ':');
-
-    Graph g = GRAPHinit(size );
-    setLabels(g, clean_adj, size);
-
-    // printf("\n \n \nSEPARATED NODES:\n");
-    for (int i = 0; i < size ; i++) {
-        // printf(" %s ->", clean_adj[i]);
-        // printf("{");
-        for (int j = 0; result[i][j] != NULL; j++) {
-            if (result[i][j][strlen(result[i][j])-1] != ':') {
-                // printf("%s", remove_last_char(result[i][j]));
-                GRAPHinsertArcByLabel(g, clean_adj[i], remove_last_char(result[i][j]));
-                if (result[i][j+1] != NULL) {
-                    // printf(", ");
-                }
-            }
-        }
-        // printf("}\n");
     }
 
-    //generateGraphFile(g);
 
-    if(optionValue == 1){
-        getStronglyConnectedComponentsKosarujoAproachB(g);
-    }else if(optionValue == 2){
-        getStronglyConnectedComponentsKosarujoAproachB(g);
-    }else{
-        printf("Valor de opção invalido");
-    }
+    int optionValue = atoi(words[originalNumWords - 1]);
 
-  
+    int dinamicSize = originalNumWords;
+
+    printf(" \n \n The words in the graph:\n");
+    print_string_array(words, dinamicSize);
+    remove_element_at_index(words,&dinamicSize,originalNumWords);
+    printf(" \n Aqui esta \n ");
+    print_string_array(words, dinamicSize);
+    printf(" \n Aqui esta \n ");
+    remove_element_at_index(words,&dinamicSize,0);
+    print_string_array(words, dinamicSize);
+    char **output = get_elements_ending_with_colon(words, dinamicSize);
+    int size = sizeof(output) - 2;
+    printf("\n adj array:");
+    print_string_array(output, size);
+    printf("\n  -> size of adj array is %i ", size - 1);
+    printf("\n\nOutput array:\n");
+
+
 }
 
 int main()
 {
-    redirect_stdout_to_file("output.txt");
+    printf("Ola mundo");
+    // redirect_stdout_to_file("output.txt");
 
     runBasedInput("entrada.txt");
 

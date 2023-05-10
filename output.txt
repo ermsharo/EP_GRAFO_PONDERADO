@@ -1,5 +1,5 @@
-Sim 
-1 
-ecba 
-ecba:
-teste
+
+  -> size of adj array is 9 
+
+Output array:
+a: b: 
