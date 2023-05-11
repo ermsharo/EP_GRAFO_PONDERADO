@@ -5,6 +5,7 @@
 #define MAX_WORDS 1000
 #define MAX_WORD_LENGTH 120
 #define MAX_ARRAY_LEN 1000
+#define MAX_SIZE 100000
 
 #include "StronglyConnectedComponents.c"
 // #include "Grafo.c"
@@ -205,6 +206,135 @@ char *remove_last_char(const char *str)
     return new_str;
 }
 
+char** filter_by_ending_char(char** arr, int size, char c, int* new_size)
+{
+    // Allocate memory for the new array
+    char** new_arr = malloc(size * sizeof(char*));
+    if (new_arr == NULL) {
+        // Memory allocation failed
+        *new_size = 0;
+        return NULL;
+    }
+
+    // Loop through the original array and copy the strings that end with the specified character
+    int count = 0;
+    for (int i = 0; i < size; i++) {
+        if (arr[i][strlen(arr[i]) - 1] == c) {
+            new_arr[count] = malloc(strlen(arr[i]) + 1);
+            if (new_arr[count] == NULL) {
+                // Memory allocation failed
+                for (int j = 0; j < count; j++) {
+                    free(new_arr[j]);
+                }
+                free(new_arr);
+                *new_size = 0;
+                return NULL;
+            }
+            strcpy(new_arr[count], arr[i]);
+            count++;
+        }
+    }
+
+    // Update the size of the new array and return it
+    *new_size = count;
+    return new_arr;
+}
+
+char **add_array_label(char **array, char endChar, int size)
+{
+    char **result = (char **)malloc(size * sizeof(char *)); // Allocate memory for the result array
+                                                            // Counter for the number of words that end with the specified character
+
+    for (int i = 0; i < size; i++)
+    {
+        int len = strlen(array[i]); // Get the length of the current string
+
+        if (array[i][len - 1] == endChar)
+        {                      // Check if the last character of the string matches the specified character
+            result[i] = "adj"; // Increment the counter
+        }
+        else
+        {
+            result[i] = array[i];
+        }
+    }
+
+    // result = (char **)realloc(result, count * sizeof(char *)); // Shrink the result array to fit the exact number of words that end with the specified character
+    return result;
+}
+
+
+int get_array_size(char **arr)
+{
+    int size = 0;
+
+    // Loop through the array until a NULL pointer is encountered
+    while (arr[size] != NULL)
+    {
+        size++;
+    }
+    return size;
+}
+
+void add_string_to_array(char ***arr_ptr, char *str)
+{
+    // Calculate the size of the array
+    int size = 0;
+    char **arr = *arr_ptr;
+    while (arr[size] != NULL)
+    {
+        size++;
+    }
+
+    // Allocate memory for the new string and copy it in
+    char *new_str = malloc(strlen(str) + 1);
+    strcpy(new_str, str);
+
+    // Reallocate memory for the array and add the new string
+    *arr_ptr = realloc(arr, (size + 2) * sizeof(char *));
+    (*arr_ptr)[size] = new_str;
+    (*arr_ptr)[size + 1] = NULL;
+}
+
+
+void add_string_if_last_element_matches(char ***arr_ptr, char *last_element, char *str_to_add)
+{
+    printf(" \n aqui esta \n addstring ->");
+    char **arr = *arr_ptr;
+    int size = 0;
+    while (arr[size] != NULL)
+    {
+        size++;
+    }
+    if (size > 0 && strcmp(arr[size - 1], last_element) == 0)
+    {
+        add_string_to_array(arr_ptr, str_to_add);
+    }
+}
+
+
+
+char** insert_new_element(char** arr, int size) {
+  char** new_arr = malloc(MAX_SIZE * sizeof(char*));
+  int new_arr_size = 0;
+
+  for (int i = 0; i < size; i++) {
+    // Add the current string to the new array
+    new_arr[new_arr_size++] = arr[i];
+    // Check if the next string is the same as the current one
+    if (i < size - 1 && strcmp(arr[i], arr[i+1]) == 0) {
+      // Add the new element to the new array
+      new_arr[new_arr_size++] = "empty";
+    }
+  }
+
+  // Null-terminate the new array
+  new_arr[new_arr_size] = NULL;
+
+  return new_arr;
+}
+
+
 char **get_elements_ending_with_colon(char **arr, int n) {
     char **result = malloc((n+1) * sizeof(char *));
     int j = 0;
@@ -222,6 +352,8 @@ char **get_elements_ending_with_colon(char **arr, int n) {
     result = realloc(result, (j+1) * sizeof(char *));
     return result;
 }
+
+
 
 void runBasedInput(char *filename)
 {
@@ -248,14 +380,28 @@ void runBasedInput(char *filename)
     printf(" \n Aqui esta \n ");
     remove_element_at_index(words,&dinamicSize,0);
     print_string_array(words, dinamicSize);
-    char **output = get_elements_ending_with_colon(words, dinamicSize);
+    int adjSize;
+    char **output = filter_by_ending_char(words, dinamicSize, ':',&adjSize);
     int size = sizeof(output) - 2;
     printf("\n adj array:");
     print_string_array(output, size);
     printf("\n  -> size of adj array is %i ", size - 1);
     printf("\n\nOutput array:\n");
-
-
+    char **array_label = add_array_label(words, ':', dinamicSize);
+    print_string_array(array_label, dinamicSize);
+    char **new_arr = insert_new_element(array_label, dinamicSize);
+    int newArraySize = get_array_size(new_arr);
+    printf(" \n aqui esta o numero : %i \n",newArraySize);
+    print_string_array(new_arr, newArraySize);
+   
+    printf(" \n -> with empty:");
+    // add_string_if_last_element_matches(&array_label, "adj", "empty");
+    // print_string_array(array_label, newArraySize-1);
+    // char** new_arr = insert_new_element(arr, size);
+    // add_string_if_last_element_matches(&array_label, "adj", "empty");
+    // printf("\n print string \n");
+    // newArraySize = get_array_size(array_label);
+    // print_string_array(array_label, newArraySize-2);
 }
 
 int main()
