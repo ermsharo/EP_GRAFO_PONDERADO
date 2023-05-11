@@ -10,6 +10,56 @@
 #include "StronglyConnectedComponents.c"
 // #include "Grafo.c"
 
+struct listNode
+{
+    char *data;
+    int index;
+    struct listNode *next;
+};
+
+void insert_at_end(struct listNode **head, char *value)
+{
+    struct listNode *new_listNode = (struct listNode *)malloc(sizeof(struct listNode));
+    new_listNode->data = value;
+    new_listNode->next = NULL;
+
+    if (*head == NULL)
+    {
+        *head = new_listNode;
+    }
+    else
+    {
+        struct listNode *temp = *head;
+        while (temp->next != NULL)
+        {
+            temp = temp->next;
+        }
+        temp->next = new_listNode;
+    }
+}
+
+void print_list(struct listNode *head)
+{
+    struct listNode *temp = head;
+    while (temp != NULL)
+    {
+        printf("%s ", temp->data);
+        temp = temp->next;
+    }
+}
+
+void free_list(struct listNode *head)
+{
+    while (head != NULL)
+    {
+        struct listNode *temp = head;
+        head = head->next;
+        free(temp->data);
+        free(temp);
+    }
+}
+
+
 void print_string_array(char **arr, int size) {
     for (int i = 0; i < size; i++) {
         printf(" (%s) ->", arr[i]);
@@ -392,10 +442,15 @@ void runBasedInput(char *filename)
     char **new_arr = insert_new_element(array_label, dinamicSize);
     int newArraySize = get_array_size(new_arr);
     printf(" \n aqui esta o numero : %i \n",newArraySize);
+
     print_string_array(new_arr, newArraySize);
-   
+    add_string_if_last_element_matches(&new_arr, "adj", "empty");
     printf(" \n -> with empty:");
-    // add_string_if_last_element_matches(&array_label, "adj", "empty");
+    print_string_array(new_arr, newArraySize+1);
+
+
+
+
     // print_string_array(array_label, newArraySize-1);
     // char** new_arr = insert_new_element(arr, size);
     // add_string_if_last_element_matches(&array_label, "adj", "empty");
