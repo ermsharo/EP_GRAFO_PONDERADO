@@ -52,12 +52,13 @@ void insert_at_end(struct listNode **head, char *value)
     }
 }
 
-void print_list(struct listNode *head)
+void print_list(struct listNode *head, char* label, Graph g)
 {
     struct listNode *temp = head;
     while (temp != NULL)
     {
-        printf("%s ", temp->data);
+        printf("%s %s ", temp->data, label);
+        GRAPHinsertArcByLabel(g, temp->data, label);
         temp = temp->next;
     }
 }
@@ -442,9 +443,12 @@ void runBasedInput(char *filename)
 
     int adjSize;
     char **output = filter_by_ending_char(words, dinamicSize, ':', &adjSize);
+    int new_output_size = 0;
+    char **cleanOutput = remove_nulls(output, dinamicSize, &new_output_size);
     int size = sizeof(output) - 2;
-
     char **array_label = add_array_label(words, ':', dinamicSize);
+    Graph g = GRAPHinit(dinamicSize);
+    setLabels(g, output, dinamicSize);
 
     char **new_arr = insert_new_element(array_label, dinamicSize);
     int newArraySize = get_array_size(new_arr);
@@ -488,7 +492,8 @@ void runBasedInput(char *filename)
     int sublist_number = 0;
     while (temp != NULL)
     {
-
+        printf(" \n %s: ", output[sublist_number]);
+        print_list((struct listNode *)temp->data ,output[sublist_number],g);
         temp = temp->next;
         sublist_number++;
     }
@@ -499,9 +504,10 @@ void runBasedInput(char *filename)
 int main()
 {
 
-    // redirect_stdout_to_file("output.txt");
+    
 
     runBasedInput("entrada.txt");
+    //redirect_stdout_to_file("output.txt");
 
     return 0;
 }
