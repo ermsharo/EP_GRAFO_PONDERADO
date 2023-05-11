@@ -5,6 +5,8 @@
 
 #include "StronglyConnectedComponents.c"
 #include "ioFiles.c"
+
+
 Graph testA() {
     Graph g = GRAPHinit(6);
     char *labels[] = { "a", "b", "c", "d", "e", "f" };
@@ -283,31 +285,30 @@ Graph testM() {
 
 
 void Example1(){
-
+ runBasedInput("CASOA-1.txt");
 }
 
 void Example2(){
-    
+     runBasedInput("CASOB-1.txt");
 }
 
 void Example3(){
-    
+     runBasedInput("CASOC-2.txt");
 }
 
 void Example4(){
-    
+     runBasedInput("CASOD-1.txt");
 }
 
 void Example5(){
-    
+    //Rodar randgraf
 }
 
 
 
 int main() {
-
-    redirect_stdout_to_file("output.txt");
-
+     redirect_stdout_to_file("outputD.txt");
+Example4();
 
     // Graph rg = testA();
     // Graph rg = testB_letras();
@@ -318,14 +319,14 @@ int main() {
     // Graph rg = testE();
     // Graph rg = textF_exemplo2();
     // Graph rg = textG();
-    Graph rg = textH_exemplo4();
+    // Graph rg = textH_exemplo4();
     // Graph rg = testC_selfloop();
     // Graph rg = testI();
     //Graph rg = testJ();
 
-    executeKosarajuApproach(1, rg);
+    // executeKosarajuApproach(1, rg);
 
-    printf("teste");
+
 
     return 0;
 }

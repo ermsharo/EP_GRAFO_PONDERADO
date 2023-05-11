@@ -1,2 +1,2 @@
-gcc -o ioFiles ioFiles.c
-./ioFiles
+gcc -o tests tests.c
+./tests

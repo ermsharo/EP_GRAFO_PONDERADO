@@ -7,7 +7,7 @@
 #define MAX_ARRAY_LEN 1000
 #define MAX_SIZE 100000
 
-#include "StronglyConnectedComponents.c"
+
 
 struct listNode
 {
@@ -541,11 +541,3 @@ void runBasedInput(char *filename)
     executeKosarajuApproach(optionValue, g);
 }
 
-int main()
-{
-
-    runBasedInput("entrada.txt");
-    redirect_stdout_to_file("output.txt");
-
-    return 0;
-}

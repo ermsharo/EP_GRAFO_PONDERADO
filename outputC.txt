@@ -1,0 +1,12 @@
+Não 
+9 
+shoes jacket belt pants undershorts tie shirt socks watch 
+watch:
+socks:
+shirt:
+tie: shirt;
+undershorts:
+pants: undershorts;
+belt: pants; shirt;
+jacket: belt; tie;
+shoes: undershorts; pants; socks;
