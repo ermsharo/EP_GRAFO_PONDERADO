@@ -4,6 +4,7 @@
 #include <string.h>
 
 #include "StronglyConnectedComponents.c"
+#include "ioFiles.c"
 Graph testA() {
     Graph g = GRAPHinit(6);
     char *labels[] = { "a", "b", "c", "d", "e", "f" };
@@ -279,6 +280,28 @@ Graph testM() {
     GRAPHinsertArcByLabel(g, "H", "G");
     return g;
 }
+
+
+void Example1(){
+
+}
+
+void Example2(){
+    
+}
+
+void Example3(){
+    
+}
+
+void Example4(){
+    
+}
+
+void Example5(){
+    
+}
+
 
 
 int main() {

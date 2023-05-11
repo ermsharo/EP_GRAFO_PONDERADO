@@ -1,5 +1,0 @@
-
-  -> size of adj array is 9 
-
-Output array:
-a: b: 

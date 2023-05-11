@@ -159,7 +159,8 @@ void GRAPHinsertArcByLabel(Graph G, char *v_label, char *w_label)
    // Find vertex indices for labels
    int v = GRAPHgetIndexByLabel(G, v_label);
    int w = GRAPHgetIndexByLabel(G, w_label);
-
+   //printf("V label %s ->",v_label);
+  // printf("W label %s ->",v_label);
    for (link a = G->adj[v]; a != NULL; a = a->next)
       if (a->w == w)
          return;
