@@ -448,7 +448,9 @@ void runBasedInput(char *filename)
     int size = sizeof(output) - 2;
     char **array_label = add_array_label(words, ':', dinamicSize);
     Graph g = GRAPHinit(dinamicSize);
-    setLabels(g, output, dinamicSize);
+        print_string_array(cleanOutput,new_output_size);
+    setLabels(g, cleanOutput, dinamicSize);
+
 
     char **new_arr = insert_new_element(array_label, dinamicSize);
     int newArraySize = get_array_size(new_arr);
@@ -499,6 +501,8 @@ void runBasedInput(char *filename)
     }
 
     free_list(head);
+
+    executeKosarajuApproach(optionValue, g);
 }
 
 int main()
