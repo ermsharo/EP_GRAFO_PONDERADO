@@ -268,7 +268,7 @@ Graph testL() {
 }
 Graph testM() {
     Graph g = GRAPHinit(8);
-    char *labels[] = { "A", "B", "C", "D", "E", "F", "G", "H" };
+    char *labels[] = { "A", "B", "C", "D", "E", "F", "G", "H", NULL , NULL };
     setLabels(g, labels, 8);
     GRAPHinsertArcByLabel(g, "A", "B");
     GRAPHinsertArcByLabel(g, "B", "C");

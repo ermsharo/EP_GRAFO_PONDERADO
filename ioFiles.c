@@ -52,7 +52,7 @@ void insert_at_end(struct listNode **head, char *value)
     }
 }
 
-void print_list(struct listNode *head, char* label, Graph g)
+void print_list(struct listNode *head, char *label, Graph g)
 {
     struct listNode *temp = head;
     while (temp != NULL)
@@ -61,6 +61,26 @@ void print_list(struct listNode *head, char* label, Graph g)
         GRAPHinsertArcByLabel(g, temp->data, label);
         temp = temp->next;
     }
+}
+
+char **getValidStrings(char **arr, int size) {
+    int validCount = 0;
+    for (int i = 0; i < size; i++) {
+        if (arr[i][0] != '\0') {
+            validCount++;
+        }
+    }
+
+    char **validArr = (char **)calloc(validCount, sizeof(char *));
+    for (int i = 0, j = 0; i < size && j < validCount; i++) {
+        if (arr[i][0] != '\0') {
+            validArr[j] = (char *)calloc(strlen(arr[i]) + 1, sizeof(char));
+            strcpy(validArr[j], arr[i]);
+            j++;
+        }
+    }
+
+    return validArr;
 }
 
 void free_list(struct listNode *head)
@@ -434,7 +454,7 @@ void runBasedInput(char *filename)
     }
 
     int optionValue = atoi(words[originalNumWords - 1]);
-
+    int adjListSize = atoi(words[0]);
     int dinamicSize = originalNumWords;
 
     remove_element_at_index(words, &dinamicSize, originalNumWords);
@@ -447,10 +467,11 @@ void runBasedInput(char *filename)
     char **cleanOutput = remove_nulls(output, dinamicSize, &new_output_size);
     int size = sizeof(output) - 2;
     char **array_label = add_array_label(words, ':', dinamicSize);
-    Graph g = GRAPHinit(dinamicSize);
-        print_string_array(cleanOutput,new_output_size);
-    setLabels(g, cleanOutput, dinamicSize);
 
+    char **validArr = getValidStrings(output, adjListSize);
+    Graph g = GRAPHinit(adjListSize);
+    print_string_array(validArr, adjListSize);
+    setLabels(g, validArr, adjListSize);
 
     char **new_arr = insert_new_element(array_label, dinamicSize);
     int newArraySize = get_array_size(new_arr);
@@ -495,23 +516,21 @@ void runBasedInput(char *filename)
     while (temp != NULL)
     {
         printf(" \n %s: ", output[sublist_number]);
-        print_list((struct listNode *)temp->data ,output[sublist_number],g);
+        // print_list((struct listNode *)temp->data, output[sublist_number], g);
         temp = temp->next;
         sublist_number++;
     }
 
     free_list(head);
 
-    executeKosarajuApproach(optionValue, g);
+    // executeKosarajuApproach(optionValue, g);
 }
 
 int main()
 {
 
-    
-
     runBasedInput("entrada.txt");
-    //redirect_stdout_to_file("output.txt");
+    // redirect_stdout_to_file("output.txt");
 
     return 0;
 }
