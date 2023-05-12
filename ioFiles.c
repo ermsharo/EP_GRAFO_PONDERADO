@@ -7,15 +7,12 @@
 #define MAX_ARRAY_LEN 1000
 #define MAX_SIZE 100000
 
-
-
 struct listNode
 {
     char *data;
     int index;
     struct listNode *next;
 };
-
 
 void remove_last_char(char **arr, int size)
 {
@@ -29,7 +26,6 @@ void remove_last_char(char **arr, int size)
     }
 }
 
-
 char **remove_nulls(char *arr[], int size, int *new_size)
 {
     char **new_arr = (char **)malloc(size * sizeof(char *));
@@ -38,7 +34,7 @@ char **remove_nulls(char *arr[], int size, int *new_size)
     {
         if (arr[i] != NULL)
         {
-        
+
             new_arr[j++] = arr[i];
         }
     }
@@ -72,26 +68,32 @@ void print_list(struct listNode *head, char *label, Graph g)
     struct listNode *temp = head;
     while (temp != NULL)
     {
-        //printf("%s %s ", temp->data, label);
-        if(strcmp(temp->data, "empty") != 0){
-         GRAPHinsertArcByLabel(g, temp->data, label);
+        // printf("%s %s ", temp->data, label);
+        if (strcmp(temp->data, "empty") != 0)
+        {
+            GRAPHinsertArcByLabel(g, temp->data, label);
         }
-       
+
         temp = temp->next;
     }
 }
 
-char **getValidStrings(char **arr, int size) {
+char **getValidStrings(char **arr, int size)
+{
     int validCount = 0;
-    for (int i = 0; i < size; i++) {
-        if (arr[i][0] != '\0') {
+    for (int i = 0; i < size; i++)
+    {
+        if (arr[i][0] != '\0')
+        {
             validCount++;
         }
     }
 
     char **validArr = (char **)calloc(validCount, sizeof(char *));
-    for (int i = 0, j = 0; i < size && j < validCount; i++) {
-        if (arr[i][0] != '\0') {
+    for (int i = 0, j = 0; i < size && j < validCount; i++)
+    {
+        if (arr[i][0] != '\0')
+        {
             validArr[j] = (char *)calloc(strlen(arr[i]) + 1, sizeof(char));
             strcpy(validArr[j], arr[i]);
             j++;
@@ -162,14 +164,14 @@ char **getWordsEndingWith(char **array, char endChar)
 
     for (int i = 0; i < size; i++)
     {
-        //printf(" \n -> %s ", array[i]);
+        // printf(" \n -> %s ", array[i]);
         int len = strlen(array[i]);
 
         if (array[i][len - 1] == endChar)
         {
 
             result[count] = array[i];
-            //printf("-> %s ", result[count]);
+            // printf("-> %s ", result[count]);
             count++;
         }
     }
@@ -203,7 +205,7 @@ char **readWordsFromFile(const char *fileName, int *numWords)
             words[i] = (char *)malloc((strlen(word) + 1) * sizeof(char));
             if (words[i] == NULL)
             {
-                //printf("Failed to allocate memory\n");
+                // printf("Failed to allocate memory\n");
                 return NULL;
             }
             strcpy(words[i], word);
@@ -283,8 +285,6 @@ void remove_element_at_index(char **arr, int *len, int index)
 
     (*len)--;
 }
-
-
 
 char **filter_by_ending_char(char **arr, int size, char c, int *new_size)
 {
@@ -480,11 +480,11 @@ void runBasedInput(char *filename)
     char **array_label = add_array_label(words, ':', dinamicSize);
 
     char **validArr = getValidStrings(output, adjListSize);
-     //print_string_array(validArr, adjListSize);
-    remove_last_char(validArr,adjListSize);
-     // print_string_array(validArr, adjListSize);
+    // print_string_array(validArr, adjListSize);
+    remove_last_char(validArr, adjListSize);
+    // print_string_array(validArr, adjListSize);
     Graph g = GRAPHinit(adjListSize);
-  
+
     setLabels(g, validArr, adjListSize);
 
     char **new_arr = insert_new_element(array_label, dinamicSize);
@@ -497,8 +497,8 @@ void runBasedInput(char *filename)
     add_string_if_last_element_matches(&cleanedFit, "adj", "empty");
     int new_size_after = 0;
     char **cleanedFitAfter = remove_nulls(clean_relations, newArraySize, &new_size_after);
-   // printf(" \n \n \n ");
-   // print_string_array(cleanedFitAfter,new_size_after);
+    // printf(" \n \n \n ");
+    // print_string_array(cleanedFitAfter,new_size_after);
     struct listNode *head = NULL;
     struct listNode *sublist_head = NULL;
 
@@ -530,7 +530,7 @@ void runBasedInput(char *filename)
     int sublist_number = 0;
     while (temp != NULL)
     {
-        //printf(" \n %s: ", output[sublist_number]);
+        // printf(" \n %s: ", output[sublist_number]);
         print_list((struct listNode *)temp->data, validArr[sublist_number], g);
         temp = temp->next;
         sublist_number++;
@@ -540,4 +540,3 @@ void runBasedInput(char *filename)
 
     executeKosarajuApproach(optionValue, g);
 }
-

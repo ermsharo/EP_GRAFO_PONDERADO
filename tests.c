@@ -6,18 +6,19 @@
 #include "StronglyConnectedComponents.c"
 #include "ioFiles.c"
 
-
-Graph testA() {
+Graph testA()
+{
     Graph g = GRAPHinit(6);
-    char *labels[] = { "a", "b", "c", "d", "e", "f" };
+    char *labels[] = {"a", "b", "c", "d", "e", "f"};
     setLabels(g, labels, 6);
 
-    //imprimeGrafo(g);
+    // imprimeGrafo(g);
     return g;
 }
-Graph testB_letras() {
-   Graph g = GRAPHinit(9);
-    char *labels[] = { "a", "b", "c", "d", "e", "f", "g", "h", "i" };
+Graph testB_letras()
+{
+    Graph g = GRAPHinit(9);
+    char *labels[] = {"a", "b", "c", "d", "e", "f", "g", "h", "i"};
     setLabels(g, labels, 9);
     GRAPHinsertArcByLabel(g, "a", "b");
     GRAPHinsertArcByLabel(g, "b", "c");
@@ -30,12 +31,13 @@ Graph testB_letras() {
     GRAPHinsertArcByLabel(g, "g", "e");
     GRAPHinsertArcByLabel(g, "h", "g");
     GRAPHinsertArcByLabel(g, "h", "i");
-    //imprimeGrafo(g);
+    // imprimeGrafo(g);
     return g;
 }
-Graph testB() {
+Graph testB()
+{
     Graph g = GRAPHinit(9);
-    char *labels[] = { "0", "1", "2", "3", "4", "5", "6", "7", "8" };
+    char *labels[] = {"0", "1", "2", "3", "4", "5", "6", "7", "8"};
     setLabels(g, labels, 9);
     GRAPHinsertArcByLabel(g, "0", "1");
     GRAPHinsertArcByLabel(g, "1", "2");
@@ -48,12 +50,13 @@ Graph testB() {
     GRAPHinsertArcByLabel(g, "6", "4");
     GRAPHinsertArcByLabel(g, "7", "6");
     GRAPHinsertArcByLabel(g, "7", "8");
-    //imprimeGrafo(g);
+    // imprimeGrafo(g);
     return g;
 }
-Graph testC() {
+Graph testC()
+{
     Graph g = GRAPHinit(11);
-    char *labels[] = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" };
+    char *labels[] = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
     setLabels(g, labels, 11);
     GRAPHinsertArcByLabel(g, "0", "1");
     GRAPHinsertArcByLabel(g, "1", "2");
@@ -68,12 +71,13 @@ Graph testC() {
     GRAPHinsertArcByLabel(g, "8", "9");
     GRAPHinsertArcByLabel(g, "9", "6");
     GRAPHinsertArcByLabel(g, "9", "10");
-    //imprimeGrafo(g);
+    // imprimeGrafo(g);
     return g;
 }
-Graph testC_letras() {
+Graph testC_letras()
+{
     Graph g = GRAPHinit(11);
-    char *labels[] = { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k"};
+    char *labels[] = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k"};
     setLabels(g, labels, 11);
     GRAPHinsertArcByLabel(g, "a", "b");
     GRAPHinsertArcByLabel(g, "b", "c");
@@ -88,13 +92,14 @@ Graph testC_letras() {
     GRAPHinsertArcByLabel(g, "i", "j");
     GRAPHinsertArcByLabel(g, "j", "g");
     GRAPHinsertArcByLabel(g, "j", "k");
-    //imprimeGrafo(g);
+    // imprimeGrafo(g);
     return g;
 }
 // GRAFO ENUCIADO EP ex - 1
-Graph testD_exemplo1() {
+Graph testD_exemplo1()
+{
     Graph g = GRAPHinit(8);
-    char *labels[] = { "a", "b", "c", "d", "e", "f", "g", "h"};
+    char *labels[] = {"a", "b", "c", "d", "e", "f", "g", "h"};
     setLabels(g, labels, 8);
     GRAPHinsertArcByLabel(g, "a", "b");
     GRAPHinsertArcByLabel(g, "b", "e");
@@ -112,9 +117,10 @@ Graph testD_exemplo1() {
     // imprimeGrafo(g);
     return g;
 }
-Graph testE() {
+Graph testE()
+{
     Graph g = GRAPHinit(8);
-    char *labels[] = { "apoli", "brexit", "cuba", "dina", "eritr", "finla", "guan", "hondur" };
+    char *labels[] = {"apoli", "brexit", "cuba", "dina", "eritr", "finla", "guan", "hondur"};
     setLabels(g, labels, 8);
     GRAPHinsertArcByLabel(g, "apoli", "brexit");
     GRAPHinsertArcByLabel(g, "brexit", "eritr");
@@ -129,12 +135,13 @@ Graph testE() {
     GRAPHinsertArcByLabel(g, "finla", "guan");
     GRAPHinsertArcByLabel(g, "guan", "finla");
     GRAPHinsertArcByLabel(g, "guan", "hondur");
-    //imprimeGrafo(g);
+    // imprimeGrafo(g);
     return g;
 }
-Graph textF_exemplo2() {
+Graph textF_exemplo2()
+{
     Graph g = GRAPHinit(9);
-    char *labels[] = { "undershorts", "socks", "pants", "shoes", "belt", "shirt", "tie", "jacket", "watch" };
+    char *labels[] = {"undershorts", "socks", "pants", "shoes", "belt", "shirt", "tie", "jacket", "watch"};
     setLabels(g, labels, 9);
     GRAPHinsertArcByLabel(g, "undershorts", "pants");
     GRAPHinsertArcByLabel(g, "undershorts", "shoes");
@@ -145,12 +152,13 @@ Graph textF_exemplo2() {
     GRAPHinsertArcByLabel(g, "shirt", "tie");
     GRAPHinsertArcByLabel(g, "tie", "jacket");
     GRAPHinsertArcByLabel(g, "socks", "shoes");
-    //imprimeGrafo(g);
+    // imprimeGrafo(g);
     return g;
 }
-Graph textG() {
+Graph textG()
+{
     Graph g = GRAPHinit(9);
-    char *labels[] = { "a", "b", "c", "d", "e", "f", "g", "h", "i" };
+    char *labels[] = {"a", "b", "c", "d", "e", "f", "g", "h", "i"};
     setLabels(g, labels, 9);
     GRAPHinsertArcByLabel(g, "a", "b");
     GRAPHinsertArcByLabel(g, "a", "h");
@@ -161,36 +169,39 @@ Graph textG() {
     GRAPHinsertArcByLabel(g, "d", "c");
     GRAPHinsertArcByLabel(g, "e", "f");
     GRAPHinsertArcByLabel(g, "g", "h");
-    //imprimeGrafo(g);
+    // imprimeGrafo(g);
     return g;
 }
-Graph textH_exemplo4() {
+Graph textH_exemplo4()
+{
     Graph g = GRAPHinit(4);
-    char *labels[] = { "a", "b", "c", "e" };
+    char *labels[] = {"a", "b", "c", "e"};
     setLabels(g, labels, 4);
     GRAPHinsertArcByLabel(g, "a", "b");
     GRAPHinsertArcByLabel(g, "a", "c");
     GRAPHinsertArcByLabel(g, "b", "e");
     GRAPHinsertArcByLabel(g, "c", "e");
     GRAPHinsertArcByLabel(g, "e", "a");
-    //imprimeGrafo(g);
+    // imprimeGrafo(g);
     return g;
 }
-Graph textJ() {
+Graph textJ()
+{
     Graph g = GRAPHinit(4);
-    char *labels[] = { "a", "b", "c", "e" };
+    char *labels[] = {"a", "b", "c", "e"};
     setLabels(g, labels, 4);
     GRAPHinsertArcByLabel(g, "a", "b");
     GRAPHinsertArcByLabel(g, "a", "a");
     GRAPHinsertArcByLabel(g, "b", "e");
     GRAPHinsertArcByLabel(g, "c", "e");
     GRAPHinsertArcByLabel(g, "e", "a");
-    //imprimeGrafo(g);
+    // imprimeGrafo(g);
     return g;
 }
-Graph testC_selfloop() {
+Graph testC_selfloop()
+{
     Graph g = GRAPHinit(11);
-    char *labels[] = { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k" };
+    char *labels[] = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k"};
     setLabels(g, labels, 11);
     GRAPHinsertArcByLabel(g, "a", "b");
     GRAPHinsertArcByLabel(g, "b", "c");
@@ -205,24 +216,26 @@ Graph testC_selfloop() {
     GRAPHinsertArcByLabel(g, "i", "j");
     GRAPHinsertArcByLabel(g, "j", "g");
     GRAPHinsertArcByLabel(g, "j", "j");
-    //imprimeGrafo(g);
+    // imprimeGrafo(g);
     return g;
 }
-Graph testI() {
+Graph testI()
+{
     Graph g = GRAPHinit(5);
-    char *labels[] = { "0", "1", "2", "3", "4" };
+    char *labels[] = {"0", "1", "2", "3", "4"};
     setLabels(g, labels, 5);
     GRAPHinsertArcByLabel(g, "0", "3");
     GRAPHinsertArcByLabel(g, "1", "2");
     GRAPHinsertArcByLabel(g, "2", "1");
     GRAPHinsertArcByLabel(g, "3", "4");
     GRAPHinsertArcByLabel(g, "3", "2");
-    //imprimeGrafo(g);
+    // imprimeGrafo(g);
     return g;
 }
-Graph testJ() {
+Graph testJ()
+{
     Graph g = GRAPHinit(10);
-    char *labels[] = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+    char *labels[] = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
     setLabels(g, labels, 10);
     GRAPHinsertArcByLabel(g, "0", "5");
     GRAPHinsertArcByLabel(g, "0", "6");
@@ -244,12 +257,13 @@ Graph testJ() {
     GRAPHinsertArcByLabel(g, "8", "0");
     GRAPHinsertArcByLabel(g, "9", "3");
     GRAPHinsertArcByLabel(g, "9", "7");
-    //imprimeGrafo(g);
+    // imprimeGrafo(g);
     return g;
 }
-Graph testK() {
+Graph testK()
+{
     Graph g = GRAPHinit(4);
-    char *labels[] = { "A", "B", "C", "D" };
+    char *labels[] = {"A", "B", "C", "D"};
     setLabels(g, labels, 4);
     GRAPHinsertArcByLabel(g, "A", "B");
     GRAPHinsertArcByLabel(g, "B", "C");
@@ -257,9 +271,10 @@ Graph testK() {
     GRAPHinsertArcByLabel(g, "D", "A");
     return g;
 }
-Graph testL() {
+Graph testL()
+{
     Graph g = GRAPHinit(6);
-    char *labels[] = { "A", "B", "C", "D", "E", "F" };
+    char *labels[] = {"A", "B", "C", "D", "E", "F"};
     setLabels(g, labels, 6);
     GRAPHinsertArcByLabel(g, "A", "B");
     GRAPHinsertArcByLabel(g, "B", "C");
@@ -269,9 +284,10 @@ Graph testL() {
     GRAPHinsertArcByLabel(g, "F", "D");
     return g;
 }
-Graph testM() {
+Graph testM()
+{
     Graph g = GRAPHinit(8);
-    char *labels[] = { "A", "B", "C", "D", "E", "F", "G", "H", NULL , NULL };
+    char *labels[] = {"A", "B", "C", "D", "E", "F", "G", "H", NULL, NULL};
     setLabels(g, labels, 8);
     GRAPHinsertArcByLabel(g, "A", "B");
     GRAPHinsertArcByLabel(g, "B", "C");
@@ -283,52 +299,63 @@ Graph testM() {
     return g;
 }
 
-
-void Example1(){
- runBasedInput("CASOA-1.txt");
+void Example1()
+{
+    redirect_stdout_to_file("outputA.txt");
+    runBasedInput("CASOA-1.txt");
 }
 
-void Example2(){
-     runBasedInput("CASOB-1.txt");
+void Example2()
+{
+    redirect_stdout_to_file("outputB.txt");
+    runBasedInput("CASOB-1.txt");
 }
 
-void Example3(){
-     runBasedInput("CASOC-2.txt");
+void Example3()
+{
+    redirect_stdout_to_file("outputC.txt");
+    runBasedInput("CASOC-2.txt");
 }
 
-void Example4(){
-     runBasedInput("CASOD-1.txt");
+void Example4()
+{
+    redirect_stdout_to_file("outputD.txt");
+    runBasedInput("CASOD-1.txt");
 }
 
-void Example5(){
-    //Rodar randgraf
+void Example5()
+{
+    // Rodar randgraf
 }
 
 
+void runTests(){
+    Example1(); //Saida em outputA.txt
+    Example2(); //Saida em outputB.txt
+    Example3(); //Saida em outputC.txt
+    Example4(); //Saida em outputD.txt
+}
 
-int main() {
-     redirect_stdout_to_file("outputD.txt");
-Example4();
-
-    // Graph rg = testA();
-    // Graph rg = testB_letras();
-    // Graph rg = testB();
-    // Graph rg = testC();
-    // Graph rg = testC_letras();
-    // Graph rg = testD_exemplo1();
-    // Graph rg = testE();
-    // Graph rg = textF_exemplo2();
-    // Graph rg = textG();
-    // Graph rg = textH_exemplo4();
-    // Graph rg = testC_selfloop();
-    // Graph rg = testI();
-    //Graph rg = testJ();
-
-    // executeKosarajuApproach(1, rg);
+void runCustom(char *inputFilename, char *outputFilename){
+        redirect_stdout_to_file(outputFilename);
+    runBasedInput(inputFilename);
+}
 
 
+int main()
+{
+
+    //Executando os cados de teste
+    Example1(); //Saida em outputA.txt
+    Example2(); //Saida em outputB.txt
+    Example3(); //Saida em outputC.txt
+    Example4(); //Saida em outputD.txt
+
+    
+    //Caso customizavel 
+    //runCustom("input.txt", "output.txt);
+
+   
 
     return 0;
 }
-
-
