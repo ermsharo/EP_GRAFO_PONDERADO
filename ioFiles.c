@@ -156,28 +156,7 @@ char *remove_last_element(const char *str)
     return result;
 }
 
-char **getWordsEndingWith(char **array, char endChar)
-{
-    int size = sizeof(array) / sizeof(char *);
-    char **result = (char **)malloc(size * sizeof(char *));
-    int count = 0;
 
-    for (int i = 0; i < size; i++)
-    {
-        // printf(" \n -> %s ", array[i]);
-        int len = strlen(array[i]);
-
-        if (array[i][len - 1] == endChar)
-        {
-
-            result[count] = array[i];
-            // printf("-> %s ", result[count]);
-            count++;
-        }
-    }
-
-    return result;
-}
 
 char **readWordsFromFile(const char *fileName, int *numWords)
 {
@@ -191,7 +170,7 @@ char **readWordsFromFile(const char *fileName, int *numWords)
     char **words = (char **)malloc(MAX_WORDS * sizeof(char *));
     if (words == NULL)
     {
-        printf("Failed to allocate memory\n");
+        // printf("Failed to allocate memory\n");
         return NULL;
     }
 
@@ -205,7 +184,7 @@ char **readWordsFromFile(const char *fileName, int *numWords)
             words[i] = (char *)malloc((strlen(word) + 1) * sizeof(char));
             if (words[i] == NULL)
             {
-                // printf("Failed to allocate memory\n");
+                //  printf("Failed to allocate memory\n");
                 return NULL;
             }
             strcpy(words[i], word);
@@ -220,60 +199,7 @@ char **readWordsFromFile(const char *fileName, int *numWords)
     return words;
 }
 
-char ***split_array(char **arr, int arr_size, int *idx, int idx_size)
-{
-    char ***result = (char ***)malloc(idx_size * sizeof(char **));
-    for (int i = 0; i < idx_size; i++)
-    {
-        int start = idx[i] + 1;
-        int end = (i == idx_size - 1) ? arr_size : idx[i + 1];
-        int len = end - start;
 
-        result[i] = (char **)malloc((len + 1) * sizeof(char *));
-        for (int j = 0; j < len; j++)
-        {
-            result[i][j] = (char *)malloc((strlen(arr[start + j]) + 1) * sizeof(char));
-            strncpy(result[i][j], arr[start + j], strlen(arr[start + j]));
-            result[i][j][strlen(arr[start + j])] = '\0';
-        }
-        result[i][len] = NULL;
-    }
-
-    return result;
-}
-
-char **remove_first_last(char **arr, int size)
-{
-    if (size <= 2)
-    {
-        return NULL;
-    }
-
-    char **new_arr = (char **)malloc((size - 2) * sizeof(char *));
-
-    for (int i = 1; i < size - 1; i++)
-    {
-        new_arr[i - 1] = strdup(arr[i]);
-    }
-
-    for (int i = 0; i < size; i++)
-    {
-        free(arr[i]);
-    }
-    free(arr);
-
-    return new_arr;
-}
-
-char **remove_index(char **arr)
-{
-    int input_length = sizeof(arr) / sizeof(arr[0]);
-
-    for (int i = 0; i < input_length; i++)
-    {
-        char *current_str = arr[i];
-    }
-}
 
 void remove_element_at_index(char **arr, int *len, int index)
 {
@@ -410,27 +336,6 @@ char **insert_new_element(char **arr, int size)
     return new_arr;
 }
 
-char **get_elements_ending_with_colon(char **arr, int n)
-{
-    char **result = malloc((n + 1) * sizeof(char *));
-    int j = 0;
-
-    for (int i = 0; i < n; i++)
-    {
-        int len = strlen(arr[i]);
-        if (len > 0 && arr[i][len - 1] == ':')
-        {
-            result[j] = malloc(len + 1);
-            strcpy(result[j], remove_last_element(arr[i]));
-            j++;
-        }
-    }
-
-    result[j] = NULL;
-    result = realloc(result, (j + 1) * sizeof(char *));
-    return result;
-}
-
 char **remove_char(char **arr, int arr_size, char c)
 {
     char **new_arr = (char **)malloc(arr_size * sizeof(char *));
@@ -478,27 +383,18 @@ void runBasedInput(char *filename)
     char **cleanOutput = remove_nulls(output, dinamicSize, &new_output_size);
     int size = sizeof(output) - 2;
     char **array_label = add_array_label(words, ':', dinamicSize);
-
     char **validArr = getValidStrings(output, adjListSize);
-    // print_string_array(validArr, adjListSize);
     remove_last_char(validArr, adjListSize);
-    // print_string_array(validArr, adjListSize);
     Graph g = GRAPHinit(adjListSize);
-
     setLabels(g, validArr, adjListSize);
-
     char **new_arr = insert_new_element(array_label, dinamicSize);
     int newArraySize = get_array_size(new_arr);
-
     char **clean_relations = remove_char(new_arr, newArraySize, ';');
-
     int new_size = 0;
     char **cleanedFit = remove_nulls(clean_relations, newArraySize, &new_size);
     add_string_if_last_element_matches(&cleanedFit, "adj", "empty");
     int new_size_after = 0;
     char **cleanedFitAfter = remove_nulls(clean_relations, newArraySize, &new_size_after);
-    // printf(" \n \n \n ");
-    // print_string_array(cleanedFitAfter,new_size_after);
     struct listNode *head = NULL;
     struct listNode *sublist_head = NULL;
 
@@ -530,7 +426,6 @@ void runBasedInput(char *filename)
     int sublist_number = 0;
     while (temp != NULL)
     {
-        // printf(" \n %s: ", output[sublist_number]);
         print_list((struct listNode *)temp->data, validArr[sublist_number], g);
         temp = temp->next;
         sublist_number++;

@@ -341,15 +341,3 @@ void free_numbers_array(char** numbers_array, int N) {
     free(numbers_array);
 }
 
-// int main()
-// {
-//    // Numero de vertices que o nosso grafo vai ter
-//    int n_vertex = 20;
-//    // Numero de arestas que o nosso grafo vai ter
-//    int n_links = 20;
-
-//    // Graph g = GRAPHinit(n_vertex);
-//    Graph rg = GRAPHrand(n_vertex, n_links);
-
-//    return 0;
-// }
