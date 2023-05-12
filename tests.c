@@ -325,37 +325,33 @@ void Example4()
 
 void Example5()
 {
-    // Rodar randgraf
+
+    redirect_stdout_to_file("outputE-1.txt");
+    Graph rg = GRAPHrand(30, 500);
+    executeKosarajuApproach(1, rg);
+    redirect_stdout_to_file("outputE-2.txt");
+    executeKosarajuApproach(2, rg);
 }
 
 
-void runTests(){
-    Example1(); //Saida em outputA.txt
-    Example2(); //Saida em outputB.txt
-    Example3(); //Saida em outputC.txt
-    Example4(); //Saida em outputD.txt
-}
-
-void runCustom(char *inputFilename, char *outputFilename){
-        redirect_stdout_to_file(outputFilename);
+void runCustom(char *inputFilename, char *outputFilename)
+{
+    redirect_stdout_to_file(outputFilename);
     runBasedInput(inputFilename);
 }
-
 
 int main()
 {
 
-    //Executando os cados de teste
-    Example1(); //Saida em outputA.txt
-    Example2(); //Saida em outputB.txt
-    Example3(); //Saida em outputC.txt
-    Example4(); //Saida em outputD.txt
-
+    // Executando os cados de teste
+    Example1(); // Saida em outputA.txt
+    Example2(); // Saida em outputB.txt
+    Example3(); // Saida em outputC.txt
+    Example4(); // Saida em outputD.txt
+    Example5(); // Saida em outputE-1.txt e em outputE-2.txt para cada uma das opções
     
-    //Caso customizavel 
-    //runCustom("input.txt", "output.txt);
-
-   
+    // Caso customizavel
+    // runCustom("input.txt", "output.txt);
 
     return 0;
 }
